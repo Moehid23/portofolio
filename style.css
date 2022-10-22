@@ -4,9 +4,10 @@ html{
 
 body{
     margin-bottom: 100px;
+    margin-top: 30px;
 }
 .jumbotron img{
-    width: 200px;
+    width: 300px;
     border: 5px solid: #666;
 }
 
