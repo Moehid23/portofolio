@@ -49,20 +49,24 @@ export function ContactForm() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-lg border bg-card p-6 shadow-sm">
-        <h2 className="mb-6 text-2xl font-bold tracking-tighter">
+      <div className="rounded-3xl border border-neutral-100 bg-white p-8 shadow-lg shadow-neutral-100/50">
+        <h2 className="mb-2 text-2xl font-bold tracking-tighter">
           Send a Message
         </h2>
+        <p className="mb-8 text-neutral-500">
+          I usually respond within 24 hours.
+        </p>
         
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-2">
             <Input
               placeholder="Your Name"
               {...register("name")}
               aria-invalid={!!errors.name}
+              className="h-12 rounded-xl border-neutral-200 bg-neutral-50 focus:bg-white transition-all"
             />
             {errors.name && (
-              <p className="text-xs text-red-500">{errors.name.message}</p>
+              <p className="text-xs text-red-500 font-medium">{errors.name.message}</p>
             )}
           </div>
 
@@ -72,9 +76,10 @@ export function ContactForm() {
               placeholder="Your Email"
               {...register("email")}
               aria-invalid={!!errors.email}
+              className="h-12 rounded-xl border-neutral-200 bg-neutral-50 focus:bg-white transition-all"
             />
             {errors.email && (
-              <p className="text-xs text-red-500">{errors.email.message}</p>
+              <p className="text-xs text-red-500 font-medium">{errors.email.message}</p>
             )}
           </div>
 
@@ -83,9 +88,10 @@ export function ContactForm() {
               placeholder="Subject"
               {...register("subject")}
               aria-invalid={!!errors.subject}
+              className="h-12 rounded-xl border-neutral-200 bg-neutral-50 focus:bg-white transition-all"
             />
             {errors.subject && (
-              <p className="text-xs text-red-500">{errors.subject.message}</p>
+              <p className="text-xs text-red-500 font-medium">{errors.subject.message}</p>
             )}
           </div>
 
@@ -95,15 +101,20 @@ export function ContactForm() {
               rows={5}
               {...register("message")}
               aria-invalid={!!errors.message}
+              className="rounded-xl border-neutral-200 bg-neutral-50 focus:bg-white transition-all resize-none"
             />
             {errors.message && (
-              <p className="text-xs text-red-500">{errors.message.message}</p>
+              <p className="text-xs text-red-500 font-medium">{errors.message.message}</p>
             )}
           </div>
 
-          {error && <p className="text-sm text-red-500">{error}</p>}
+          {error && <p className="text-sm text-red-500 font-medium bg-red-50 p-3 rounded-lg border border-red-100">{error}</p>}
 
-          <Button type="submit" className="w-full" isLoading={isSubmitting}>
+          <Button 
+            type="submit" 
+            className="w-full h-14 text-lg font-medium rounded-xl bg-black hover:bg-neutral-800 transition-all hover:scale-[1.02] active:scale-[0.98]" 
+            isLoading={isSubmitting}
+          >
             Send Message
           </Button>
         </form>
@@ -115,12 +126,17 @@ export function ContactForm() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 p-4 text-green-700 dark:border-green-900/50 dark:bg-green-900/20 dark:text-green-300"
+            className="flex items-center gap-3 rounded-2xl border border-green-200 bg-green-50 p-4 text-green-700 shadow-sm"
           >
-            <CheckCircle2 className="h-5 w-5" />
-            <p className="text-sm font-medium">
-              Message sent successfully! I&apos;ll get back to you soon.
-            </p>
+            <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+              <CheckCircle2 className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="font-semibold">Message sent!</p>
+              <p className="text-sm opacity-90">
+                Thanks for reaching out. I'll get back to you soon.
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

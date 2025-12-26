@@ -6,6 +6,7 @@ import { ProfileSection } from "@/components/about/ProfileSection";
 import { ExperienceTimeline } from "@/components/about/ExperienceTimeline";
 import { SkillsShowcase } from "@/components/about/SkillsShowcase";
 import { ProjectGrid } from "@/components/projects/ProjectGrid";
+import { GallerySection } from "@/components/gallery/GallerySection";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactInfo } from "@/components/contact/ContactInfo";
 
@@ -43,6 +44,8 @@ export default function Home() {
             <ProjectGrid />
           </Container>
         </section>
+
+        <GallerySection />
 
         {/* Contact Section */}
         <section id="contact" className="py-20">

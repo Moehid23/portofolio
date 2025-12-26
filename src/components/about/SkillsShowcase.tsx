@@ -63,13 +63,9 @@ export function SkillsShowcase() {
 
   return (
     <section className="py-24 md:py-32 relative w-full overflow-hidden">
-      {/* Decorative Circles */}
-      <div className="absolute -left-[300px] -top-[300px] h-[600px] w-[600px] rounded-full bg-black/5 blur-3xl hidden md:block" />
-      <div className="absolute -right-[300px] -bottom-[300px] h-[600px] w-[600px] rounded-full bg-black/5 blur-3xl hidden md:block" />
-      
-      {/* Solid Black Circles (Half Visible) - Positioned to bleed off edges smoothly */}
-      <div className="absolute -left-[100px] -top-[50px] md:-left-[200px] md:-top-[120px] h-[200px] w-[200px] md:h-[400px] md:w-[400px] rounded-full bg-black z-0 overflow-hidden" />
-      <div className="absolute -right-[100px] -bottom-[50px] md:-right-[200px] md:-bottom-[120px] h-[200px] w-[200px] md:h-[400px] md:w-[400px] rounded-full bg-black z-0 overflow-hidden" />
+      {/* Outlined Circles (Top-Left & Bottom-Right) */}
+      <div className="absolute -left-[100px] top-32 md:-left-[200px] md:top-20 h-[200px] w-[200px] md:h-[400px] md:w-[400px] rounded-full border border-black bg-transparent z-0" />
+      <div className="absolute -right-[100px] bottom-10 md:-right-[200px] md:bottom-20 h-[200px] w-[200px] md:h-[400px] md:w-[400px] rounded-full border border-black bg-transparent z-0" />
 
       <motion.div
          initial={{ opacity: 0, y: 20 }}

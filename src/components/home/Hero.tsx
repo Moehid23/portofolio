@@ -14,9 +14,9 @@ const marqueeVariants = {
     transition: {
       x: {
         repeat: Infinity,
-        repeatType: "loop",
+        repeatType: "loop" as const,
         duration: 30,
-        ease: "linear",
+        ease: "linear" as const,
       },
     },
   },
@@ -38,7 +38,7 @@ const titleVariants = {
     transition: {
       delay: 0.05 * i,
       duration: 1,
-      ease: [0.215, 0.61, 0.355, 1],
+      ease: [0.215, 0.61, 0.355, 1] as const,
     },
   }),
 };
