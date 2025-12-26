@@ -186,7 +186,7 @@ export function Footer() {
              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-neutral-500 font-medium mt-2">
                 <span className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                  Jakarta, Indonesia
+                  Malang, Indonesia
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-neutral-700" />

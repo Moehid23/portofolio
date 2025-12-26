@@ -10,12 +10,12 @@ import { cn } from "@/lib/utils";
 
 const marqueeVariants = {
   animate: {
-    x: ["0%", "-50%"],
+    x: ["0%", "-25%"],
     transition: {
       x: {
         repeat: Infinity,
         repeatType: "loop" as const,
-        duration: 30,
+        duration: 15,
         ease: "linear" as const,
       },
     },
@@ -230,7 +230,7 @@ export function Hero() {
             variants={marqueeVariants}
             animate="animate"
           >
-            {[...Array(2)].map((_, i) => (
+            {[...Array(4)].map((_, i) => (
               <div key={i} className="flex items-center">
                 {["User Interface", "User Experience", "Web Development", "Mobile Apps", "System Design", "Prototyping"].map((text) => (
                    <div key={text} className="flex items-center">

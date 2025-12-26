@@ -17,6 +17,18 @@ export const experiences: Experience[] = [
     ]
   },
   {
+    id: "0",
+    title: "Laboratory Assistant of Systems Analysis and Design",
+    company: "Faculty of Computer Science (FILKOM) University of Brawijaya",
+    location: "Kota Malang, Jawa Timur, Indonesia",
+    startDate: "2025-09",
+    current: true,
+    description: [
+      "Employment Type: Contract",
+      "Manajemen tim, kepemimpinan."
+    ]
+  },
+  {
     id: "2",
     title: "Fullstack Developer",
     company: "Semeton Corp Student Freelance Team",

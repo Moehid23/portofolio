@@ -23,7 +23,7 @@ export function ContactInfo() {
         </a>
 
         <a 
-          href="tel:+6281234567890" 
+          href="tel:+6282334825091" 
           className="group flex items-center gap-5 p-5 rounded-2xl bg-neutral-50 border border-neutral-100 transition-all hover:bg-white hover:shadow-lg hover:shadow-neutral-200/40 hover:-translate-y-0.5"
         >
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white border border-neutral-100 shadow-sm text-black group-hover:scale-110 transition-transform duration-300">
@@ -31,7 +31,7 @@ export function ContactInfo() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-0.5">Phone</p>
-            <p className="text-base font-bold text-neutral-900">+62 812 3456 7890</p>
+            <p className="text-base font-bold text-neutral-900">+62 823 3482 5091</p>
           </div>
           <div className="h-8 w-8 rounded-full bg-white border border-neutral-100 flex items-center justify-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
              <ArrowUpRight className="h-4 w-4 text-black" />
@@ -44,7 +44,7 @@ export function ContactInfo() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-0.5">Location</p>
-            <p className="text-base font-bold text-neutral-900">Jakarta, Indonesia</p>
+            <p className="text-base font-bold text-neutral-900">Malang, Indonesia</p>
           </div>
         </div>
       </div>

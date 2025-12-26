@@ -29,23 +29,29 @@ export function ContactForm() {
   const onSubmit = async (data: ContactFormData) => {
     setError(null);
     try {
-      // Add a new document with a generated id.
-      // await addDoc(collection(db, "messages"), {
-      //   ...data,
-      //   createdAt: serverTimestamp(),
-      // });
+      const formData = new FormData();
+      formData.append("access_key", "1dddb4e5-1881-488a-9734-a53731adead2");
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("subject", data.subject);
+      formData.append("message", data.message);
 
-      // SIMULATION FOR STATIC BUILD
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log("Form submitted (Static Mode):", data);
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
 
-      setIsSuccess(true);
-      reset();
-      
-      // Hide success message after 5 seconds
-      setTimeout(() => setIsSuccess(false), 5000);
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSuccess(true);
+        reset();
+        setTimeout(() => setIsSuccess(false), 5000);
+      } else {
+        setError(result.message || "Something went wrong. Please try again.");
+      }
     } catch (err) {
-      console.error("Error adding document: ", err);
+      console.error("Error submitting form: ", err);
       setError("Something went wrong. Please check your connection or try again later.");
     }
   };

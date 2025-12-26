@@ -15,8 +15,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Modern Personal Website",
-  description: "A minimalist black and white personal portfolio.",
+  title: "Wira.",
+  description: "Wirayudha Portofolio",
 };
 
 export default function RootLayout({
