@@ -10,6 +10,9 @@ import { Textarea } from "@/components/ui/Textarea";
 import { CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+
 export function ContactForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,15 +29,11 @@ export function ContactForm() {
   const onSubmit = async (data: ContactFormData) => {
     setError(null);
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      // Add a new document with a generated id.
+      await addDoc(collection(db, "messages"), {
+        ...data,
+        createdAt: serverTimestamp(),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
 
       setIsSuccess(true);
       reset();
@@ -42,8 +41,8 @@ export function ContactForm() {
       // Hide success message after 5 seconds
       setTimeout(() => setIsSuccess(false), 5000);
     } catch (err) {
-      console.error(err); // Use the error
-      setError("Something went wrong. Please try again later.");
+      console.error("Error adding document: ", err);
+      setError("Something went wrong. Please check your connection or try again later.");
     }
   };
 
