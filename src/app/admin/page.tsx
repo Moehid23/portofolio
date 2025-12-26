@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+// import { signInWithEmailAndPassword } from "firebase/auth";
+// import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -20,7 +20,10 @@ export default function LoginPage() {
     setError("");
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      // await signInWithEmailAndPassword(auth, email, password);
+      
+      // MOCK LOGIN
+      await new Promise(resolve => setTimeout(resolve, 500));
       router.push("/admin/dashboard");
     } catch (err: any) {
       setError("Failed to login. Please check your credentials.");

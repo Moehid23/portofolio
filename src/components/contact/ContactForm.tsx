@@ -10,8 +10,8 @@ import { Textarea } from "@/components/ui/Textarea";
 import { CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+// import { db } from "@/lib/firebase";
+// import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export function ContactForm() {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -30,10 +30,14 @@ export function ContactForm() {
     setError(null);
     try {
       // Add a new document with a generated id.
-      await addDoc(collection(db, "messages"), {
-        ...data,
-        createdAt: serverTimestamp(),
-      });
+      // await addDoc(collection(db, "messages"), {
+      //   ...data,
+      //   createdAt: serverTimestamp(),
+      // });
+
+      // SIMULATION FOR STATIC BUILD
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log("Form submitted (Static Mode):", data);
 
       setIsSuccess(true);
       reset();

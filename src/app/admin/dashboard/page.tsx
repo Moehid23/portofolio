@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+// import { signOut } from "firebase/auth";
+// import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { Plus, LogOut, LayoutDashboard, Image as ImageIcon } from "lucide-react";
 import { ImageUpload } from "@/components/ui/ImageUpload";
-import { CldImage } from "next-cloudinary";
+// import { CldImage } from "next-cloudinary";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function DashboardPage() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
   const handleLogout = async () => {
-    await signOut(auth);
+    // await signOut(auth);
     router.push("/admin");
   };
 
