@@ -146,9 +146,9 @@ export function Footer() {
                    <h4 className="text-sm font-semibold uppercase tracking-wider text-neutral-500">Socials</h4>
                    <ul className="space-y-4">
                       {[
-                        { name: "GitHub", url: "https://github.com" },
-                        { name: "LinkedIn", url: "https://linkedin.com" },
-                        { name: "Instagram", url: "https://instagram.com" }
+                        { name: "GitHub", url: "https://github.com/Adityawir0410" },
+                        { name: "LinkedIn", url: "https://www.linkedin.com/in/aditya-wirayudha/" },
+                        { name: "Instagram", url: "https://www.instagram.com/adityawirz/" }
                       ].map((social) => (
                         <li key={social.name}>
                           <a 
