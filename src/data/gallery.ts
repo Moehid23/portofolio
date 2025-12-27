@@ -33,7 +33,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "4",
-    src: "/image-gallery/ptsier-2025.jpeg",
+    src: "/image-gallery/ptsier-2025.png",
     alt: "PT SIER 2025 - CleanScape VR",
     category: "VR Development",
     span: "md:col-span-1 md:row-span-1" // 1x1
