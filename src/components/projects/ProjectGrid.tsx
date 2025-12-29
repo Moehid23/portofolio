@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { projects } from "@/data/projects";
 import { Project } from "@/types";
 import { ProjectCard } from "./ProjectCard";
@@ -66,9 +67,10 @@ export function ProjectGrid() {
           <Button
             variant="outline"
             onClick={() => setVisibleCount((prev) => prev + 6)}
-            className="min-w-[200px] h-12 rounded-full border-neutral-200 hover:bg-neutral-100 hover:border-neutral-300 transition-all font-medium"
+            className="group gap-2 rounded-full px-8 h-12"
           >
             Load More Projects
+            <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
           </Button>
         </div>
       )}

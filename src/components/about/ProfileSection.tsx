@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/Button";
+import { Download } from "lucide-react";
 
 export function ProfileSection() {
   return (
@@ -47,6 +49,22 @@ export function ProfileSection() {
                 <span className="block text-4xl font-bold text-black">3.7</span>
                 <span className="text-sm text-neutral-500 uppercase tracking-wider">GPA</span>
              </div>
+          </div>
+          
+          <div className="pt-4">
+            <Button
+              variant="default"
+              className="rounded-full px-8 h-12 gap-2 shadow-lg hover:shadow-xl transition-all hover:scale-105"
+              asChild
+            >
+              <a 
+                href="https://drive.google.com/file/d/14uWvtdsYicnBA093HfSpe2cJtZP9GW8g/view?usp=sharing" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                Download CV <Download className="h-4 w-4" />
+              </a>
+            </Button>
           </div>
         </motion.div>
 
