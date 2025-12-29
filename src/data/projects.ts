@@ -9,7 +9,7 @@ export const projects: Project[] = [
     image: "/image-project/indojavatrip.png",
     images: [],
     technologies: ["Next.js", "Tailwind CSS", "Figma", "TypeScript"],
-    category: "Web",
+    categories: ["Web"],
     featured: true,
     date: "2024-12"
   },
@@ -21,7 +21,7 @@ export const projects: Project[] = [
     image: "/image-project/edutech.png",
     images: [],
     technologies: ["Next.js", "JavaScript", "Tailwind CSS"],
-    category: "Web",
+    categories: ["Web"],
     featured: true,
     date: "2024-12"
   },
@@ -33,7 +33,7 @@ export const projects: Project[] = [
     image: "/image-project/sea-catering.png",
     images: [],
     technologies: ["Next.js", "Supabase", "Tailwind CSS", "Stripe"],
-    category: "Web",
+    categories: ["Web"],
     featured: true,
     date: "2025-09"
   },
@@ -45,7 +45,7 @@ export const projects: Project[] = [
     image: "/image-project/clean-scape.png",
     images: [],
     technologies: ["Next.js", "React", "A-Frame", "VR"],
-    category: "Other",
+    categories: ["Other"],
     featured: true,
     date: "2025-09"
   },
@@ -54,10 +54,10 @@ export const projects: Project[] = [
     title: "CalTrack",
     description: "Developed an AI-powered mobile application for nutrition and calorie tracking with Gemini AI integration for intelligent food recommendations.",
     shortDescription: "AI Nutrition Tracker Mobile App",
-    image: "https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Mobile%20app%20nutrition%20tracker%20clean%20ui&image_size=landscape_16_9",
+    image: "/image-project/CallTrack.jpg",
     images: [],
     technologies: ["Flutter", "Gemini AI", "Firebase", "Dart"],
-    category: "Mobile",
+    categories: ["Mobile"],
     featured: false,
     date: "2024-08"
   },
@@ -69,7 +69,7 @@ export const projects: Project[] = [
     image: "/image-project/gatot-kota.png",
     images: [],
     technologies: ["Next.js", "Tailwind CSS", "Leaflet"],
-    category: "Web",
+    categories: ["Web"],
     featured: false,
     date: "2025-09"
   },
@@ -81,7 +81,7 @@ export const projects: Project[] = [
     image: "/image-project/unikahidha.png",
     images: [],
     technologies: ["React", "Inertia.js", "Laravel", "Tailwind CSS"],
-    category: "Web",
+    categories: ["Web"],
     featured: false,
     date: "2024-12"
   },
@@ -93,7 +93,7 @@ export const projects: Project[] = [
     image: "/image-project/lawmate.png",
     images: [],
     technologies: ["Flutter", "Firebase"],
-    category: "Mobile",
+    categories: ["Mobile"],
     featured: false,
     date: "2025-10"
   },
@@ -105,19 +105,19 @@ export const projects: Project[] = [
     image: "/image-project/alarem.png",
     images: [],
     technologies: ["Flutter", "Supabase", "Figma"],
-    category: "Mobile",
+    categories: ["Mobile"],
     featured: false,
     date: "2025-11"
   },
   {
     id: "10",
-    title: "Sistem Rekam Medis Made Warti",
+    title: "Medical Record Management System – Made Warti",
     description: "A comprehensive medical record system built with full stack Laravel, designed to streamline patient data management and hospital operations.",
     shortDescription: "Medical Record System",
     image: "/image-project/medical-report.png",
     images: [],
-    technologies: ["Laravel", "PHP", "MySQL", "Bootstrap"],
-    category: "Web",
+    technologies: ["Laravel", "PHP", "MySQL", "Bootstrap", "Figma"],
+    categories: ["Web", "Design"],
     featured: false,
     date: "2024-11"
   },
@@ -128,8 +128,8 @@ export const projects: Project[] = [
     shortDescription: "Patient Monitoring App",
     image: "/image-project/klinik-bayu.png",
     images: [],
-    technologies: ["Next.js", "Express.js", "Supabase", "Tailwind CSS"],
-    category: "Web",
+    technologies: ["Next.js", "Express.js", "Supabase", "Tailwind CSS", "Figma"],
+    categories: ["Web", "Design"],
     featured: false,
     date: "2025-11"
   }

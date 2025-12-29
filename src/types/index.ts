@@ -6,7 +6,7 @@ export interface Project {
   image: string;
   images: string[];
   technologies: string[];
-  category: "Web" | "Mobile" | "Design" | "Other";
+  categories: string[];
   demoUrl?: string;
   githubUrl?: string;
   featured: boolean;

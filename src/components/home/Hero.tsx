@@ -83,6 +83,30 @@ export function Hero() {
   const xMoveReverse = useTransform(springX, [-0.5, 0.5], [50, -50]);
   const yMoveReverse = useTransform(springY, [-0.5, 0.5], [50, -50]);
 
+  // Handle Smooth Scroll locally
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Handle External Navigation (e.g. from 404 page)
+  useEffect(() => {
+    // Check for search param "section" without using useSearchParams to avoid Suspension Nuance
+    const params = new URLSearchParams(window.location.search);
+    const section = params.get("section");
+    
+    if (section) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        scrollToSection(section);
+        // Clean up URL
+        window.history.replaceState(null, "", "/");
+      }, 100);
+    }
+  }, []);
+
   return (
     <section 
       ref={containerRef}
@@ -177,19 +201,24 @@ export function Hero() {
           className="mt-12 flex flex-col gap-5 sm:flex-row items-center"
         >
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button size="lg" className="h-16 rounded-full px-10 text-lg shadow-xl shadow-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all bg-white text-black hover:bg-neutral-200" asChild>
-              <Link href="/projects" className="flex items-center gap-2">
-                View My Work <ArrowRight className="h-5 w-5" />
-              </Link>
+            <Button 
+               size="lg" 
+               className="h-16 rounded-full px-10 text-lg shadow-xl shadow-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all bg-white text-black hover:bg-neutral-200 flex items-center gap-2"
+               onClick={() => scrollToSection('projects')}
+            >
+              View My Work <ArrowRight className="h-5 w-5" />
             </Button>
           </motion.div>
           
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-             <Button size="lg" variant="ghost" className="h-16 rounded-full px-10 text-lg text-white hover:bg-white/10 border-2 border-transparent hover:border-white/20" asChild>
-               <Link href="/contact" className="group">
-                 Get in Touch 
-                 <MoveRight className="ml-2 h-5 w-5 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
-               </Link>
+             <Button 
+               size="lg" 
+               variant="ghost" 
+               className="h-16 rounded-full px-10 text-lg text-white hover:bg-white/10 border-2 border-transparent hover:border-white/20 flex items-center gap-2 group"
+               onClick={() => scrollToSection('contact')}
+             >
+                Get in Touch 
+                <MoveRight className="ml-2 h-5 w-5 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
              </Button>
           </motion.div>
         </motion.div>

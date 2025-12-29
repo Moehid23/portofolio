@@ -47,7 +47,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold group-hover:underline decoration-1 underline-offset-4">{project.title}</h3>
             <span className="text-xs font-medium px-2 py-1 rounded-full bg-neutral-100 text-neutral-600 border border-neutral-200">
-              {project.category}
+              {project.categories[0]}
             </span>
           </div>
           

@@ -12,6 +12,7 @@ const getIconSlug = (name: string): string | null => {
     "Tailwind CSS": "tailwindcss",
     "A-Frame (VR)": "aframe",
     "Framer Motion": "framermotion",
+    "Vue.js": "vuedotjs",
     "Inertia.js": "inertia",
     "TypeScript": "typescript",
     "JavaScript": "javascript",
@@ -26,6 +27,7 @@ const getIconSlug = (name: string): string | null => {
     "Sequelize": "sequelize",
     "Git": "git",
     "Figma": "figma",
+    "Stripe": "stripe",
     "VS Code": "visualstudiocode",
     "Gemini AI": "googlegemini",
     "Trello": "trello",
@@ -41,7 +43,7 @@ export function SkillsShowcase() {
   const cards = [
     {
       title: "Frontend",
-      items: ["Next.js", "React.js", "Tailwind CSS", "Framer Motion"],
+      items: ["Next.js", "React.js", "Tailwind CSS", "Vue.js"],
       all: skills.filter(s => s.category === "Frontend")
     },
     {
@@ -56,7 +58,7 @@ export function SkillsShowcase() {
     },
     {
       title: "Tools & Design",
-      items: ["Git", "Figma", "VS Code", "Gemini AI"],
+      items: ["Git", "Figma", "Stripe", "Gemini AI"],
       all: [...skills.filter(s => s.category === "Tools"), ...skills.filter(s => s.category === "Design")]
     }
   ];

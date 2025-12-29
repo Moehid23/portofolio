@@ -86,7 +86,11 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                  >
                     <div className="flex items-center gap-3 mb-2">
                        <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur-sm border border-white/10">
-                         {project.category}
+                       {project.categories.map((cat, index) => (
+                         <span key={index}>
+                           {cat}{index < project.categories.length - 1 ? ", " : ""}
+                         </span>
+                       ))}
                        </span>
                        <span className="flex items-center gap-1 text-xs text-neutral-300">
                          <Calendar className="h-3 w-3" /> {project.date}

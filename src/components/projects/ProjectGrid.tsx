@@ -16,7 +16,7 @@ export function ProjectGrid() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const filteredProjects = projects.filter(
-    (project) => filter === "All" || project.category === filter
+    (project) => filter === "All" || project.categories.includes(filter)
   );
 
   const displayedProjects = filter === "All" 
