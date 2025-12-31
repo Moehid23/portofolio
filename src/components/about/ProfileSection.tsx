@@ -29,7 +29,7 @@ export function ProfileSection() {
 
           <div className="space-y-6 text-lg leading-relaxed text-neutral-600">
             <p>
-              I am a <strong className="text-black font-semibold">Computer Science / Informatics Engineering student</strong> at Brawijaya University (GPA 3.7/4.0) specializing in <strong className="text-black font-semibold">Next.js</strong>, <strong className="text-black font-semibold">React</strong>, and <strong className="text-black font-semibold">Flutter</strong>. With experience as a Fullstack Developer at Semeton Corp and Mobile Developer at RAION, I focus on building scalable web and mobile solutions.
+              I am a <strong className="text-black font-semibold">Computer Science / Informatics Engineering student</strong> at Brawijaya University specializing in <strong className="text-black font-semibold">Next.js</strong>, <strong className="text-black font-semibold">React</strong>, and <strong className="text-black font-semibold">Flutter</strong>. With experience as a Fullstack Developer at Semeton Corp and Mobile Developer at RAION, I focus on building scalable web and mobile solutions.
             </p>
             <p>
               My journey includes achievements like "Best Case Study Team" at COMPFEST17. I am currently seeking internship opportunities to bring my technical expertise and collaborative spirit to a professional team.
@@ -46,7 +46,7 @@ export function ProfileSection() {
                 <span className="text-sm text-neutral-500 uppercase tracking-wider">Projects</span>
              </div>
              <div>
-                <span className="block text-4xl font-bold text-black">3.7</span>
+                <span className="block text-4xl font-bold text-black">3.69</span>
                 <span className="text-sm text-neutral-500 uppercase tracking-wider">GPA</span>
              </div>
           </div>

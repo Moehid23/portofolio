@@ -20,13 +20,19 @@ export const experiences: Experience[] = [
     id: "0",
     title: "Laboratory Assistant of Systems Analysis and Design",
     company: "Faculty of Computer Science (FILKOM) University of Brawijaya",
-    location: "Kota Malang, Jawa Timur, Indonesia",
+    location: "Malang, Indonesia",
     startDate: "2025-09",
-    current: true,
+    endDate: "2025-11",
+    current: false,
     description: [
       "Employment Type: Contract",
-      "Manajemen tim, kepemimpinan."
+      "Team management and leadership",
+      "Assisted in teaching and mentoring students in Systems Analysis and Design laboratory sessions",
+      "Managed and coordinated laboratory teams to ensure smooth academic operations",
+      "Demonstrated leadership in guiding students through system modeling and analysis tasks",
+      "Supported course activities, assignments, and project evaluations"
     ]
+
   },
   {
     id: "2",
@@ -78,17 +84,4 @@ export const experiences: Experience[] = [
       "Designed and built a complete web-based medical record system for 'Made Warti Clinic' using Laravel (PHP), delivering patient management, treatment history, and an admin control panel."
     ]
   },
-  {
-    id: "6",
-    title: "Fullstack Mobile Developer",
-    company: "CalTrack (AI Nutrition Tracker)",
-    location: "Remote",
-    startDate: "2024-06",
-    endDate: "2024-08",
-    current: false,
-    description: [
-      "Developed an AI-powered mobile application for nutrition and calorie tracking, building both the frontend (Flutter) and backend (Firebase).",
-      "Successfully integrated the Gemini AI API to provide users with intelligent food recommendations."
-    ]
-  }
 ];
