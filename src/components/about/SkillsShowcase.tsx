@@ -35,6 +35,8 @@ const getIconSlug = (name: string): string | null => {
     "EsLint": "eslint",
     "REST APIs": "postman",
     "Microservices": "docker",
+    "Kotlin": "kotlin",
+    "Docker": "docker",
   };
   return map[name] || null;
 };
@@ -47,18 +49,18 @@ export function SkillsShowcase() {
       all: skills.filter(s => s.category === "Frontend")
     },
     {
-      title: "Mobile & VR",
-      items: ["Flutter", "A-Frame (VR)", "Inertia.js", "React.js"],
-      all: skills.filter(s => ["Flutter", "A-Frame (VR)", "Inertia.js"].includes(s.name))
-    },
-    {
       title: "Backend",
-      items: ["Laravel", "Node.js", "Express.js", "Supabase"],
+      items: ["Node.js", "Laravel", "Express.js", "Supabase"],
       all: skills.filter(s => s.category === "Backend")
     },
     {
+      title: "Mobile & VR",
+      items: ["Flutter", "Inertia.js", "A-Frame (VR)", "Kotlin"],
+      all: skills.filter(s => ["Flutter", "Inertia.js", "A-Frame (VR)", "Kotlin"].includes(s.name))
+    },
+    {
       title: "Tools & Design",
-      items: ["Git", "Figma", "Stripe", "Gemini AI"],
+      items: ["Git", "Docker", "Stripe", "Gemini AI"],
       all: [...skills.filter(s => s.category === "Tools"), ...skills.filter(s => s.category === "Design")]
     }
   ];

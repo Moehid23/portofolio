@@ -58,7 +58,7 @@ export function ProfileSection() {
               asChild
             >
               <a 
-                href="https://drive.google.com/file/d/14uWvtdsYicnBA093HfSpe2cJtZP9GW8g/view?usp=sharing" 
+                href="https://drive.google.com/file/d/1-2ZXzbtDMsnF-Dxp4yf19VPdQNYruvar/view?usp=sharing" 
                 target="_blank" 
                 rel="noopener noreferrer"
               >

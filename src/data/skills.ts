@@ -27,9 +27,10 @@ export const skills: Skill[] = [
 
   // Tools
   { name: "Git", level: 9, category: "Tools" },
-  { name: "Figma", level: 8, category: "Design" }, // Categorized as Design/Tools
+  { name: "Docker", level: 8, category: "Tools" },
   { name: "Stripe", level: 10, category: "Tools" },
   { name: "Gemini AI", level: 8, category: "Tools" },
+  { name: "Kotlin", level: 7, category: "Mobile" },
   { name: "Trello", level: 9, category: "Tools" },
   { name: "Notion", level: 9, category: "Tools" },
   { name: "EsLint", level: 8, category: "Tools" },
