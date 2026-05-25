@@ -33,7 +33,7 @@ export function Footer() {
   }, []);
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText("anakwirayudha@gmail.com");
+    navigator.clipboard.writeText("your.email@example.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -59,7 +59,7 @@ export function Footer() {
           className="absolute top-[20%] left-0 w-full overflow-hidden pointer-events-none opacity-[0.05]"
        >
           <h1 className="text-[20rem] md:text-[30rem] font-bold tracking-tighter text-center whitespace-nowrap text-white select-none leading-none">
-             WIRA.
+             NAME.
           </h1>
        </motion.div>
 
@@ -100,7 +100,7 @@ export function Footer() {
                     className="group flex items-center gap-4 text-2xl md:text-4xl font-medium hover:text-neutral-400 transition-colors w-fit"
                   >
                     <span className="border-b-2 border-white pb-1 group-hover:border-neutral-400 transition-all">
-                      anakwirayudha@gmail.com
+                      your.email@example.com
                     </span>
                     <div className={cn(
                       "flex items-center justify-center h-12 w-12 md:h-14 md:w-14 rounded-full bg-neutral-900 transition-all duration-300",
@@ -146,9 +146,9 @@ export function Footer() {
                    <h4 className="text-sm font-semibold uppercase tracking-wider text-neutral-500">Socials</h4>
                    <ul className="space-y-4">
                       {[
-                        { name: "GitHub", url: "https://github.com/Adityawir0410" },
-                        { name: "LinkedIn", url: "https://www.linkedin.com/in/aditya-wirayudha/" },
-                        { name: "Instagram", url: "https://www.instagram.com/adityawirz/" }
+                        { name: "GitHub", url: "https://github.com/yourusername" },
+                        { name: "LinkedIn", url: "https://www.linkedin.com/in/yourusername/" },
+                        { name: "Instagram", url: "https://www.instagram.com/yourusername/" }
                       ].map((social) => (
                         <li key={social.name}>
                           <a 
@@ -177,16 +177,16 @@ export function Footer() {
         >
           <div className="flex flex-col gap-4">
              <div className="flex flex-col gap-1">
-               <span className="text-3xl font-bold tracking-tighter">Wira.</span>
+               <span className="text-3xl font-bold tracking-tighter">Name.</span>
                <p className="text-sm text-neutral-500 max-w-xs">
-                 Crafting digital experiences with precision and passion.
+                 [Your personal tagline or short description goes here.]
                </p>
              </div>
              
              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-neutral-500 font-medium mt-2">
                 <span className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                  Malang, Indonesia
+                  City, Country
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-neutral-700" />
@@ -194,7 +194,7 @@ export function Footer() {
                 </span>
              </div>
              <p className="text-xs text-neutral-600 mt-2">
-               &copy; {currentYear} Anak Agung Ngurah Aditya Wirayudha. All rights reserved.
+               &copy; {currentYear} Your Full Name Here. All rights reserved.
              </p>
           </div>
 

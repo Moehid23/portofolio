@@ -89,7 +89,7 @@ export function Navigation() {
               isTransparent ? "text-white" : "text-black"
             )}
           >
-            Wira.
+            Name.
           </Link>
 
           {/* Desktop Navigation */}

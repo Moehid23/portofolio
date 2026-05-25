@@ -43,13 +43,12 @@ const titleVariants = {
   }),
 };
 
-const text = "Building Digital Value.";
+const text = "Your Tagline Here.";
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const [mounted, setMounted] = useState(false);
-  const [videoEnded, setVideoEnded] = useState(false);
   
   // Parallax for Scroll
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
@@ -112,34 +111,25 @@ export function Hero() {
       ref={containerRef}
       className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-20 bg-neutral-950 text-white"
     >
-      {/* Background Container */}
-      <div className="absolute inset-0 z-0 bg-black">
-        {/* Fallback Image / Final State */}
-        <div className="absolute inset-0 z-0">
-           <img 
-              src="/background-herosection.png" 
-              alt="Hero Background" 
-              className="w-full h-full object-cover"
-           />
-           {/* Dark Overlay for Readability */}
-           <div className="absolute inset-0 bg-black/70" />
+      {/* Background Container - Placeholder */}
+      <div className="absolute inset-0 z-0 bg-neutral-900">
+        {/* Placeholder grid pattern */}
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage:
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        {/* Placeholder label */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span className="text-neutral-600 text-xs font-medium tracking-widest uppercase">Background Image / Video Placeholder</span>
         </div>
-
-        {/* Intro Video */}
-        {!videoEnded && (
-           <div className="absolute inset-0 z-10">
-              <video
-                autoPlay
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-                onEnded={() => setVideoEnded(true)}
-              >
-                <source src="/video-herosection.mp4" type="video/mp4" />
-              </video>
-              <div className="absolute inset-0 bg-black/70" />
-           </div>
-        )}
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
       {/* Texture Noise Overlay - Kept for consistency */}
@@ -182,9 +172,9 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="mt-12 max-w-2xl text-xl text-neutral-400 sm:text-2xl leading-relaxed font-medium"
         >
-          I build personal portfolio websites that stand out.
+          [Your subtitle or value proposition goes here.]
           <span className="text-white font-bold relative inline-block mx-2">
-             Modern & Minimalist.
+             [Highlighted phrase.]
              <motion.span 
                initial={{ scaleX: 0 }}
                animate={{ scaleX: 1 }}
