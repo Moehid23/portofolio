@@ -1,3 +1,8 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
+import { Preloader } from "@/components/ui/Preloader";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/home/Hero";
@@ -11,17 +16,37 @@ import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactInfo } from "@/components/contact/ContactInfo";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isLoading]);
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navigation />
-      <main className="flex-1">
-        {/* Home Section */}
-        <section id="home">
-          <Hero />
-        </section>
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <Preloader key="preloader" onComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
+
+      <div className="flex min-h-screen flex-col">
+        <Navigation />
+        <main className="flex-1">
+          {/* Home Section */}
+          <section id="home">
+            <Hero startAnimation={!isLoading} />
+          </section>
 
         {/* About Section */}
-        <section id="about">
+        <section id="about" className="scroll-mt-32">
           <Container>
             <ProfileSection />
             <ExperienceTimeline />
@@ -30,7 +55,7 @@ export default function Home() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-20 bg-neutral-50/50">
+        <section id="projects" className="py-20 bg-neutral-50/50 scroll-mt-32">
           <Container>
             <div className="mb-16 text-center">
               <span className="text-sm font-bold uppercase tracking-widest text-neutral-400">Portfolio</span>
@@ -48,7 +73,7 @@ export default function Home() {
         <GallerySection />
 
         {/* Contact Section */}
-        <section id="contact" className="py-20">
+        <section id="contact" className="py-20 scroll-mt-32">
           <Container>
             <div className="mb-16 text-center">
               <span className="text-sm font-bold uppercase tracking-widest text-neutral-400">Get in Touch</span>
@@ -68,6 +93,7 @@ export default function Home() {
         </section>
       </main>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }

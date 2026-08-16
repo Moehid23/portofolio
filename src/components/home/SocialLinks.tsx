@@ -3,11 +3,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
 const socialLinks = [
-  { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+  { icon: Github, href: "https://github.com/Moehid23", label: "GitHub" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/abdul-muhid-muhthado-964b951a3/", label: "LinkedIn" },
   { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-  { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
+  { icon: Instagram, href: "https://www.instagram.com/abdullmoehid_/", label: "Instagram" },
+  { icon: Mail, href: "mailto:muthadoabdul23@gmail.com", label: "Email" },
 ];
 
 export function SocialLinks() {

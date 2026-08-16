@@ -3,39 +3,61 @@ export interface GalleryItem {
   src: string;
   alt: string;
   category: string;
+  description?: string;
+  date?: string;
+  location?: string;
   span?: string; // for masonry layout (e.g., "col-span-2 row-span-2")
 }
 
 export const galleryItems: GalleryItem[] = [
-  // Row 1
   {
     id: "1",
-    src: "/image-gallery/placeholder-1.png",
-    alt: "Gallery Image Placeholder 1",
-    category: "Category Placeholder",
-    span: "md:col-span-2 md:row-span-2" // 2x2
+    src: "/wisuda.jpeg",
+    alt: "Graduation Ceremony (Wisuda Sarjana Komputer)",
+    category: "Graduation",
+    description: "Official graduation ceremony celebrating the completion of Bachelor of Computer Science (S.Kom.) in Informatics Engineering at Universitas Buana Perjuangan Karawang with a GPA of 3.80.",
+    date: "2026",
+    location: "Universitas Buana Perjuangan Karawang",
+    span: "md:col-span-2 md:row-span-2" // Featured 2x2
   },
   {
     id: "2",
-    src: "/image-gallery/placeholder-2.png",
-    alt: "Gallery Image Placeholder 2",
-    category: "Category Placeholder",
-    span: "md:col-span-2 md:row-span-1" // 2x1
+    src: "/sidang_ta.jpeg",
+    alt: "Bachelor Thesis Defense & Seminar (Sidang & Sempro)",
+    category: "Academic Achievement",
+    description: "Successful defense of the undergraduate thesis research titled 'Penerapan Random Forest Untuk Prediksi Pemesanan Spare Part Dalam Pencegahan Overstock Dan Understock'.",
+    date: "2026",
+    location: "Faculty of Computer Science, UBP Karawang",
+    span: "md:col-span-2 md:row-span-1" // 2x1 layout
   },
-
-  // Row 2
   {
     id: "3",
-    src: "/image-gallery/placeholder-3.png",
-    alt: "Gallery Image Placeholder 3",
-    category: "Category Placeholder",
-    span: "md:col-span-1 md:row-span-1" // 1x1
+    src: "/iaka_competition_2025.jpeg",
+    alt: "IAKA Competition 2025",
+    category: "Competition",
+    description: "Participating and demonstrating technical competence, precision problem solving, and innovative solutions at the IAKA Competition 2025.",
+    date: "2025",
+    location: "IAKA Arena",
+    span: "md:col-span-2 md:row-span-1" // 2x1 layout
   },
   {
     id: "4",
-    src: "/image-gallery/placeholder-4.png",
-    alt: "Gallery Image Placeholder 4",
-    category: "Category Placeholder",
-    span: "md:col-span-1 md:row-span-1" // 1x1
+    src: "/seminar_kkn.jpeg",
+    alt: "Community Engagement & Social Work Seminar (Seminar KKN)",
+    category: "Community Engagement",
+    description: "Presenting technological community development programs, digital literacy initiatives, and social service projects during the University Social Work program (KKN).",
+    date: "2025",
+    location: "Karawang Regency",
+    span: "md:col-span-2 md:row-span-1" // 2x1 layout
+  },
+  {
+    id: "5",
+    src: "/clash_of_akhlak.jpeg",
+    alt: "Clash of Akhlak Event",
+    category: "Corporate Event",
+    description: "Participating in corporate culture building, collaborative leadership exercises, and knowledge-sharing sessions during the Clash of Akhlak event.",
+    date: "2024",
+    location: "Peruri / Corporate Center",
+    span: "md:col-span-2 md:row-span-1" // 2x1 layout
   },
 ];

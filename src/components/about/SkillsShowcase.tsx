@@ -3,40 +3,33 @@
 import { motion } from "framer-motion";
 import { skills } from "@/data/skills";
 
-// Helper to get icon slug
-const getIconSlug = (name: string): string | null => {
-  const map: Record<string, string> = {
-    "Next.js": "nextdotjs",
-    "React.js": "react",
-    "Flutter": "flutter",
-    "Tailwind CSS": "tailwindcss",
-    "A-Frame (VR)": "aframe",
-    "Framer Motion": "framermotion",
-    "Vue.js": "vuedotjs",
-    "Inertia.js": "inertia",
-    "TypeScript": "typescript",
-    "JavaScript": "javascript",
-    "HTML": "html5",
-    "CSS": "css3",
-    "Node.js": "nodedotjs",
-    "Laravel": "laravel",
-    "Express.js": "express",
-    "Firebase": "firebase",
-    "Supabase": "supabase",
-    "PostgreSQL": "postgresql",
-    "Sequelize": "sequelize",
-    "Git": "git",
-    "Figma": "figma",
-    "Stripe": "stripe",
-    "VS Code": "visualstudiocode",
-    "Gemini AI": "googlegemini",
-    "Trello": "trello",
-    "Notion": "notion",
-    "EsLint": "eslint",
-    "REST APIs": "postman",
-    "Microservices": "docker",
-    "Kotlin": "kotlin",
-    "Docker": "docker",
+// Helper to get icon data with official brand colors
+const getIconData = (name: string): { slug: string; color: string } | null => {
+  const map: Record<string, { slug: string; color: string }> = {
+    "Next.js": { slug: "nextdotjs", color: "000000" },
+    "React.js": { slug: "react", color: "61DAFB" },
+    "Flutter": { slug: "flutter", color: "02569B" },
+    "Tailwind CSS": { slug: "tailwindcss", color: "06B6D4" },
+    "Vue.js": { slug: "vuedotjs", color: "4FC08D" },
+    "TypeScript": { slug: "typescript", color: "3178C6" },
+    "JavaScript": { slug: "javascript", color: "F7DF1E" },
+    "HTML": { slug: "html5", color: "E34F26" },
+    "CSS": { slug: "css3", color: "1572B6" },
+    "Node.js": { slug: "nodedotjs", color: "339933" },
+    "Laravel": { slug: "laravel", color: "FF2D20" },
+    "Ionic": { slug: "ionic", color: "3880FF" },
+    "Tableau": { slug: "tableau", color: "E15759" },
+    "Power BI": { slug: "powerbi", color: "F2C811" },
+    "Python": { slug: "python", color: "3776AB" },
+    "SQL": { slug: "postgresql", color: "4169E1" },
+    "Git": { slug: "git", color: "F05032" },
+    "Docker": { slug: "docker", color: "2496ED" },
+    "Kotlin": { slug: "kotlin", color: "7F52FF" },
+    "Firebase": { slug: "firebase", color: "FFCA28" },
+    "Figma": { slug: "figma", color: "F24E1E" },
+    "Flask": { slug: "flask", color: "000000" },
+    "Express.js": { slug: "express", color: "000000" },
+    "Django": { slug: "django", color: "092E20" }
   };
   return map[name] || null;
 };
@@ -50,18 +43,18 @@ export function SkillsShowcase() {
     },
     {
       title: "Backend",
-      items: ["Node.js", "Laravel", "Express.js", "Supabase"],
+      items: ["Laravel", "Flask", "Node.js", "Django"],
       all: skills.filter(s => s.category === "Backend")
     },
     {
-      title: "Mobile & VR",
-      items: ["Flutter", "Inertia.js", "A-Frame (VR)", "Kotlin"],
-      all: skills.filter(s => ["Flutter", "Inertia.js", "A-Frame (VR)", "Kotlin"].includes(s.name))
+      title: "Mobile & UI",
+      items: ["Flutter", "Kotlin", "Ionic", "Figma"],
+      all: skills.filter(s => s.category === "Mobile")
     },
     {
-      title: "Tools & Design",
-      items: ["Git", "Docker", "Stripe", "Gemini AI"],
-      all: [...skills.filter(s => s.category === "Tools"), ...skills.filter(s => s.category === "Design")]
+      title: "Data Analysis",
+      items: ["Tableau", "Power BI", "Python", "SQL"],
+      all: skills.filter(s => s.category === "Tools")
     }
   ];
 
@@ -77,10 +70,10 @@ export function SkillsShowcase() {
          viewport={{ once: true }}
          className="mb-16 text-center relative z-10"
       >
-        <h2 className="text-4xl font-bold tracking-tighter sm:text-6xl mb-6">Technical Arsenal</h2>
+        <h2 className="text-4xl font-bold tracking-tighter sm:text-6xl mb-6">Skills & Tools</h2>
         <div className="h-1 w-20 bg-black mx-auto mb-6" />
         <p className="text-lg text-neutral-500 max-w-2xl mx-auto leading-relaxed">
-           My preferred weapons of choice.
+           The technologies, frameworks, and tools I specialize in.
         </p>
       </motion.div>
 
@@ -100,16 +93,16 @@ export function SkillsShowcase() {
             {/* Icon Grid (2x2) */}
             <div className="mb-8 grid grid-cols-2 gap-4">
               {card.items.slice(0, 4).map((itemName) => {
-                 const slug = getIconSlug(itemName);
+                 const iconData = getIconData(itemName);
                  return (
                    <div 
                      key={itemName} 
                      className="flex h-16 w-16 items-center justify-center rounded-2xl bg-neutral-50 shadow-sm border border-neutral-100 transition-all duration-300 group-hover:scale-110 group-hover:shadow-md group-hover:bg-white"
                      title={itemName}
                    >
-                     {slug ? (
+                     {iconData ? (
                        <img 
-                         src={`https://cdn.simpleicons.org/${slug}`}
+                         src={["Tableau", "Power BI"].includes(itemName) ? `/${iconData.slug}.svg` : `https://cdn.simpleicons.org/${iconData.slug}/${iconData.color}`}
                          alt={itemName}
                          className="h-8 w-8 transition-transform duration-300"
                          loading="lazy"

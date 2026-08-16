@@ -7,8 +7,8 @@ import { SkillsShowcase } from "@/components/about/SkillsShowcase";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About | Modern Personal Website",
-  description: "Learn more about my background, experience, and skills.",
+  title: "About | Abdul Muhid Muthado",
+  description: "Background, work history, and engineering expertise of Abdul Muhid Muthado, bridging Informatics Engineering with Industrial Precision Metrology.",
 };
 
 export default function AboutPage() {

@@ -59,7 +59,9 @@ export function Navigation() {
     e.preventDefault();
     const element = document.querySelector(href);
     if (element) {
-      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset;
+      // Offset navbar height so content is not hidden behind the fixed header
+      const navbarHeight = href === "#home" ? 0 : 80;
+      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
       window.scrollTo({
         top: offsetTop,
         behavior: "smooth"
@@ -89,7 +91,7 @@ export function Navigation() {
               isTransparent ? "text-white" : "text-black"
             )}
           >
-            Name.
+            Muhid.
           </Link>
 
           {/* Desktop Navigation */}

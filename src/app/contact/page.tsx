@@ -6,8 +6,8 @@ import { ContactInfo } from "@/components/contact/ContactInfo";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact | Modern Personal Website",
-  description: "Get in touch with me for collaborations or inquiries.",
+  title: "Contact | Abdul Muhid Muthado",
+  description: "Get in touch with Abdul Muhid Muthado for engineering opportunities, projects, or inquiries.",
 };
 
 export default function ContactPage() {

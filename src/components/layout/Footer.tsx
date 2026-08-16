@@ -33,7 +33,7 @@ export function Footer() {
   }, []);
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText("your.email@example.com");
+    navigator.clipboard.writeText("muthadoabdul23@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -59,7 +59,7 @@ export function Footer() {
           className="absolute top-[20%] left-0 w-full overflow-hidden pointer-events-none opacity-[0.05]"
        >
           <h1 className="text-[20rem] md:text-[30rem] font-bold tracking-tighter text-center whitespace-nowrap text-white select-none leading-none">
-             NAME.
+             MUHID.
           </h1>
        </motion.div>
 
@@ -100,14 +100,14 @@ export function Footer() {
                     className="group flex items-center gap-4 text-2xl md:text-4xl font-medium hover:text-neutral-400 transition-colors w-fit"
                   >
                     <span className="border-b-2 border-white pb-1 group-hover:border-neutral-400 transition-all">
-                      your.email@example.com
+                      muthadoabdul23@gmail.com
                     </span>
-                    <div className={cn(
+                    <span className={cn(
                       "flex items-center justify-center h-12 w-12 md:h-14 md:w-14 rounded-full bg-neutral-900 transition-all duration-300",
                       copied ? "bg-green-900/50 text-green-400" : "group-hover:bg-white group-hover:text-black"
                     )}>
                       {copied ? <Check className="h-6 w-6" /> : <Copy className="h-5 w-5 md:h-6 md:w-6" />}
-                    </div>
+                    </span>
                   </button>
                 </Magnetic>
                 <p className="text-sm text-neutral-500 ml-1">
@@ -146,9 +146,9 @@ export function Footer() {
                    <h4 className="text-sm font-semibold uppercase tracking-wider text-neutral-500">Socials</h4>
                    <ul className="space-y-4">
                       {[
-                        { name: "GitHub", url: "https://github.com/yourusername" },
-                        { name: "LinkedIn", url: "https://www.linkedin.com/in/yourusername/" },
-                        { name: "Instagram", url: "https://www.instagram.com/yourusername/" }
+                        { name: "GitHub", url: "https://github.com/Moehid23" },
+                        { name: "LinkedIn", url: "https://www.linkedin.com/in/abdul-muhid-muhthado-964b951a3/" },
+                        { name: "Instagram", url: "https://www.instagram.com/abdullmoehid_/" }
                       ].map((social) => (
                         <li key={social.name}>
                           <a 
@@ -177,7 +177,7 @@ export function Footer() {
         >
           <div className="flex flex-col gap-4">
              <div className="flex flex-col gap-1">
-               <span className="text-3xl font-bold tracking-tighter">Name.</span>
+               <span className="text-3xl font-bold tracking-tighter">Muhid.</span>
                <p className="text-sm text-neutral-500 max-w-xs">
                  [Your personal tagline or short description goes here.]
                </p>
@@ -186,7 +186,7 @@ export function Footer() {
              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-neutral-500 font-medium mt-2">
                 <span className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                  City, Country
+                  Karawang, Indonesia
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-neutral-700" />
@@ -203,7 +203,7 @@ export function Footer() {
               onClick={scrollToTop}
               className="group flex flex-col items-center gap-2"
             >
-              <div className="relative flex items-center justify-center h-20 w-20 rounded-full border border-neutral-800 bg-neutral-900 group-hover:scale-110 transition-transform duration-500">
+              <span className="relative flex items-center justify-center h-20 w-20 rounded-full border border-neutral-800 bg-neutral-900 group-hover:scale-110 transition-transform duration-500">
                  <ArrowUp className="h-8 w-8 text-white group-hover:-translate-y-1 transition-transform duration-300" />
                  
                  {/* Circular Text */}
@@ -219,7 +219,7 @@ export function Footer() {
                      </textPath>
                    </text>
                  </svg>
-              </div>
+              </span>
             </button>
           </Magnetic>
         </motion.div>
