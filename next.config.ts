@@ -1,23 +1,40 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export", // Enables static export for Firebase Hosting
   images: {
-    unoptimized: true, // Required for static export
-    remotePatterns: [
+    // Enable WebP and AVIF auto-conversion (Vercel handles this for free)
+    formats: ["image/webp", "image/avif"],
+    // Remove unoptimized: true so Next.js optimizes images automatically
+    remotePatterns: [],
+    // Aggressive caching for optimized images
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+  // Compress responses
+  compress: true,
+  // Performance headers
+  async headers() {
+    return [
       {
-        protocol: "https",
-        hostname: "trae-api-sg.mchost.guru",
+        source: "/:all*(svg|jpg|jpeg|png|webp|gif|ico|woff2|woff|ttf)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
       {
-        protocol: "https",
-        hostname: "images.unsplash.com",
+        source: "/:all*(mp4|webm)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=86400",
+          },
+        ],
       },
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-      },
-    ],
+    ];
   },
 };
 

@@ -156,7 +156,7 @@ export function ProfileSection() {
             >
               {/* Base Primary Image: ubpPortofolio.png */}
               <Image
-                src="/ubpPortofolio.png"
+                src="/ubpPortofolio.webp"
                 alt="Abdul Muhid Muthado - UBP"
                 fill
                 className="object-cover object-center pointer-events-none transition-transform duration-300"
@@ -175,7 +175,7 @@ export function ProfileSection() {
                 }}
               >
                 <Image
-                  src="/peruri.png"
+                  src="/peruri.webp"
                   alt="Abdul Muhid Muthado - Peruri"
                   fill
                   className="object-cover object-center pointer-events-none"

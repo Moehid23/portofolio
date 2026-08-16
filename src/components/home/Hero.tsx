@@ -102,6 +102,7 @@ export function Hero({ startAnimation = true }: { startAnimation?: boolean }) {
             muted
             loop
             playsInline
+            preload="none"
             className="absolute inset-0 w-full h-full object-cover"
           >
             <source src="/Portofolio.mp4" type="video/mp4" />

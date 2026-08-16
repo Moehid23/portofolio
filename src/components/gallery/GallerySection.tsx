@@ -424,4 +424,4 @@ export function GallerySection() {
       )}
     </section>
   );
-}
+}
