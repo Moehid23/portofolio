@@ -20,6 +20,35 @@ export function ProfileSection() {
     });
   };
 
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!photoRef.current || e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const rect = photoRef.current.getBoundingClientRect();
+    setIsHovered(true);
+    setMousePos({
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top,
+    });
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!photoRef.current || e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const rect = photoRef.current.getBoundingClientRect();
+    setIsHovered(true);
+    setMousePos({
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top,
+    });
+  };
+
+  const handleTouchEnd = () => {
+    // Keep it briefly or fade out
+    setTimeout(() => {
+      setIsHovered(false);
+    }, 1500);
+  };
+
   return (
     <section className="min-h-[calc(100vh-80px)] flex items-center py-10">
       <div className="w-full grid gap-10 lg:grid-cols-12 lg:items-center">
@@ -142,13 +171,16 @@ export function ProfileSection() {
             <div className="absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-black hidden sm:block" />
             <div className="absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-black hidden sm:block" />
 
-            {/* Photo Container with Interactive Cursor Spotlight */}
+            {/* Photo Container with Interactive Cursor & Touch Spotlight */}
             <motion.div
               ref={photoRef}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               onMouseMove={handleMouseMove}
-              className="relative overflow-hidden rounded-xl cursor-crosshair select-none bg-neutral-900 shadow-xl"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className="relative overflow-hidden rounded-xl cursor-crosshair select-none bg-neutral-900 shadow-xl touch-none"
               style={{
                 height: "min(calc(100vh - 260px), 540px)",
                 aspectRatio: "1023 / 1537",
