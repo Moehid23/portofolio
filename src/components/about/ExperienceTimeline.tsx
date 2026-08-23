@@ -7,16 +7,11 @@ import {
   Navigation, 
   MapPin, 
   Compass, 
-  Layers, 
   CheckCircle2, 
   X, 
   ChevronRight, 
   ChevronLeft,
-  Briefcase,
-  Share2,
-  Bookmark,
-  Sparkles,
-  ArrowUpRight
+  Briefcase
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -31,8 +26,10 @@ interface AppleMapWaypoint {
   current: boolean;
   themeColor: string;
   badgeBg: string;
-  xPercent: number; // percentage in the canvas
-  yPercent: number;
+  xDesktop: number; // percentage in desktop canvas
+  yDesktop: number;
+  xMobile: number;  // percentage in mobile vertical canvas
+  yMobile: number;
   description: string[];
 }
 
@@ -49,8 +46,10 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#FF2D55", // Apple Rose
       badgeBg: "rgba(255, 45, 85, 0.12)",
-      xPercent: 14,
-      yPercent: 70,
+      xDesktop: 14,
+      yDesktop: 70,
+      xMobile: 28,
+      yMobile: 10,
       description: experiences[4].description,
     },
     {
@@ -64,8 +63,10 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#FF9500", // Apple Orange
       badgeBg: "rgba(255, 149, 0, 0.12)",
-      xPercent: 32,
-      yPercent: 26,
+      xDesktop: 32,
+      yDesktop: 26,
+      xMobile: 72,
+      yMobile: 29,
       description: experiences[3].description,
     },
     {
@@ -79,8 +80,10 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#5856D6", // Apple Purple
       badgeBg: "rgba(88, 86, 214, 0.12)",
-      xPercent: 53,
-      yPercent: 74,
+      xDesktop: 53,
+      yDesktop: 74,
+      xMobile: 28,
+      yMobile: 49,
       description: experiences[2].description,
     },
     {
@@ -94,8 +97,10 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
-      xPercent: 71,
-      yPercent: 28,
+      xDesktop: 71,
+      yDesktop: 28,
+      xMobile: 72,
+      yMobile: 69,
       description: experiences[1].description,
     },
     {
@@ -109,8 +114,10 @@ export function ExperienceTimeline() {
       current: true,
       themeColor: "#007AFF", // Iconic Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
-      xPercent: 89,
-      yPercent: 64,
+      xDesktop: 89,
+      yDesktop: 64,
+      xMobile: 35,
+      yMobile: 89,
       description: experiences[0].description,
     },
   ], []);
@@ -149,22 +156,23 @@ export function ExperienceTimeline() {
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-neutral-500 max-w-md leading-relaxed">
-            Explore 5 engineering stations across the industrial corridor. Tap any place pin to inspect full achievements.
+            Follow the winding route through 5 engineering milestones. Tap any pin to open the place dossier.
           </p>
         </div>
 
-        {/* ── Apple Maps Canvas Frame ── */}
-        <div className="relative rounded-3xl bg-[#F4F5F8] border border-neutral-200/90 shadow-xl overflow-hidden min-h-[420px] sm:min-h-[480px]">
+        {/* ── Apple Maps Canvas Frame (Responsive on BOTH Desktop & Mobile) ── */}
+        <div className="relative rounded-3xl bg-[#F4F5F8] border border-neutral-200/90 shadow-xl overflow-hidden min-h-[580px] sm:min-h-[480px]">
           
           {/* Authentic Apple Maps Vector Background Texture */}
           <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
             {/* Apple Maps Serene Green Park Zones */}
             <div className="absolute top-[6%] left-[8%] w-52 h-40 bg-[#E3F4E8] rounded-3xl opacity-85 rotate-3" />
             <div className="absolute bottom-[8%] right-[10%] w-60 h-44 bg-[#E3F4E8] rounded-3xl opacity-85 -rotate-6" />
-            <div className="absolute top-[38%] right-[25%] w-40 h-32 bg-[#E3F4E8] rounded-2xl opacity-75 rotate-12" />
+            <div className="absolute top-[42%] left-[4%] w-48 h-36 bg-[#E3F4E8] rounded-2xl opacity-75 -rotate-12" />
+            <div className="absolute top-[65%] right-[8%] w-56 h-40 bg-[#E3F4E8] rounded-2xl opacity-75 rotate-12" />
 
-            {/* Apple Maps Water Body Curve (River / Canal) */}
-            <svg className="absolute inset-0 w-full h-full opacity-65" preserveAspectRatio="none" viewBox="0 0 1000 500">
+            {/* Apple Maps Water Body Curve */}
+            <svg className="absolute inset-0 w-full h-full opacity-65" preserveAspectRatio="none" viewBox="0 0 1000 600">
               <path 
                 d="M -30,270 Q 220,230 400,350 T 720,210 T 1030,370" 
                 fill="none" 
@@ -175,36 +183,29 @@ export function ExperienceTimeline() {
             </svg>
 
             {/* Apple Maps City Block Lines & Secondary Arteries */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#E5E7EB_1px,transparent_1px),linear-gradient(to_bottom,#E5E7EB_1px,transparent_1px)] bg-[size:52px_52px] opacity-60" />
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#D1D5DB_1px,transparent_1px),linear-gradient(to_bottom,#D1D5DB_1px,transparent_1px)] bg-[size:156px_156px] opacity-70" />
-
-            {/* Apple Maps Road Label Typographies */}
-            <span className="absolute top-[16%] left-[24%] text-[9px] font-sans font-bold text-neutral-400/80 uppercase tracking-wider rotate-6">
-              Jalan Tol Jakarta — Cikampek
-            </span>
-            <span className="absolute bottom-[20%] left-[44%] text-[9px] font-sans font-bold text-neutral-400/80 uppercase tracking-wider -rotate-3">
-              Kawasan Industri Karawang Barat
-            </span>
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#E5E7EB_1px,transparent_1px),linear-gradient(to_bottom,#E5E7EB_1px,transparent_1px)] bg-[size:48px_48px] opacity-60" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#D1D5DB_1px,transparent_1px),linear-gradient(to_bottom,#D1D5DB_1px,transparent_1px)] bg-[size:144px_144px] opacity-70" />
           </div>
 
           {/* Apple Maps Top Floating HUD Bar */}
-          <div className="relative z-20 flex flex-wrap items-center justify-between gap-2 p-4 sm:p-5">
+          <div className="relative z-20 flex items-center justify-between gap-2 p-3.5 sm:p-5">
             {/* Search / Route Capsule */}
-            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200/90 shadow-sm text-xs font-semibold text-neutral-800">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#007AFF] animate-pulse" />
+            <div className="flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200/90 shadow-sm text-xs font-semibold text-neutral-800">
+              <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-[#007AFF] animate-pulse" />
               <span>5 Stations • Karawang Route</span>
             </div>
 
             {/* Apple Maps Segmented Indicator */}
             <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200/90 shadow-sm text-xs text-neutral-600 font-medium">
               <Compass className="h-3.5 w-3.5 text-[#007AFF]" />
-              <span>Explore Mode</span>
+              <span className="hidden xs:inline">Route Mode</span>
             </div>
           </div>
 
-          {/* Desktop & Tablet Meandering Apple Maps Road Canvas */}
-          <div className="relative w-full h-[320px] sm:h-[360px] hidden sm:block">
-            
+          {/* ══════════════════════════════════════════════════════
+              DESKTOP VIEW: Horizontal Winding Apple Maps Route
+             ══════════════════════════════════════════════════════ */}
+          <div className="relative w-full h-[360px] hidden sm:block">
             {/* SVG Apple Maps Winding Gradient Road Route */}
             <svg 
               viewBox="0 0 1000 360" 
@@ -212,38 +213,37 @@ export function ExperienceTimeline() {
               preserveAspectRatio="none"
             >
               <defs>
-                <linearGradient id="appleRouteGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient id="appleRouteGradientDesktop" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#007AFF" />
                   <stop offset="50%" stopColor="#30B0C7" />
                   <stop offset="100%" stopColor="#34C759" />
                 </linearGradient>
 
-                <filter id="appleRouteShadow" x="-10%" y="-10%" width="120%" height="130%">
+                <filter id="appleRouteShadowDesktop" x="-10%" y="-10%" width="120%" height="130%">
                   <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#007AFF" floodOpacity="0.25" />
                 </filter>
               </defs>
 
-              {/* Highway Base Shadow & Body */}
+              {/* Highway Base White Border */}
               <path
                 d="M 60,270 C 140,240 160,80 320,90 C 440,100 420,280 530,260 C 640,240 620,90 710,100 C 810,110 820,230 920,220"
                 fill="none"
                 stroke="#FFFFFF"
                 strokeWidth="20"
                 strokeLinecap="round"
-                className="drop-shadow-sm"
               />
 
               {/* Apple Maps Gradient Route Path */}
               <path
                 d="M 60,270 C 140,240 160,80 320,90 C 440,100 420,280 530,260 C 640,240 620,90 710,100 C 810,110 820,230 920,220"
                 fill="none"
-                stroke="url(#appleRouteGradient)"
+                stroke="url(#appleRouteGradientDesktop)"
                 strokeWidth="14"
                 strokeLinecap="round"
-                filter="url(#appleRouteShadow)"
+                filter="url(#appleRouteShadowDesktop)"
               />
 
-              {/* White Dashed Inner Markings */}
+              {/* White Dashed Center Markings */}
               <path
                 d="M 60,270 C 140,240 160,80 320,90 C 440,100 420,280 530,260 C 640,240 620,90 710,100 C 810,110 820,230 920,220"
                 fill="none"
@@ -254,7 +254,7 @@ export function ExperienceTimeline() {
               />
             </svg>
 
-            {/* Apple Maps Iconic Location Pins with Glass Badges */}
+            {/* Desktop Pins Positioned on Horizontal Road */}
             {waypoints.map((item, idx) => {
               const isTop = idx % 2 === 1;
 
@@ -262,12 +262,12 @@ export function ExperienceTimeline() {
                 <div
                   key={item.id}
                   style={{
-                    left: `${item.xPercent}%`,
-                    top: `${item.yPercent}%`,
+                    left: `${item.xDesktop}%`,
+                    top: `${item.yDesktop}%`,
                   }}
                   className="absolute -translate-x-1/2 -translate-y-full z-20 flex flex-col items-center"
                 >
-                  {/* Apple Maps Floating Glass Capsule Label */}
+                  {/* Floating Glass Capsule Label */}
                   <motion.button
                     onClick={() => setActiveWaypoint(item)}
                     whileHover={{ scale: 1.06, y: -2 }}
@@ -284,7 +284,7 @@ export function ExperienceTimeline() {
                     </h4>
                   </motion.button>
 
-                  {/* Iconic Apple Maps Pin Marker */}
+                  {/* Apple Maps Pin Marker */}
                   <motion.button
                     onClick={() => setActiveWaypoint(item)}
                     whileHover={{ scale: 1.22 }}
@@ -292,7 +292,6 @@ export function ExperienceTimeline() {
                     className="relative cursor-pointer transition-transform duration-200 focus:outline-none flex flex-col items-center"
                     title={`View ${item.company} (${item.year})`}
                   >
-                    {/* Circular Bubble Icon */}
                     <div 
                       style={{ 
                         backgroundColor: item.themeColor,
@@ -302,14 +301,10 @@ export function ExperienceTimeline() {
                     >
                       <Briefcase className="h-4 w-4 stroke-[2.5]" />
                     </div>
-
-                    {/* Downward Pointer Stem */}
                     <div 
                       style={{ borderTopColor: item.themeColor }}
                       className="w-0 h-0 border-x-4 border-x-transparent border-t-6 -mt-[1px]"
                     />
-
-                    {/* Active GPS Beacon Pulse for Current Role */}
                     {item.current && (
                       <span className="absolute top-1 left-1 h-8 w-8 rounded-full bg-[#007AFF] opacity-40 animate-ping pointer-events-none" />
                     )}
@@ -319,46 +314,128 @@ export function ExperienceTimeline() {
             })}
           </div>
 
-          {/* ── Mobile Apple Maps View (Cards & Compact Pins) ── */}
-          <div className="relative w-full space-y-2.5 sm:hidden z-20 p-4 pt-0">
-            {waypoints.map((item) => (
-              <motion.div
-                key={item.id}
-                onClick={() => setActiveWaypoint(item)}
-                whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-xs cursor-pointer hover:border-[#007AFF] transition-all"
-              >
-                {/* Apple Maps Pin Bubble */}
-                <div 
-                  style={{ backgroundColor: item.themeColor }}
-                  className="h-10 w-10 rounded-full flex items-center justify-center shrink-0 text-white border-2 border-white shadow-sm"
+          {/* ══════════════════════════════════════════════════════
+              MOBILE VIEW: Serpentine Vertical Apple Maps Route!
+             ══════════════════════════════════════════════════════ */}
+          <div className="relative w-full h-[520px] sm:hidden block">
+            {/* Vertical Winding Apple Maps SVG Route */}
+            <svg 
+              viewBox="0 0 360 520" 
+              className="w-full h-full absolute inset-0 pointer-events-none"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient id="appleRouteGradientMobile" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#FF2D55" />
+                  <stop offset="25%" stopColor="#FF9500" />
+                  <stop offset="50%" stopColor="#5856D6" />
+                  <stop offset="75%" stopColor="#34C759" />
+                  <stop offset="100%" stopColor="#007AFF" />
+                </linearGradient>
+
+                <filter id="appleRouteShadowMobile" x="-10%" y="-10%" width="120%" height="130%">
+                  <feDropShadow dx="0" dy="4" stdDeviation="5" floodColor="#007AFF" floodOpacity="0.25" />
+                </filter>
+              </defs>
+
+              {/* Highway Outer White Border */}
+              <path
+                d="M 100,50 C 40,110 320,110 260,150 C 190,195 40,215 100,255 C 160,300 320,320 260,360 C 200,400 60,420 125,465"
+                fill="none"
+                stroke="#FFFFFF"
+                strokeWidth="18"
+                strokeLinecap="round"
+              />
+
+              {/* Apple Maps Gradient Route */}
+              <path
+                d="M 100,50 C 40,110 320,110 260,150 C 190,195 40,215 100,255 C 160,300 320,320 260,360 C 200,400 60,420 125,465"
+                fill="none"
+                stroke="url(#appleRouteGradientMobile)"
+                strokeWidth="12"
+                strokeLinecap="round"
+                filter="url(#appleRouteShadowMobile)"
+              />
+
+              {/* White Center Dashed Markings */}
+              <path
+                d="M 100,50 C 40,110 320,110 260,150 C 190,195 40,215 100,255 C 160,300 320,320 260,360 C 200,400 60,420 125,465"
+                fill="none"
+                stroke="#FFFFFF"
+                strokeWidth="2"
+                strokeDasharray="5 5"
+                strokeLinecap="round"
+              />
+            </svg>
+
+            {/* Mobile Waypoint Pins Positioned Along Vertical Route */}
+            {waypoints.map((item, idx) => {
+              const isRightSide = item.xMobile > 50;
+
+              return (
+                <div
+                  key={item.id}
+                  style={{
+                    left: `${item.xMobile}%`,
+                    top: `${item.yMobile}%`,
+                  }}
+                  className="absolute -translate-x-1/2 -translate-y-1/2 z-20 flex items-center"
                 >
-                  <Briefcase className="h-4 w-4" />
-                </div>
+                  <div className={cn(
+                    "flex items-center gap-2",
+                    isRightSide ? "flex-row-reverse" : "flex-row"
+                  )}>
+                    {/* Apple Maps Pin Marker */}
+                    <motion.button
+                      onClick={() => setActiveWaypoint(item)}
+                      whileTap={{ scale: 0.92 }}
+                      className="relative cursor-pointer focus:outline-none flex flex-col items-center shrink-0"
+                    >
+                      <div 
+                        style={{ 
+                          backgroundColor: item.themeColor,
+                          boxShadow: `0 6px 14px -2px ${item.themeColor}60`
+                        }}
+                        className="h-9 w-9 rounded-full flex items-center justify-center border-2 border-white shadow-md text-white"
+                      >
+                        <Briefcase className="h-3.5 w-3.5 stroke-[2.5]" />
+                      </div>
+                      <div 
+                        style={{ borderTopColor: item.themeColor }}
+                        className="w-0 h-0 border-x-[3px] border-x-transparent border-t-5 -mt-[1px]"
+                      />
+                      {item.current && (
+                        <span className="absolute top-0.5 left-0.5 h-8 w-8 rounded-full bg-[#007AFF] opacity-40 animate-ping pointer-events-none" />
+                      )}
+                    </motion.button>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-neutral-900">{item.year}</span>
-                    {item.current && (
-                      <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#007AFF] border border-blue-200">
-                        Current
+                    {/* Compact Glass Tag Beside Pin */}
+                    <motion.button
+                      onClick={() => setActiveWaypoint(item)}
+                      whileTap={{ scale: 0.95 }}
+                      className={cn(
+                        "px-2.5 py-1 rounded-xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-sm text-left cursor-pointer max-w-[115px]",
+                        isRightSide ? "text-right" : "text-left"
+                      )}
+                    >
+                      <span className="text-[10px] font-mono font-black text-neutral-900 block leading-tight">
+                        {item.year}
                       </span>
-                    )}
+                      <h4 className="text-[10px] font-bold text-neutral-700 truncate leading-tight mt-0.5">
+                        {item.company.replace("PT. ", "").replace("Perum Percetakan Uang Republik Indonesia", "Peruri")}
+                      </h4>
+                    </motion.button>
                   </div>
-                  <h4 className="text-xs font-bold text-neutral-950 truncate mt-0.5">{item.role}</h4>
-                  <p className="text-[11px] text-neutral-500 truncate">{item.company}</p>
                 </div>
-
-                <ChevronRight className="h-4 w-4 text-neutral-400 shrink-0" />
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
 
       </div>
 
-      {/* ── Apple Maps Place Details Card (iOS Half-Sheet / Studio Modal) ── */}
+      {/* ── Apple Maps Place Details Card (iOS Half-Sheet Modal) ── */}
       <AnimatePresence>
         {activeWaypoint && (
           <motion.div
@@ -435,7 +512,7 @@ export function ExperienceTimeline() {
                   </span>
                 </div>
 
-                {/* Key Technical Execution Achievements (100% Preserved) */}
+                {/* Key Technical Execution Achievements */}
                 <div className="space-y-2 pt-2 border-t border-neutral-100">
                   <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 font-bold block">
                     Execution &amp; Key Responsibilities:
