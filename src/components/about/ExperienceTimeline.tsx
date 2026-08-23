@@ -35,7 +35,7 @@ interface RealStation {
 }
 
 export function ExperienceTimeline() {
-  // Verified precision geographic coordinates for Karawang industrial estates
+  // Verified exact GPS factory coordinates in Karawang & Cikampek
   const stations: RealStation[] = useMemo(() => [
     {
       id: "5",
@@ -89,12 +89,12 @@ export function ExperienceTimeline() {
       role: "Intern (Money Production & Electrical)",
       company: "Perum Percetakan Uang Republik Indonesia",
       estateZone: "Kawasan Produksi Peruri",
-      address: "Jl. Raya Peruri, Desa Parung Mulya, Ciampel, Karawang",
+      address: "Jl. Raya Peruri, Desa Parungmulya, Kec. Ciampel, Karawang",
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
-      lat: -6.3685,
-      lng: 107.3452,
+      lat: -6.3872,
+      lng: 107.3505,
       description: experiences[1].description,
     },
     {
@@ -103,13 +103,13 @@ export function ExperienceTimeline() {
       fullPeriod: "2025 — Present",
       role: "Warehouse Staff (Planning & Utilities)",
       company: "Perum Percetakan Uang Republik Indonesia",
-      estateZone: "Kawasan Sentral Peruri",
-      address: "Jl. Raya Peruri, Desa Parung Mulya, Ciampel, Karawang",
+      estateZone: "Kawasan Sentral & Utility Peruri",
+      address: "Jl. Raya Peruri, Desa Parungmulya, Kec. Ciampel, Karawang",
       current: true,
       themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
-      lat: -6.3670,
-      lng: 107.3440,
+      lat: -6.3858,
+      lng: 107.3520,
       description: experiences[0].description,
     },
   ], []);
@@ -131,7 +131,7 @@ export function ExperienceTimeline() {
 
       // Center around Karawang-Cikampek industrial corridor
       const map = L.map(mapContainerRef.current, {
-        center: [-6.392, 107.360],
+        center: [-6.398, 107.360],
         zoom: 12,
         zoomControl: false,
         attributionControl: false,
@@ -217,7 +217,7 @@ export function ExperienceTimeline() {
   };
 
   const handleResetView = () => {
-    mapInstanceRef.current?.flyTo([-6.392, 107.360], 12, { duration: 1.2 });
+    mapInstanceRef.current?.flyTo([-6.398, 107.360], 12, { duration: 1.2 });
   };
 
   const handleSelectStation = (stg: RealStation) => {
