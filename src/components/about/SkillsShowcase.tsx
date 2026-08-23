@@ -1,44 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { 
-  Compass, 
-  Code2, 
-  BrainCircuit, 
-  ShieldCheck, 
-  ArrowUpRight,
-  Terminal,
-  Cpu
-} from "lucide-react";
-
-// Local SVG icon paths (100% offline, zero external CDN dependency)
-const localIconMap: Record<string, string> = {
-  "Next.js": "/icons/nextjs.svg",
-  "React.js": "/icons/react.svg",
-  "Flutter": "/icons/flutter.svg",
-  "Tailwind CSS": "/icons/tailwind.svg",
-  "Vue.js": "/icons/vue.svg",
-  "TypeScript": "/icons/typescript.svg",
-  "JavaScript": "/icons/javascript.svg",
-  "Node.js": "/icons/nodejs.svg",
-  "Laravel": "/icons/laravel.svg",
-  "Python": "/icons/python.svg",
-  "PostgreSQL": "/icons/postgresql.svg",
-  "Git": "/icons/git.svg",
-  "Docker": "/icons/docker.svg",
-  "Kotlin": "/icons/kotlin.svg",
-  "Figma": "/icons/figma.svg",
-  "Stitch": "/icons/stitch.svg",
-  "Tableau": "/icons/tableau.svg",
-  "Power BI": "/icons/powerbi.svg",
-  "Vercel": "/icons/vercel.svg",
-  "Linux": "/icons/linux.svg",
-  "Scikit-Learn": "/icons/scikitlearn.svg",
-  "Pandas": "/icons/pandas.svg"
-};
 
 interface PhaseData {
   number: string;
@@ -49,7 +13,6 @@ interface PhaseData {
   milestones: string[];
   tools: string[];
   deliverable: string;
-  icon: React.ComponentType<{ className?: string }>;
 }
 
 const phases: PhaseData[] = [
@@ -66,8 +29,7 @@ const phases: PhaseData[] = [
       "Industrial calibration & dimensional tolerance constraints"
     ],
     tools: ["Figma", "Stitch", "PostgreSQL", "TypeScript"],
-    deliverable: "System Schema & Interactive Prototype",
-    icon: Compass
+    deliverable: "System Schema & Interactive Prototype"
   },
   {
     number: "02",
@@ -82,8 +44,7 @@ const phases: PhaseData[] = [
       "Core Web Vitals & responsive viewport optimization"
     ],
     tools: ["Next.js", "React.js", "Flutter", "Laravel", "Tailwind CSS", "Node.js"],
-    deliverable: "Production-Ready Web & Mobile Systems",
-    icon: Code2
+    deliverable: "Production-Ready Web & Mobile Systems"
   },
   {
     number: "03",
@@ -97,9 +58,8 @@ const phases: PhaseData[] = [
       "Model evaluation, hyperparameter tuning & metric validation",
       "Interactive BI reporting & KPI dashboards"
     ],
-    tools: ["Python", "Pandas", "Scikit-Learn", "Tableau", "Power BI"],
-    deliverable: "Trained Predictive Model & Executive Dashboards",
-    icon: BrainCircuit
+    tools: ["Python", "Pandas", "Scikit-Learn", "Tableau", "Power BI", "Excel"],
+    deliverable: "Trained Predictive Model & Executive Dashboards"
   },
   {
     number: "04",
@@ -114,15 +74,13 @@ const phases: PhaseData[] = [
       "Automated CI/CD deployment on Vercel"
     ],
     tools: ["Docker", "Vercel", "Git", "Linux"],
-    deliverable: "Zero-Downtime Live Production Deployment",
-    icon: ShieldCheck
+    deliverable: "Zero-Downtime Live Production Deployment"
   }
 ];
 
 export function SkillsShowcase() {
   const [activeIdx, setActiveIdx] = useState(0);
   const current = phases[activeIdx];
-  const CurrentIcon = current.icon;
 
   return (
     <section className="py-8 sm:py-10 md:py-12 relative w-full overflow-hidden bg-neutral-50/50" id="skills">
@@ -143,11 +101,10 @@ export function SkillsShowcase() {
           </p>
         </div>
 
-        {/* Phase Timeline Navigation Bar */}
+        {/* Phase Timeline Navigation Bar (Clean & Icon-Free) */}
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 mb-4">
           {phases.map((p, idx) => {
             const isSelected = activeIdx === idx;
-            const Icon = p.icon;
 
             return (
               <button
@@ -165,15 +122,17 @@ export function SkillsShowcase() {
                     "text-[10px] font-mono font-bold tracking-wider",
                     isSelected ? "text-emerald-400" : "text-neutral-400"
                   )}>
-                    {p.number}
+                    PHASE {p.number}
                   </span>
-                  <Icon className={cn(
-                    "h-3.5 w-3.5 transition-colors",
-                    isSelected ? "text-white" : "text-neutral-400 group-hover:text-neutral-900"
-                  )} />
+                  <span className={cn(
+                    "text-[10px] font-mono",
+                    isSelected ? "text-neutral-400" : "text-neutral-300"
+                  )}>
+                    0{idx + 1}/04
+                  </span>
                 </div>
 
-                <div className="mt-1">
+                <div className="mt-1.5">
                   <p className={cn(
                     "text-[10px] font-semibold uppercase tracking-wider line-clamp-1",
                     isSelected ? "text-neutral-300" : "text-neutral-400"
@@ -181,7 +140,7 @@ export function SkillsShowcase() {
                     {p.category}
                   </p>
                   <h3 className={cn(
-                    "text-xs font-bold leading-tight line-clamp-1",
+                    "text-xs sm:text-[13px] font-bold leading-tight line-clamp-1 mt-0.5",
                     isSelected ? "text-white" : "text-neutral-900"
                   )}>
                     {p.name}
@@ -191,7 +150,7 @@ export function SkillsShowcase() {
                 {isSelected && (
                   <motion.div
                     layoutId="activeTimelinePill"
-                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-1 bg-black rounded-full"
+                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1 bg-black rounded-full"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -200,7 +159,7 @@ export function SkillsShowcase() {
           })}
         </div>
 
-        {/* Phase Inspector Workspace (Compact & Human Crafted) */}
+        {/* Phase Inspector Workspace (Clean Typography & Icon-Free) */}
         <div className="max-w-5xl mx-auto rounded-2xl bg-white border border-neutral-200/90 shadow-sm p-4 sm:p-6 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
@@ -215,16 +174,15 @@ export function SkillsShowcase() {
               <div className="md:col-span-7 space-y-3.5">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-neutral-100 text-neutral-600">
-                      STEP {current.number} / 04
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-neutral-100 text-neutral-700 border border-neutral-200">
+                      PHASE {current.number} / 04
                     </span>
-                    <span className="text-[11px] font-semibold text-neutral-400">
+                    <span className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider">
                       {current.category}
                     </span>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold text-neutral-950 flex items-center gap-2">
-                    <CurrentIcon className="h-4 w-4 text-neutral-800 shrink-0" />
+                  <h3 className="text-base sm:text-lg font-bold text-neutral-950 tracking-tight">
                     {current.name}
                   </h3>
 
@@ -257,12 +215,11 @@ export function SkillsShowcase() {
                 </div>
               </div>
 
-              {/* Right Column: Local Toolchain & Final Deliverable (5 Cols) */}
+              {/* Right Column: Clean Text Toolchain & Final Deliverable (5 Cols) */}
               <div className="md:col-span-5 flex flex-col justify-between h-full bg-neutral-50 rounded-xl p-3.5 sm:p-4 border border-neutral-200/80 space-y-3">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-semibold flex items-center gap-1.5">
-                      <Terminal className="h-3 w-3" />
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-semibold">
                       Applied Toolchain
                     </span>
                     <span className="text-[10px] font-mono text-neutral-400">
@@ -270,32 +227,16 @@ export function SkillsShowcase() {
                     </span>
                   </div>
 
-                  {/* Local SVG Icons Grid */}
-                  <div className="grid grid-cols-2 gap-2">
-                    {current.tools.map((tool) => {
-                      const iconSrc = localIconMap[tool];
-                      return (
-                        <div
-                          key={tool}
-                          className="flex items-center gap-2 p-2 rounded-lg bg-white border border-neutral-200/80 text-xs font-semibold text-neutral-800 hover:border-neutral-300 transition-colors shadow-2xs"
-                        >
-                          <div className="h-5 w-5 flex items-center justify-center shrink-0">
-                            {iconSrc ? (
-                              <img
-                                src={iconSrc}
-                                alt={tool}
-                                width={16}
-                                height={16}
-                                className="h-3.5 w-3.5 object-contain"
-                              />
-                            ) : (
-                              <Cpu className="h-3.5 w-3.5 text-neutral-500" />
-                            )}
-                          </div>
-                          <span className="text-[11px] truncate">{tool}</span>
-                        </div>
-                      );
-                    })}
+                  {/* Clean Typography Badge Grid (Zero Icons) */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {current.tools.map((tool) => (
+                      <div
+                        key={tool}
+                        className="px-2.5 py-1.5 rounded-lg bg-white border border-neutral-200/90 text-xs font-semibold text-neutral-800 hover:border-neutral-400 transition-colors shadow-2xs"
+                      >
+                        {tool}
+                      </div>
+                    ))}
                   </div>
                 </div>
 
@@ -304,9 +245,8 @@ export function SkillsShowcase() {
                   <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 font-semibold block mb-1">
                     Primary Output
                   </span>
-                  <div className="flex items-center gap-2 p-2 rounded-lg bg-neutral-900 text-white text-[11px] font-medium">
-                    <ArrowUpRight className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                    <span className="truncate">{current.deliverable}</span>
+                  <div className="p-2.5 rounded-lg bg-neutral-900 text-white text-[11px] font-mono font-medium">
+                    {current.deliverable}
                   </div>
                 </div>
               </div>
