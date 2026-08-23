@@ -72,11 +72,6 @@ export function Footer() {
         {/* Main CTA & Email Block */}
         <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8 pb-12 sm:pb-16 border-b border-neutral-800/80">
           <div className="space-y-4 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-800/50 text-emerald-400 text-xs font-semibold">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              Available for New Opportunities
-            </div>
-
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
               Let&apos;s build something <br className="hidden sm:block" />
               <span className="text-neutral-400">extraordinary together.</span>
