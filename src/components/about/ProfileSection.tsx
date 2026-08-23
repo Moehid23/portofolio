@@ -1,10 +1,59 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { Download, Sparkles, BookOpen } from "lucide-react";
+import { Download, BookOpen } from "lucide-react";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+
+// Smooth Counting Number Component
+function AnimatedCounter({ 
+  value, 
+  suffix = "", 
+  decimals = 0 
+}: { 
+  value: number; 
+  suffix?: string; 
+  decimals?: number 
+}) {
+  const [displayValue, setDisplayValue] = useState<string>(decimals > 0 ? (0).toFixed(decimals) : "0");
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    let start = 0;
+    const end = value;
+    const duration = 1600; // ms
+    const startTime = performance.now();
+
+    const updateCount = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Smooth easeOutCubic
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const current = start + (end - start) * easeProgress;
+
+      setDisplayValue(current.toFixed(decimals));
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCount);
+      } else {
+        setDisplayValue(end.toFixed(decimals));
+      }
+    };
+
+    requestAnimationFrame(updateCount);
+  }, [isInView, value, decimals]);
+
+  return (
+    <span ref={ref} className="font-bold text-black font-mono">
+      {displayValue}{suffix}
+    </span>
+  );
+}
 
 export function ProfileSection() {
   const [isHovered, setIsHovered] = useState(false);
@@ -43,47 +92,47 @@ export function ProfileSection() {
   };
 
   const handleTouchEnd = () => {
-    // Keep it briefly or fade out
     setTimeout(() => {
       setIsHovered(false);
     }, 1500);
   };
 
   return (
-    <section className="min-h-[calc(100vh-80px)] flex items-center py-10">
-      <div className="w-full grid gap-10 lg:grid-cols-12 lg:items-center">
+    <section className="py-6 sm:py-8 md:py-10 flex items-center">
+      <div className="w-full grid gap-6 lg:grid-cols-12 lg:gap-8 items-center">
 
-        {/* ── Left: Text Content (7 Cols for more space) ── */}
+        {/* ── Left: Text Content (7 Cols) ── */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
+          initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="space-y-5 order-2 lg:order-1 lg:col-span-7"
+          transition={{ duration: 0.6 }}
+          className="space-y-3.5 order-2 lg:order-1 lg:col-span-7"
         >
           {/* Heading */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-neutral-400">
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-neutral-400">
                 About Me
               </span>
               <span className="h-1 w-1 rounded-full bg-neutral-300" />
-              <span className="text-xs font-semibold text-neutral-500">
+              <span className="text-[10px] sm:text-xs font-semibold text-neutral-500">
                 Informatics &amp; Metrology Engineering
               </span>
             </div>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl leading-tight text-neutral-950">
-              Who I Am
-            </h2>
-            <h3 className="text-base md:text-lg font-medium text-neutral-700">
-              Abdul Muhid Muthado.
-            </h3>
-            <div className="h-[2px] w-12 bg-black" />
+            <div className="flex items-baseline gap-3">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-950">
+                Who I Am
+              </h2>
+              <span className="text-sm sm:text-base font-semibold text-neutral-600">
+                — Abdul Muhid Muthado.
+              </span>
+            </div>
           </div>
 
-          {/* Body text — clear, professional, concise */}
-          <div className="space-y-3.5 text-sm leading-relaxed text-neutral-600 md:text-[15px]">
-            <p className="text-neutral-800 font-medium leading-relaxed">
+          {/* Body Text — Preserved 100% Content */}
+          <div className="space-y-2.5 text-xs sm:text-[13px] leading-relaxed text-neutral-600">
+            <p className="text-neutral-900 font-medium">
               I am an <strong className="text-black">Informatics Engineering graduate</strong> from{" "}
               <strong className="text-black">Universitas Buana Perjuangan Karawang</strong> (GPA 3.80).
               My experience in industrial precision metrology and software engineering helps me build reliable, well-structured, and efficient applications.
@@ -96,15 +145,15 @@ export function ProfileSection() {
             </p>
 
             {/* Bachelor Thesis Spotlight */}
-            <div className="rounded-xl border border-neutral-200 bg-neutral-50/80 p-4 space-y-1.5 shadow-sm">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-800">
-                <BookOpen className="h-3.5 w-3.5" />
+            <div className="rounded-xl border border-neutral-200/90 bg-neutral-50/80 p-3 space-y-1 shadow-2xs">
+              <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-neutral-800">
+                <BookOpen className="h-3 w-3 text-neutral-600" />
                 <span>Undergraduate Thesis</span>
               </div>
-              <p className="text-xs md:text-sm text-neutral-700 italic font-medium leading-snug">
+              <p className="text-xs text-neutral-800 italic font-medium leading-snug">
                 &ldquo;Penerapan Random Forest untuk Prediksi Pemesanan Spare Part dalam Pencegahan Overstock dan Understock&rdquo;
               </p>
-              <p className="text-xs text-neutral-500 leading-normal">
+              <p className="text-[11px] text-neutral-500 leading-normal">
                 Built a machine learning model using Random Forest to forecast spare part demand, helping prevent excess inventory and reduce production downtime.
               </p>
             </div>
@@ -115,25 +164,45 @@ export function ProfileSection() {
             </p>
           </div>
 
-          {/* Stats */}
-          <div className="flex gap-8 pt-1">
-            {[
-              { value: "5+", label: "Years Experience" },
-              { value: "15+", label: "Completed Projects" },
-              { value: "3.80", label: "Final GPA" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <span className="block text-2xl font-bold text-black">{stat.value}</span>
-                <span className="text-[10px] text-neutral-400 uppercase tracking-wider font-semibold">{stat.label}</span>
+          {/* Stats with Live Animated Counting Effect & Download CV */}
+          <div className="pt-2 flex flex-wrap items-center justify-between gap-4 border-t border-neutral-100">
+            <div className="flex items-center gap-6 sm:gap-8">
+              <div>
+                <span className="block text-xl sm:text-2xl">
+                  <AnimatedCounter value={5} suffix="+" />
+                </span>
+                <span className="text-[9px] sm:text-[10px] text-neutral-400 uppercase tracking-wider font-semibold">
+                  Years Experience
+                </span>
               </div>
-            ))}
-          </div>
 
-          {/* CTA Buttons */}
-          <div className="flex items-center gap-4 pt-1">
+              <div className="h-8 w-[1px] bg-neutral-200" />
+
+              <div>
+                <span className="block text-xl sm:text-2xl">
+                  <AnimatedCounter value={15} suffix="+" />
+                </span>
+                <span className="text-[9px] sm:text-[10px] text-neutral-400 uppercase tracking-wider font-semibold">
+                  Completed Projects
+                </span>
+              </div>
+
+              <div className="h-8 w-[1px] bg-neutral-200" />
+
+              <div>
+                <span className="block text-xl sm:text-2xl">
+                  <AnimatedCounter value={3.80} decimals={2} />
+                </span>
+                <span className="text-[9px] sm:text-[10px] text-neutral-400 uppercase tracking-wider font-semibold">
+                  Final GPA
+                </span>
+              </div>
+            </div>
+
+            {/* Download CV CTA */}
             <Button
               variant="default"
-              className="rounded-full px-7 h-10 gap-2 shadow-md hover:shadow-lg transition-all hover:scale-105 text-sm bg-neutral-950 hover:bg-neutral-800 text-white"
+              className="rounded-full px-5 h-9 gap-1.5 shadow-sm hover:shadow-md transition-all hover:scale-105 text-xs bg-neutral-950 hover:bg-neutral-800 text-white"
               asChild
             >
               <a 
@@ -142,35 +211,27 @@ export function ProfileSection() {
                 target="_blank" 
                 rel="noopener noreferrer"
               >
-                Download CV <Download className="h-4 w-4" />
+                <span>Download CV</span>
+                <Download className="h-3.5 w-3.5" />
               </a>
             </Button>
           </div>
         </motion.div>
 
-        {/* ── Right: Photo with Tight Decorative Frame & Interactive Radius Reveal (5 Cols) ── */}
+        {/* ── Right: Photo with Spotlight & Frame (5 Cols) ── */}
         <motion.div
-          initial={{ opacity: 0, x: 30 }}
+          initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="relative flex justify-center lg:justify-end order-1 lg:order-2 lg:col-span-5 py-4"
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="relative flex justify-center lg:justify-end order-1 lg:order-2 lg:col-span-5"
         >
-          {/* Outer Frame Wrapper with tight padding */}
-          <div className="relative p-2.5 sm:p-3">
-            {/* Decorative vertical bar — Left */}
-            <div className="absolute left-0 top-[12%] bottom-[12%] w-[1px] bg-neutral-300 hidden sm:block" />
-            <div className="absolute left-[-1px] top-[38%] h-12 w-[3px] bg-black rounded-full hidden sm:block" />
-
-            {/* Decorative vertical bar — Right */}
-            <div className="absolute right-0 top-[12%] bottom-[12%] w-[1px] bg-neutral-300 hidden sm:block" />
-            <div className="absolute right-[-1px] bottom-[38%] h-12 w-[3px] bg-black rounded-full hidden sm:block" />
-
+          <div className="relative p-2 sm:p-2.5">
             {/* Corner accents */}
-            <div className="absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-black hidden sm:block" />
-            <div className="absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-black hidden sm:block" />
+            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-black hidden sm:block" />
+            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-black hidden sm:block" />
 
-            {/* Photo Container with Interactive Cursor & Touch Spotlight */}
+            {/* Photo Container */}
             <motion.div
               ref={photoRef}
               onMouseEnter={() => setIsHovered(true)}
@@ -181,27 +242,27 @@ export function ProfileSection() {
               onTouchEnd={handleTouchEnd}
               className="relative overflow-hidden rounded-xl cursor-crosshair select-none bg-neutral-900 shadow-xl touch-none"
               style={{
-                height: "min(calc(100vh - 260px), 540px)",
+                height: "min(calc(100vh - 220px), 460px)",
                 aspectRatio: "1023 / 1537",
               }}
             >
-              {/* Base Primary Image: ubpPortofolio.png */}
+              {/* Primary Photo */}
               <Image
                 src="/ubpPortofolio.webp"
                 alt="Abdul Muhid Muthado - UBP"
                 fill
-                className="object-cover object-center pointer-events-none transition-transform duration-300"
+                className="object-cover object-center pointer-events-none"
                 sizes="(max-width: 768px) 80vw, 35vw"
                 priority
               />
 
-              {/* Overlaid Secondary Image: peruri.png revealed inside cursor radius */}
+              {/* Reveal Secondary Photo on Cursor / Touch */}
               <div
                 className="absolute inset-0 pointer-events-none transition-opacity duration-200"
                 style={{
                   opacity: isHovered ? 1 : 0,
                   clipPath: isHovered
-                    ? `circle(125px at ${mousePos.x}px ${mousePos.y}px)`
+                    ? `circle(115px at ${mousePos.x}px ${mousePos.y}px)`
                     : `circle(0px at 50% 50%)`,
                 }}
               >
@@ -214,16 +275,16 @@ export function ProfileSection() {
                 />
               </div>
 
-              {/* Dynamic Glowing White Lens Ring around cursor on hover */}
+              {/* Glowing Lens Ring on Hover */}
               {isHovered && (
                 <div
                   className="absolute pointer-events-none rounded-full border-2 border-white transition-transform duration-75"
                   style={{
-                    width: "250px",
-                    height: "250px",
-                    left: `${mousePos.x - 125}px`,
-                    top: `${mousePos.y - 125}px`,
-                    boxShadow: "0 0 25px 5px rgba(255, 255, 255, 0.8), inset 0 0 15px 2px rgba(255, 255, 255, 0.5), 0 0 50px rgba(255, 255, 255, 0.3)",
+                    width: "230px",
+                    height: "230px",
+                    left: `${mousePos.x - 115}px`,
+                    top: `${mousePos.y - 115}px`,
+                    boxShadow: "0 0 25px 5px rgba(255, 255, 255, 0.8), inset 0 0 15px 2px rgba(255, 255, 255, 0.5)",
                   }}
                 />
               )}
