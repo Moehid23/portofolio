@@ -12,7 +12,6 @@ import {
   ChevronRight, 
   ChevronLeft,
   Briefcase,
-  Layers,
   ZoomIn,
   ZoomOut,
   LocateFixed
@@ -36,6 +35,7 @@ interface RealStation {
 }
 
 export function ExperienceTimeline() {
+  // Verified precision geographic coordinates for Karawang industrial estates
   const stations: RealStation[] = useMemo(() => [
     {
       id: "5",
@@ -43,13 +43,13 @@ export function ExperienceTimeline() {
       fullPeriod: "2020 — 2021",
       role: "Machining Operator",
       company: "PT. Honda Precision Parts Manufacturing",
-      estateZone: "Kawasan Industri KIIC",
-      address: "Jl. Maligi I Lot A1-4, Telukjambe Barat, Karawang",
+      estateZone: "Kawasan Industri Indotaisei",
+      address: "Sektor 1A Blok S, Kalihurip, Cikampek, Karawang",
       current: false,
       themeColor: "#FF2D55", // Apple Rose
       badgeBg: "rgba(255, 45, 85, 0.12)",
-      lat: -6.3625,
-      lng: 107.2885,
+      lat: -6.4255,
+      lng: 107.4475,
       description: experiences[4].description,
     },
     {
@@ -59,12 +59,12 @@ export function ExperienceTimeline() {
       role: "Assembly Operator",
       company: "PT. JTEKT Indonesia",
       estateZone: "Kawasan Industri Suryacipta",
-      address: "Jl. Surya Utama Kav. 1-25A, Ciampel, Karawang",
+      address: "Jl. Surya Madya Plot I-27B, Kutanegara, Ciampel, Karawang",
       current: false,
       themeColor: "#FF9500", // Apple Orange
       badgeBg: "rgba(255, 149, 0, 0.12)",
-      lat: -6.3980,
-      lng: 107.3450,
+      lat: -6.404384,
+      lng: 107.334047,
       description: experiences[3].description,
     },
     {
@@ -73,13 +73,13 @@ export function ExperienceTimeline() {
       fullPeriod: "2023 — 2024",
       role: "Quality Inspector",
       company: "PT. Daihatsu Drivetrain Manufacturing",
-      estateZone: "Kawasan Industri KIIC",
-      address: "Kawasan Industri KIIC, Lot C-1, Telukjambe, Karawang",
+      estateZone: "Kawasan Industri Suryacipta",
+      address: "Jl. Surya Madya VI Kav. I-58C, Kutanegara, Ciampel, Karawang",
       current: false,
       themeColor: "#5856D6", // Apple Purple
       badgeBg: "rgba(88, 86, 214, 0.12)",
-      lat: -6.3530,
-      lng: 107.2790,
+      lat: -6.4110,
+      lng: 107.3385,
       description: experiences[2].description,
     },
     {
@@ -89,12 +89,12 @@ export function ExperienceTimeline() {
       role: "Intern (Money Production & Electrical)",
       company: "Perum Percetakan Uang Republik Indonesia",
       estateZone: "Kawasan Produksi Peruri",
-      address: "Jl. Tarum Barat, Telukjambe Timur, Karawang",
+      address: "Jl. Raya Peruri, Desa Parung Mulya, Ciampel, Karawang",
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
-      lat: -6.3265,
-      lng: 107.3075,
+      lat: -6.3685,
+      lng: 107.3452,
       description: experiences[1].description,
     },
     {
@@ -104,12 +104,12 @@ export function ExperienceTimeline() {
       role: "Warehouse Staff (Planning & Utilities)",
       company: "Perum Percetakan Uang Republik Indonesia",
       estateZone: "Kawasan Sentral Peruri",
-      address: "Jl. Tarum Barat, Telukjambe Timur, Karawang",
+      address: "Jl. Raya Peruri, Desa Parung Mulya, Ciampel, Karawang",
       current: true,
       themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
-      lat: -6.3245,
-      lng: 107.3090,
+      lat: -6.3670,
+      lng: 107.3440,
       description: experiences[0].description,
     },
   ], []);
@@ -129,15 +129,15 @@ export function ExperienceTimeline() {
 
       if (!isMounted || !mapContainerRef.current) return;
 
-      // Center around Karawang industrial zone
+      // Center around Karawang-Cikampek industrial corridor
       const map = L.map(mapContainerRef.current, {
-        center: [-6.355, 107.310],
+        center: [-6.392, 107.360],
         zoom: 12,
         zoomControl: false,
         attributionControl: false,
       });
 
-      // CartoDB Voyager High-DPI clean vector tiles (Apple Maps / Google Maps aesthetic)
+      // CartoDB Voyager High-DPI clean vector tiles
       L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
         maxZoom: 19,
         subdomains: "abcd",
@@ -150,12 +150,12 @@ export function ExperienceTimeline() {
       L.polyline(routeLatLngs as any, {
         color: "#FFFFFF",
         weight: 8,
-        opacity: 0.9,
+        opacity: 0.95,
         lineCap: "round",
         lineJoin: "round",
       }).addTo(map);
 
-      // Route Main Blue Gradient Line
+      // Route Main Blue Line
       L.polyline(routeLatLngs as any, {
         color: "#007AFF",
         weight: 5,
@@ -165,20 +165,20 @@ export function ExperienceTimeline() {
         lineJoin: "round",
       }).addTo(map);
 
-      // Create Custom Apple Maps HTML Markers
+      // Create Custom Apple Maps HTML Markers exactly on coordinates
       stations.forEach((stg) => {
         const customIcon = L.divIcon({
           className: "custom-apple-marker",
           html: `
             <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer; transform: translate(-50%, -100%);">
-              <div style="background: white; border: 1px solid rgba(0,0,0,0.12); padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 800; font-family: monospace; color: #18181b; box-shadow: 0 4px 12px rgba(0,0,0,0.15); white-space: nowrap; margin-bottom: 3px;">
+              <div style="background: white; border: 1px solid rgba(0,0,0,0.14); padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 800; font-family: monospace; color: #09090b; box-shadow: 0 4px 14px rgba(0,0,0,0.18); white-space: nowrap; margin-bottom: 3px;">
                 ${stg.year} • ${stg.company.replace("PT. ", "").replace("Perum Percetakan Uang Republik Indonesia", "Peruri")}
               </div>
-              <div style="width: 32px; height: 32px; border-radius: 999px; background: ${stg.themeColor}; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 6px 16px ${stg.themeColor}60; color: white; position: relative;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <div style="width: 34px; height: 34px; border-radius: 999px; background: ${stg.themeColor}; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 6px 18px ${stg.themeColor}70; color: white; position: relative;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                 ${stg.current ? '<span style="position: absolute; top: -3px; right: -3px; width: 10px; height: 10px; border-radius: 999px; background: #007AFF; border: 2px solid white;"></span>' : ''}
               </div>
-              <div style="width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid ${stg.themeColor}; margin-top: -1px;"></div>
+              <div style="width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid ${stg.themeColor}; margin-top: -1px;"></div>
             </div>
           `,
           iconSize: [0, 0],
@@ -188,7 +188,7 @@ export function ExperienceTimeline() {
         const marker = L.marker([stg.lat, stg.lng], { icon: customIcon }).addTo(map);
 
         marker.on("click", () => {
-          map.flyTo([stg.lat, stg.lng], 14, { duration: 1.2 });
+          map.flyTo([stg.lat, stg.lng], 15, { duration: 1.2 });
           setActiveStation(stg);
         });
       });
@@ -217,11 +217,11 @@ export function ExperienceTimeline() {
   };
 
   const handleResetView = () => {
-    mapInstanceRef.current?.flyTo([-6.355, 107.310], 12, { duration: 1.2 });
+    mapInstanceRef.current?.flyTo([-6.392, 107.360], 12, { duration: 1.2 });
   };
 
   const handleSelectStation = (stg: RealStation) => {
-    mapInstanceRef.current?.flyTo([stg.lat, stg.lng], 14, { duration: 1.2 });
+    mapInstanceRef.current?.flyTo([stg.lat, stg.lng], 15, { duration: 1.2 });
     setActiveStation(stg);
   };
 
@@ -250,14 +250,14 @@ export function ExperienceTimeline() {
           <div>
             <div className="flex items-center gap-1.5 text-[11px] font-mono tracking-widest text-[#007AFF] uppercase font-bold">
               <Navigation className="h-3.5 w-3.5 fill-[#007AFF]" />
-              <span>// Real Interactive GPS Map • Karawang Industrial Corridor</span>
+              <span>// Real GPS Coordinates • Karawang Industrial Corridor</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-950 mt-1">
               Career Journey Map
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-neutral-500 max-w-md leading-relaxed">
-            Real interactive GPS map with zoom &amp; pan. Tap any location pin to inspect company milestones.
+            Interactive GPS map with zoom &amp; drag. Tap any location pin to inspect company milestones.
           </p>
         </div>
 
@@ -271,7 +271,7 @@ export function ExperienceTimeline() {
           <div className="absolute top-3.5 left-3.5 sm:top-5 sm:left-5 z-[500] flex items-center gap-2">
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200 shadow-md text-xs font-semibold text-neutral-800">
               <span className="h-2.5 w-2.5 rounded-full bg-[#007AFF] animate-pulse" />
-              <span>5 Stations • Real GPS Coordinates</span>
+              <span>5 Stations • Real Factory Geolocation</span>
             </div>
           </div>
 
