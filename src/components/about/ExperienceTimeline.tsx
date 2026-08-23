@@ -144,14 +144,10 @@ export function ExperienceTimeline() {
     <section className="py-8 sm:py-12 md:py-14 relative w-full overflow-hidden" id="experience">
       <div className="max-w-5xl mx-auto space-y-4">
         
-        {/* Apple Maps Style Header */}
+        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b border-neutral-200">
           <div>
-            <div className="flex items-center gap-1.5 text-[11px] font-mono tracking-widest text-[#007AFF] uppercase font-bold">
-              <Navigation className="h-3.5 w-3.5 fill-[#007AFF]" />
-              <span>// Apple Maps Navigation Route</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-950 mt-1">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-950">
               Career Journey Map
             </h2>
           </div>
@@ -464,57 +460,49 @@ export function ExperienceTimeline() {
                 className="h-2 w-full hidden sm:block"
               />
 
-              <div className="p-5 sm:p-7 space-y-4 overflow-y-auto flex-1">
+              <div className="p-4 sm:p-7 space-y-3.5 sm:space-y-4 overflow-y-auto flex-1">
                 {/* Close Button */}
                 <button
                   onClick={() => setActiveWaypoint(null)}
-                  className="absolute top-4 right-4 h-8 w-8 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 flex items-center justify-center transition-colors"
+                  className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 h-8 w-8 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 flex items-center justify-center transition-colors"
                   aria-label="Close"
                 >
                   <X className="h-4 w-4" />
                 </button>
 
-                {/* Apple Place Header */}
+                {/* Location Place Header */}
                 <div className="space-y-1.5 pr-8">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                     <span 
                       style={{ color: activeWaypoint.themeColor, backgroundColor: activeWaypoint.badgeBg }}
-                      className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full"
+                      className="text-[11px] sm:text-xs font-mono font-bold px-2.5 py-0.5 rounded-full"
                     >
                       {activeWaypoint.fullPeriod}
                     </span>
-                    <span className="text-xs font-semibold text-neutral-400">
+                    <span className="text-[11px] sm:text-xs font-semibold text-neutral-400">
                       {activeWaypoint.category}
                     </span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-950">
+                  <h3 className="text-lg sm:text-2xl font-bold tracking-tight text-neutral-950 leading-snug">
                     {activeWaypoint.role}
                   </h3>
 
-                  <div className="flex flex-col gap-1 text-xs text-neutral-600 pt-1">
+                  <div className="flex flex-col gap-1 text-xs text-neutral-600 pt-0.5">
                     <p className="font-semibold text-neutral-900 flex items-center gap-1.5">
-                      <span className="h-2 w-2 rounded-full" style={{ backgroundColor: activeWaypoint.themeColor }} />
-                      {activeWaypoint.company}
+                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: activeWaypoint.themeColor }} />
+                      <span>{activeWaypoint.company}</span>
                     </p>
-                    <p className="flex items-center gap-1 text-neutral-500">
-                      <MapPin className="h-3.5 w-3.5 text-neutral-400 shrink-0" />
-                      {activeWaypoint.address}
+                    <p className="flex items-start gap-1 text-neutral-500 text-[11px] sm:text-xs">
+                      <MapPin className="h-3.5 w-3.5 text-neutral-400 shrink-0 mt-0.5" />
+                      <span>{activeWaypoint.address}</span>
                     </p>
                   </div>
                 </div>
 
-                {/* Apple Maps Style Action Bar */}
-                <div className="flex items-center gap-2 pt-1 pb-1">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 text-[#007AFF] text-xs font-semibold border border-blue-200/70">
-                    <Navigation className="h-3.5 w-3.5 fill-[#007AFF]" />
-                    <span>Verified Milestone</span>
-                  </span>
-                </div>
-
                 {/* Key Technical Execution Achievements */}
                 <div className="space-y-2 pt-2 border-t border-neutral-100">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 font-bold block">
+                  <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-neutral-400 font-bold block">
                     Execution &amp; Key Responsibilities:
                   </span>
 
@@ -522,11 +510,11 @@ export function ExperienceTimeline() {
                     {activeWaypoint.description.map((item, idx) => (
                       <div 
                         key={idx}
-                        className="flex items-start gap-2.5 p-3 rounded-2xl bg-neutral-50/80 border border-neutral-100 text-xs sm:text-[13px] text-neutral-700 leading-relaxed"
+                        className="flex items-start gap-2.5 p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-neutral-50/90 border border-neutral-100 text-xs sm:text-[13px] text-neutral-700 leading-relaxed"
                       >
                         <CheckCircle2 
                           style={{ color: activeWaypoint.themeColor }}
-                          className="h-4 w-4 shrink-0 mt-0.5" 
+                          className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 mt-0.5" 
                         />
                         <span>{item}</span>
                       </div>
@@ -534,20 +522,20 @@ export function ExperienceTimeline() {
                   </div>
                 </div>
 
-                {/* Apple Maps Bottom Navigators */}
-                <div className="pt-3 flex items-center justify-between border-t border-neutral-100">
+                {/* Bottom Navigators */}
+                <div className="pt-2 sm:pt-3 flex items-center justify-between border-t border-neutral-100 gap-2">
                   <button
                     onClick={handlePrev}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-semibold text-neutral-700 transition-colors"
+                    className="flex items-center gap-1 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-semibold text-neutral-700 transition-colors"
                   >
-                    <ChevronLeft className="h-3.5 w-3.5" /> Previous Station
+                    <ChevronLeft className="h-3.5 w-3.5" /> Previous
                   </button>
 
                   <button
                     onClick={handleNext}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-semibold text-neutral-700 transition-colors"
+                    className="flex items-center gap-1 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-semibold text-neutral-700 transition-colors"
                   >
-                    Next Station <ChevronRight className="h-3.5 w-3.5" />
+                    Next <ChevronRight className="h-3.5 w-3.5" />
                   </button>
                 </div>
               </div>
