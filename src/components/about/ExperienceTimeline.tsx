@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { experiences } from "@/data/experience";
 import { 
   Navigation, 
@@ -14,11 +13,13 @@ import {
   ChevronLeft,
   Briefcase,
   Layers,
-  Sparkles
+  ZoomIn,
+  ZoomOut,
+  LocateFixed
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface RealMapWaypoint {
+interface RealStation {
   id: string;
   year: string;
   fullPeriod: string;
@@ -29,13 +30,13 @@ interface RealMapWaypoint {
   current: boolean;
   themeColor: string;
   badgeBg: string;
-  xPercent: number; // Real position percentage on the Karawang map
-  yPercent: number;
+  lat: number;
+  lng: number;
   description: string[];
 }
 
 export function ExperienceTimeline() {
-  const waypoints: RealMapWaypoint[] = useMemo(() => [
+  const stations: RealStation[] = useMemo(() => [
     {
       id: "5",
       year: "2020",
@@ -47,8 +48,8 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#FF2D55", // Apple Rose
       badgeBg: "rgba(255, 45, 85, 0.12)",
-      xPercent: 54,
-      yPercent: 30,
+      lat: -6.3625,
+      lng: 107.2885,
       description: experiences[4].description,
     },
     {
@@ -62,8 +63,8 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#FF9500", // Apple Orange
       badgeBg: "rgba(255, 149, 0, 0.12)",
-      xPercent: 56,
-      yPercent: 72,
+      lat: -6.3980,
+      lng: 107.3450,
       description: experiences[3].description,
     },
     {
@@ -77,8 +78,8 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#5856D6", // Apple Purple
       badgeBg: "rgba(88, 86, 214, 0.12)",
-      xPercent: 68,
-      yPercent: 36,
+      lat: -6.3530,
+      lng: 107.2790,
       description: experiences[2].description,
     },
     {
@@ -92,8 +93,8 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
-      xPercent: 33,
-      yPercent: 55,
+      lat: -6.3265,
+      lng: 107.3075,
       description: experiences[1].description,
     },
     {
@@ -105,30 +106,139 @@ export function ExperienceTimeline() {
       estateZone: "Kawasan Sentral Peruri",
       address: "Jl. Tarum Barat, Telukjambe Timur, Karawang",
       current: true,
-      themeColor: "#007AFF", // Iconic Apple Blue
+      themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
-      xPercent: 38,
-      yPercent: 42,
+      lat: -6.3245,
+      lng: 107.3090,
       description: experiences[0].description,
     },
   ], []);
 
-  const [activeWaypoint, setActiveWaypoint] = useState<RealMapWaypoint | null>(null);
+  const [activeStation, setActiveStation] = useState<RealStation | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<any>(null);
+
+  // Initialize Real Leaflet Interactive Map Client-Side
+  useEffect(() => {
+    let isMounted = true;
+
+    async function initMap() {
+      if (!mapContainerRef.current || mapInstanceRef.current) return;
+
+      const L = (await import("leaflet")).default;
+
+      if (!isMounted || !mapContainerRef.current) return;
+
+      // Center around Karawang industrial zone
+      const map = L.map(mapContainerRef.current, {
+        center: [-6.355, 107.310],
+        zoom: 12,
+        zoomControl: false,
+        attributionControl: false,
+      });
+
+      // CartoDB Voyager High-DPI clean vector tiles (Apple Maps / Google Maps aesthetic)
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        maxZoom: 19,
+        subdomains: "abcd",
+      }).addTo(map);
+
+      // Real GPS Polyline Route
+      const routeLatLngs = stations.map((s) => [s.lat, s.lng]);
+
+      // Route Outer Border
+      L.polyline(routeLatLngs as any, {
+        color: "#FFFFFF",
+        weight: 8,
+        opacity: 0.9,
+        lineCap: "round",
+        lineJoin: "round",
+      }).addTo(map);
+
+      // Route Main Blue Gradient Line
+      L.polyline(routeLatLngs as any, {
+        color: "#007AFF",
+        weight: 5,
+        opacity: 0.85,
+        dashArray: "8, 8",
+        lineCap: "round",
+        lineJoin: "round",
+      }).addTo(map);
+
+      // Create Custom Apple Maps HTML Markers
+      stations.forEach((stg) => {
+        const customIcon = L.divIcon({
+          className: "custom-apple-marker",
+          html: `
+            <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer; transform: translate(-50%, -100%);">
+              <div style="background: white; border: 1px solid rgba(0,0,0,0.12); padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 800; font-family: monospace; color: #18181b; box-shadow: 0 4px 12px rgba(0,0,0,0.15); white-space: nowrap; margin-bottom: 3px;">
+                ${stg.year} • ${stg.company.replace("PT. ", "").replace("Perum Percetakan Uang Republik Indonesia", "Peruri")}
+              </div>
+              <div style="width: 32px; height: 32px; border-radius: 999px; background: ${stg.themeColor}; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 6px 16px ${stg.themeColor}60; color: white; position: relative;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                ${stg.current ? '<span style="position: absolute; top: -3px; right: -3px; width: 10px; height: 10px; border-radius: 999px; background: #007AFF; border: 2px solid white;"></span>' : ''}
+              </div>
+              <div style="width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid ${stg.themeColor}; margin-top: -1px;"></div>
+            </div>
+          `,
+          iconSize: [0, 0],
+          iconAnchor: [0, 0],
+        });
+
+        const marker = L.marker([stg.lat, stg.lng], { icon: customIcon }).addTo(map);
+
+        marker.on("click", () => {
+          map.flyTo([stg.lat, stg.lng], 14, { duration: 1.2 });
+          setActiveStation(stg);
+        });
+      });
+
+      mapInstanceRef.current = map;
+    }
+
+    initMap();
+
+    return () => {
+      isMounted = false;
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [stations]);
+
+  // Zoom Controls
+  const handleZoomIn = () => {
+    mapInstanceRef.current?.zoomIn();
+  };
+
+  const handleZoomOut = () => {
+    mapInstanceRef.current?.zoomOut();
+  };
+
+  const handleResetView = () => {
+    mapInstanceRef.current?.flyTo([-6.355, 107.310], 12, { duration: 1.2 });
+  };
+
+  const handleSelectStation = (stg: RealStation) => {
+    mapInstanceRef.current?.flyTo([stg.lat, stg.lng], 14, { duration: 1.2 });
+    setActiveStation(stg);
+  };
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!activeWaypoint) return;
-    const idx = waypoints.findIndex((w) => w.id === activeWaypoint.id);
-    const prev = idx > 0 ? idx - 1 : waypoints.length - 1;
-    setActiveWaypoint(waypoints[prev]);
+    if (!activeStation) return;
+    const idx = stations.findIndex((w) => w.id === activeStation.id);
+    const prev = idx > 0 ? idx - 1 : stations.length - 1;
+    handleSelectStation(stations[prev]);
   };
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!activeWaypoint) return;
-    const idx = waypoints.findIndex((w) => w.id === activeWaypoint.id);
-    const next = idx < waypoints.length - 1 ? idx + 1 : 0;
-    setActiveWaypoint(waypoints[next]);
+    if (!activeStation) return;
+    const idx = stations.findIndex((w) => w.id === activeStation.id);
+    const next = idx < stations.length - 1 ? idx + 1 : 0;
+    handleSelectStation(stations[next]);
   };
 
   return (
@@ -140,181 +250,96 @@ export function ExperienceTimeline() {
           <div>
             <div className="flex items-center gap-1.5 text-[11px] font-mono tracking-widest text-[#007AFF] uppercase font-bold">
               <Navigation className="h-3.5 w-3.5 fill-[#007AFF]" />
-              <span>// Real Coordinates • Karawang Industrial Corridor</span>
+              <span>// Real Interactive GPS Map • Karawang Industrial Corridor</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-950 mt-1">
               Career Journey Map
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-neutral-500 max-w-md leading-relaxed">
-            Real geographic industrial route across KIIC, Suryacipta, and Peruri. Tap any pin to inspect work achievements.
+            Real interactive GPS map with zoom &amp; pan. Tap any location pin to inspect company milestones.
           </p>
         </div>
 
-        {/* ── Real Karawang Industrial Map Canvas ── */}
-        <div className="relative rounded-3xl bg-neutral-100 border border-neutral-200/90 shadow-2xl overflow-hidden min-h-[460px] sm:min-h-[520px] select-none">
+        {/* ── Real Interactive Map Container (Supports Zoom In / Zoom Out / Drag Pan) ── */}
+        <div className="relative rounded-3xl bg-neutral-100 border border-neutral-200/90 shadow-xl overflow-hidden h-[480px] sm:h-[540px]">
           
-          {/* Authentic Real Karawang Industrial Map Background (Local WebP Asset) */}
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/karawang-map.webp"
-              alt="Real Karawang Industrial Corridor Map - KIIC, Suryacipta & Peruri"
-              fill
-              className="object-cover object-center opacity-90 brightness-[1.02] contrast-[1.04]"
-              sizes="(max-width: 1024px) 100vw, 1200px"
-              priority
-            />
-            {/* Subtle Map Gradient Lighting */}
-            <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-white/20 pointer-events-none" />
-          </div>
+          {/* Leaflet Map Canvas Div */}
+          <div ref={mapContainerRef} className="w-full h-full z-0" />
 
-          {/* Top Apple Maps Floating HUD Bar */}
-          <div className="relative z-20 flex flex-wrap items-center justify-between gap-2 p-3.5 sm:p-5">
-            {/* Route Status Pill */}
-            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-md text-xs font-semibold text-neutral-800">
+          {/* Top Apple Maps Floating Status Pill */}
+          <div className="absolute top-3.5 left-3.5 sm:top-5 sm:left-5 z-[500] flex items-center gap-2">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200 shadow-md text-xs font-semibold text-neutral-800">
               <span className="h-2.5 w-2.5 rounded-full bg-[#007AFF] animate-pulse" />
-              <span>5 Stations • Karawang Industrial Corridor</span>
-            </div>
-
-            {/* Industrial Districts Legend */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-md text-[11px] text-neutral-600 font-medium font-mono">
-              <span>KIIC</span>
-              <span>•</span>
-              <span>Suryacipta</span>
-              <span>•</span>
-              <span>Peruri</span>
+              <span>5 Stations • Real GPS Coordinates</span>
             </div>
           </div>
 
-          {/* ── Real GPS Navigation Road Track SVG ── */}
-          <div className="absolute inset-0 z-10 pointer-events-none">
-            <svg 
-              viewBox="0 0 1000 520" 
-              className="w-full h-full"
-              preserveAspectRatio="none"
+          {/* Floating Zoom & Center Map Controls */}
+          <div className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 z-[500] flex flex-col gap-2">
+            <div className="flex flex-col rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200 shadow-lg overflow-hidden">
+              <button
+                onClick={handleZoomIn}
+                className="h-9 w-9 flex items-center justify-center text-neutral-700 hover:bg-neutral-100 transition-colors border-b border-neutral-100"
+                title="Zoom In (+)"
+                aria-label="Zoom In"
+              >
+                <ZoomIn className="h-4 w-4" />
+              </button>
+              <button
+                onClick={handleZoomOut}
+                className="h-9 w-9 flex items-center justify-center text-neutral-700 hover:bg-neutral-100 transition-colors"
+                title="Zoom Out (-)"
+                aria-label="Zoom Out"
+              >
+                <ZoomOut className="h-4 w-4" />
+              </button>
+            </div>
+
+            <button
+              onClick={handleResetView}
+              className="h-9 w-9 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200 shadow-lg flex items-center justify-center text-neutral-700 hover:bg-neutral-100 transition-colors"
+              title="Reset Map View"
+              aria-label="Reset View"
             >
-              <defs>
-                <linearGradient id="realGpsRouteGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FF2D55" />
-                  <stop offset="30%" stopColor="#FF9500" />
-                  <stop offset="60%" stopColor="#5856D6" />
-                  <stop offset="85%" stopColor="#34C759" />
-                  <stop offset="100%" stopColor="#007AFF" />
-                </linearGradient>
-
-                <filter id="realGpsShadow" x="-10%" y="-10%" width="120%" height="130%">
-                  <feDropShadow dx="0" dy="4" stdDeviation="5" floodColor="#007AFF" floodOpacity="0.35" />
-                </filter>
-              </defs>
-
-              {/* Realistic Highway Route Border */}
-              <path
-                d="M 540,156 Q 530,260 560,374 Q 630,300 680,187 Q 520,220 330,286 Q 340,240 380,218"
-                fill="none"
-                stroke="#FFFFFF"
-                strokeWidth="16"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-
-              {/* GPS Navigation Gradient Path */}
-              <path
-                d="M 540,156 Q 530,260 560,374 Q 630,300 680,187 Q 520,220 330,286 Q 340,240 380,218"
-                fill="none"
-                stroke="url(#realGpsRouteGradient)"
-                strokeWidth="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                filter="url(#realGpsShadow)"
-              />
-
-              {/* White Dashed Markings */}
-              <path
-                d="M 540,156 Q 530,260 560,374 Q 630,300 680,187 Q 520,220 330,286 Q 340,240 380,218"
-                fill="none"
-                stroke="#FFFFFF"
-                strokeWidth="2"
-                strokeDasharray="5 5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+              <LocateFixed className="h-4 w-4 text-[#007AFF]" />
+            </button>
           </div>
 
-          {/* ── Real Waypoint Location Pins ── */}
-          <div className="absolute inset-0 z-20 pointer-events-none">
-            {waypoints.map((item) => {
-              return (
-                <div
-                  key={item.id}
-                  style={{
-                    left: `${item.xPercent}%`,
-                    top: `${item.yPercent}%`,
-                  }}
-                  className="absolute -translate-x-1/2 -translate-y-full pointer-events-auto flex flex-col items-center"
+          {/* Bottom Floating Station Fast Selector Bar */}
+          <div className="absolute bottom-3.5 left-3.5 right-3.5 sm:bottom-5 sm:left-5 sm:right-auto z-[500]">
+            <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200 shadow-lg overflow-x-auto max-w-full">
+              {stations.map((stg) => (
+                <button
+                  key={stg.id}
+                  onClick={() => handleSelectStation(stg)}
+                  className={cn(
+                    "px-2.5 py-1 rounded-xl text-xs font-mono font-bold transition-all whitespace-nowrap flex items-center gap-1.5",
+                    activeStation?.id === stg.id
+                      ? "bg-neutral-900 text-white shadow-sm"
+                      : "text-neutral-600 hover:bg-neutral-100"
+                  )}
                 >
-                  {/* Floating Glass Label */}
-                  <motion.button
-                    onClick={() => setActiveWaypoint(item)}
-                    whileHover={{ scale: 1.08, y: -2 }}
-                    className="mb-1 px-2.5 py-1 rounded-xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-md text-center cursor-pointer select-none max-w-[125px] sm:max-w-[140px] transition-all"
-                  >
-                    <div className="flex items-center justify-center gap-1">
-                      <span className="text-[10px] font-mono font-black text-neutral-900 leading-tight">
-                        {item.year}
-                      </span>
-                      {item.current && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#007AFF] animate-pulse" />
-                      )}
-                    </div>
-                    <h4 className="text-[10px] sm:text-[11px] font-bold text-neutral-800 truncate leading-tight mt-0.5">
-                      {item.company.replace("PT. ", "").replace("Perum Percetakan Uang Republik Indonesia", "Perum Peruri")}
-                    </h4>
-                  </motion.button>
-
-                  {/* Iconic Apple Maps Pin Marker */}
-                  <motion.button
-                    onClick={() => setActiveWaypoint(item)}
-                    whileHover={{ scale: 1.25 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative cursor-pointer focus:outline-none flex flex-col items-center"
-                    title={`View ${item.company} (${item.year})`}
-                  >
-                    <div 
-                      style={{ 
-                        backgroundColor: item.themeColor,
-                        boxShadow: `0 8px 18px -2px ${item.themeColor}65`
-                      }}
-                      className="h-9 w-9 sm:h-10 sm:w-10 rounded-full flex items-center justify-center border-2 border-white shadow-lg text-white"
-                    >
-                      <Briefcase className="h-3.5 w-3.5 sm:h-4 sm:w-4 stroke-[2.5]" />
-                    </div>
-                    <div 
-                      style={{ borderTopColor: item.themeColor }}
-                      className="w-0 h-0 border-x-4 border-x-transparent border-t-6 -mt-[1px]"
-                    />
-                    {item.current && (
-                      <span className="absolute top-0.5 left-0.5 h-8 w-8 rounded-full bg-[#007AFF] opacity-40 animate-ping pointer-events-none" />
-                    )}
-                  </motion.button>
-                </div>
-              );
-            })}
+                  <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: stg.themeColor }} />
+                  <span>{stg.year}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
         </div>
 
       </div>
 
-      {/* ── Apple Maps Place Details Card (iOS Half-Sheet Modal) ── */}
+      {/* ── Real Place Details Card (iOS Half-Sheet Modal) ── */}
       <AnimatePresence>
-        {activeWaypoint && (
+        {activeStation && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setActiveWaypoint(null)}
-            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-md"
+            onClick={() => setActiveStation(null)}
+            className="fixed inset-0 z-[1000] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-md"
           >
             <motion.div
               initial={{ y: "100%", opacity: 0.5 }}
@@ -322,7 +347,7 @@ export function ExperienceTimeline() {
               exit={{ y: "100%", opacity: 0 }}
               transition={{ type: "spring", damping: 28, stiffness: 320 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-lg rounded-t-3xl sm:rounded-3xl bg-white/95 backdrop-blur-2xl border border-neutral-200/90 shadow-2xl overflow-hidden text-neutral-900 max-h-[85vh] flex flex-col"
+              className="relative w-full max-w-lg rounded-t-3xl sm:rounded-3xl bg-white/95 backdrop-blur-2xl border border-neutral-200 shadow-2xl overflow-hidden text-neutral-900 max-h-[85vh] flex flex-col"
             >
               {/* iOS Mobile Drag Handle */}
               <div className="sm:hidden flex justify-center pt-3 pb-1">
@@ -331,14 +356,14 @@ export function ExperienceTimeline() {
 
               {/* Top Accent Strip */}
               <div 
-                style={{ backgroundColor: activeWaypoint.themeColor }}
+                style={{ backgroundColor: activeStation.themeColor }}
                 className="h-2 w-full hidden sm:block"
               />
 
               <div className="p-4 sm:p-7 space-y-3.5 sm:space-y-4 overflow-y-auto flex-1">
                 {/* Close Button */}
                 <button
-                  onClick={() => setActiveWaypoint(null)}
+                  onClick={() => setActiveStation(null)}
                   className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 h-8 w-8 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 flex items-center justify-center transition-colors"
                   aria-label="Close"
                 >
@@ -349,28 +374,28 @@ export function ExperienceTimeline() {
                 <div className="space-y-1.5 pr-8">
                   <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                     <span 
-                      style={{ color: activeWaypoint.themeColor, backgroundColor: activeWaypoint.badgeBg }}
+                      style={{ color: activeStation.themeColor, backgroundColor: activeStation.badgeBg }}
                       className="text-[11px] sm:text-xs font-mono font-bold px-2.5 py-0.5 rounded-full"
                     >
-                      {activeWaypoint.fullPeriod}
+                      {activeStation.fullPeriod}
                     </span>
                     <span className="text-[11px] sm:text-xs font-semibold text-neutral-400">
-                      {activeWaypoint.estateZone}
+                      {activeStation.estateZone}
                     </span>
                   </div>
 
                   <h3 className="text-lg sm:text-2xl font-bold tracking-tight text-neutral-950 leading-snug">
-                    {activeWaypoint.role}
+                    {activeStation.role}
                   </h3>
 
                   <div className="flex flex-col gap-1 text-xs text-neutral-600 pt-0.5">
                     <p className="font-semibold text-neutral-900 flex items-center gap-1.5">
-                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: activeWaypoint.themeColor }} />
-                      <span>{activeWaypoint.company}</span>
+                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: activeStation.themeColor }} />
+                      <span>{activeStation.company}</span>
                     </p>
                     <p className="flex items-start gap-1 text-neutral-500 text-[11px] sm:text-xs">
                       <MapPin className="h-3.5 w-3.5 text-neutral-400 shrink-0 mt-0.5" />
-                      <span>{activeWaypoint.address}</span>
+                      <span>{activeStation.address}</span>
                     </p>
                   </div>
                 </div>
@@ -382,13 +407,13 @@ export function ExperienceTimeline() {
                   </span>
 
                   <div className="space-y-2">
-                    {activeWaypoint.description.map((item, idx) => (
+                    {activeStation.description.map((item, idx) => (
                       <div 
                         key={idx}
                         className="flex items-start gap-2.5 p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-neutral-50/90 border border-neutral-100 text-xs sm:text-[13px] text-neutral-700 leading-relaxed"
                       >
                         <CheckCircle2 
-                          style={{ color: activeWaypoint.themeColor }}
+                          style={{ color: activeStation.themeColor }}
                           className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 mt-0.5" 
                         />
                         <span>{item}</span>
