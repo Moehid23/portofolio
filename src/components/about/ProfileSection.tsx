@@ -1,12 +1,12 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, animate } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Download, BookOpen } from "lucide-react";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
-// Smooth Counting Number Component
+// Robust Framer-Motion Animated Number Counter
 function AnimatedCounter({ 
   value, 
   suffix = "", 
@@ -16,41 +16,35 @@ function AnimatedCounter({
   suffix?: string; 
   decimals?: number 
 }) {
-  const [displayValue, setDisplayValue] = useState<string>(decimals > 0 ? (0).toFixed(decimals) : "0");
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(nodeRef, { margin: "-20px 0px -20px 0px", once: false });
 
   useEffect(() => {
-    if (!isInView) return;
+    const node = nodeRef.current;
+    if (!node) return;
 
-    let start = 0;
-    const end = value;
-    const duration = 1600; // ms
-    const startTime = performance.now();
+    if (!isInView) {
+      node.textContent = (decimals > 0 ? (0).toFixed(decimals) : "0") + suffix;
+      return;
+    }
 
-    const updateCount = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Smooth easeOutCubic
-      const easeProgress = 1 - Math.pow(1 - progress, 3);
-      const current = start + (end - start) * easeProgress;
-
-      setDisplayValue(current.toFixed(decimals));
-
-      if (progress < 1) {
-        requestAnimationFrame(updateCount);
-      } else {
-        setDisplayValue(end.toFixed(decimals));
+    const controls = animate(0, value, {
+      duration: 1.8,
+      ease: [0.16, 1, 0.3, 1], // easeOutExpo
+      onUpdate(latest) {
+        node.textContent = latest.toFixed(decimals) + suffix;
       }
-    };
+    });
 
-    requestAnimationFrame(updateCount);
-  }, [isInView, value, decimals]);
+    return () => controls.stop();
+  }, [isInView, value, decimals, suffix]);
 
   return (
-    <span ref={ref} className="font-bold text-black font-mono">
-      {displayValue}{suffix}
+    <span 
+      ref={nodeRef} 
+      className="font-bold text-black font-mono inline-block tracking-tight"
+    >
+      {(decimals > 0 ? (0).toFixed(decimals) : "0") + suffix}
     </span>
   );
 }
@@ -130,7 +124,7 @@ export function ProfileSection() {
             </div>
           </div>
 
-          {/* Body Text — Preserved 100% Content */}
+          {/* Body Text — 100% Preserved Content */}
           <div className="space-y-2.5 text-xs sm:text-[13px] leading-relaxed text-neutral-600">
             <p className="text-neutral-900 font-medium">
               I am an <strong className="text-black">Informatics Engineering graduate</strong> from{" "}
