@@ -2,62 +2,75 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { galleryItems, GalleryItem } from "@/data/gallery";
 import { cn } from "@/lib/utils";
 import { 
   X, 
   ChevronLeft, 
   ChevronRight, 
-  ZoomIn, 
-  ZoomOut, 
-  RotateCcw, 
   Calendar, 
   MapPin, 
   Maximize2,
-  Sparkles
+  Sparkles,
+  GraduationCap,
+  Layers,
+  Award,
+  Users,
+  Compass
 } from "lucide-react";
-import { createPortal } from "react-dom";
+
+type FilterCategory = "All" | "Graduation" | "Academic" | "Competition" | "Community" | "Event";
+
+const categoryIcons: Record<FilterCategory, React.ComponentType<{ className?: string }>> = {
+  All: Layers,
+  Graduation: GraduationCap,
+  Academic: Sparkles,
+  Competition: Award,
+  Community: Users,
+  Event: Compass,
+};
 
 export function GallerySection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedCategory, setSelectedCategory] = useState<FilterCategory>("All");
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [zoomScale, setZoomScale] = useState<number>(1);
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const validItems = galleryItems.filter((item) => Boolean(item.src && item.src.trim() !== ""));
+  const categories: FilterCategory[] = ["All", "Graduation", "Academic", "Competition", "Community", "Event"];
 
-  const handleOpenModal = (item: GalleryItem, index: number) => {
+  const filteredItems = selectedCategory === "All"
+    ? galleryItems
+    : galleryItems.filter((item) => item.category === selectedCategory);
+
+  const handleOpenModal = (item: GalleryItem) => {
+    const idx = galleryItems.findIndex((g) => g.id === item.id);
     setSelectedItem(item);
-    setCurrentIndex(index);
-    setZoomScale(1);
+    setCurrentIndex(idx >= 0 ? idx : 0);
   };
 
   const handleCloseModal = () => {
     setSelectedItem(null);
-    setZoomScale(1);
   };
 
   const handlePrev = useCallback(() => {
-    if (validItems.length === 0) return;
-    const nextIdx = currentIndex === 0 ? validItems.length - 1 : currentIndex - 1;
+    if (galleryItems.length === 0) return;
+    const nextIdx = currentIndex === 0 ? galleryItems.length - 1 : currentIndex - 1;
     setCurrentIndex(nextIdx);
-    setSelectedItem(validItems[nextIdx]);
-    setZoomScale(1);
-  }, [currentIndex, validItems]);
+    setSelectedItem(galleryItems[nextIdx]);
+  }, [currentIndex]);
 
   const handleNext = useCallback(() => {
-    if (validItems.length === 0) return;
-    const nextIdx = currentIndex === validItems.length - 1 ? 0 : currentIndex + 1;
+    if (galleryItems.length === 0) return;
+    const nextIdx = currentIndex === galleryItems.length - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(nextIdx);
-    setSelectedItem(validItems[nextIdx]);
-    setZoomScale(1);
-  }, [currentIndex, validItems]);
+    setSelectedItem(galleryItems[nextIdx]);
+  }, [currentIndex]);
 
   // Keyboard navigation & body scroll lock
   useEffect(() => {
@@ -82,347 +95,277 @@ export function GallerySection() {
   }, [selectedItem, handlePrev, handleNext]);
 
   return (
-    <section ref={containerRef} className="pt-16 pb-8 md:py-32 bg-white relative overflow-hidden" id="gallery">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]" />
+    <section ref={containerRef} className="pt-16 pb-16 md:py-32 bg-neutral-50/50 relative overflow-hidden" id="gallery">
+      {/* Background Subtle Dot Pattern */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(#d4d4d8_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-          <div className="space-y-4 max-w-2xl">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-6xl font-bold tracking-tighter text-neutral-900"
-            >
-              Gallery &amp; Highlights
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-base sm:text-lg text-neutral-500 leading-relaxed"
-            >
-              A collection of moments from my academic journey, competitions, and workplace experiences.
-            </motion.p>
-          </div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 space-y-3">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter text-neutral-950"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-200 bg-white text-sm font-medium text-neutral-800 shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              {validItems.length} Photos
-            </span>
-          </motion.div>
+            Gallery &amp; Highlights
+          </motion.h2>
+
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-sm sm:text-base md:text-lg text-neutral-500 leading-relaxed max-w-2xl mx-auto"
+          >
+            A collection of moments from my academic milestones, graduation, competitions, and workplace experiences.
+          </motion.p>
         </div>
 
-        {/* Mobile Carousel */}
-        <div className="md:hidden flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory scrollbar-hide -mx-6 px-6">
-          {validItems.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              onClick={() => handleOpenModal(item, i)}
-              className="relative flex-shrink-0 w-[85vw] h-[420px] snap-center rounded-2xl bg-neutral-900 overflow-hidden cursor-pointer shadow-lg border border-neutral-200 group"
-            >
-              <Image
-                src={item.src}
-                alt={item.alt || "Gallery image"}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                sizes="85vw"
-              />
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-              
-              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md rounded-full p-2 text-white">
-                <Maximize2 className="h-4 w-4" />
-              </div>
-
-              <div className="absolute bottom-0 left-0 p-6 w-full text-white">
-                <p className="text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">
-                  {item.category}
-                </p>
-                <p className="text-xl font-bold text-white mb-2 leading-tight">
-                  {item.alt}
-                </p>
-                <span className="text-xs text-neutral-300 underline underline-offset-4">
-                  Tap to view full story &amp; zoom ↗
+        {/* Pinterest Style Category Filter Tabs */}
+        <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-4 mb-10 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+          {categories.map((cat) => {
+            const Icon = categoryIcons[cat];
+            const isActive = selectedCategory === cat;
+            const count = cat === "All" ? galleryItems.length : galleryItems.filter((i) => i.category === cat).length;
+            
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={cn(
+                  "group relative flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 shrink-0 shadow-sm border",
+                  isActive
+                    ? "bg-neutral-950 text-white border-neutral-950 shadow-md scale-105"
+                    : "bg-white text-neutral-600 hover:text-neutral-950 border-neutral-200/80 hover:border-neutral-300 hover:bg-neutral-100/80"
+                )}
+              >
+                <Icon className={cn("h-3.5 w-3.5 transition-colors", isActive ? "text-white" : "text-neutral-500 group-hover:text-neutral-950")} />
+                <span>{cat}</span>
+                <span className={cn(
+                  "text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors",
+                  isActive ? "bg-white/20 text-white" : "bg-neutral-100 text-neutral-500 group-hover:bg-neutral-200"
+                )}>
+                  {count}
                 </span>
-              </div>
-            </motion.div>
-          ))}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Desktop Masonry Grid */}
-        <div className="hidden md:grid md:grid-cols-4 gap-4 auto-rows-[250px]">
-          {validItems.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.4 }}
-              onClick={() => handleOpenModal(item, i)}
-              className={cn(
-                "relative group overflow-hidden rounded-2xl bg-neutral-900 cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 border border-neutral-200/80",
-                item.span || "col-span-1 row-span-1"
-              )}
-            >
-              <Image
-                src={item.src}
-                alt={item.alt || "Gallery image"}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-108"
-                sizes="(max-width: 1200px) 50vw, 33vw"
-              />
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
-              
-              {/* Top Category Badge */}
-              <div className="absolute top-4 left-4 z-10">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-xs font-semibold text-white border border-white/10 shadow-sm">
-                  {item.category}
-                </span>
-              </div>
+        {/* Pinterest Masonry Grid */}
+        <motion.div 
+          layout
+          className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5 space-y-5"
+        >
+          <AnimatePresence>
+            {filteredItems.map((item, index) => (
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.35, delay: index * 0.04 }}
+                onClick={() => handleOpenModal(item)}
+                className="group relative break-inside-avoid overflow-hidden rounded-3xl bg-white border border-neutral-200/90 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer"
+              >
+                {/* Image Container with Natural Aspect Ratio */}
+                <div className="relative w-full overflow-hidden bg-neutral-100">
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={800}
+                    height={item.aspectRatio === "portrait" ? 1050 : 600}
+                    className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    priority={index < 4}
+                  />
 
-              {/* Top Zoom Icon */}
-              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
-                <div className="bg-white rounded-full p-2.5 shadow-lg text-black hover:scale-110 transition-transform">
-                  <Maximize2 className="h-4 w-4" />
-                </div>
-              </div>
+                  {/* Pinterest-style Dark Gradient Overlay on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-              {/* Bottom Details */}
-              <div className="absolute bottom-0 left-0 p-6 w-full text-white z-10 transition-all duration-300">
-                <p className="text-base lg:text-lg font-bold text-white drop-shadow-md line-clamp-2 leading-snug mb-1">
-                  {item.alt}
-                </p>
-                <div className="flex items-center justify-between text-xs text-neutral-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pt-1">
-                  <span>{item.date || "2024"} • {item.location || "View Story"}</span>
-                  <span className="font-semibold text-white underline underline-offset-2">Detail ↗</span>
+                  {/* Top Badges (Category & Inspect Button) */}
+                  <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/65 backdrop-blur-md text-[11px] font-semibold text-white border border-white/15 shadow-sm">
+                      {item.category}
+                    </span>
+                    <span className="flex items-center justify-center h-8 w-8 rounded-full bg-white/90 text-black shadow-md opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                      <Maximize2 className="h-4 w-4" />
+                    </span>
+                  </div>
+
+                  {/* Hover Bottom Information Inside Image */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <p className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1 flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      {item.location}
+                    </p>
+                    <p className="text-sm font-semibold text-neutral-200 line-clamp-2 leading-snug">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+
+                {/* Card Caption (Visible by default, clean Pinterest card style) */}
+                <div className="p-4 bg-white border-t border-neutral-100 space-y-1.5">
+                  <h3 className="font-bold text-neutral-900 text-sm sm:text-base line-clamp-1 group-hover:text-black transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-neutral-500 line-clamp-2 leading-relaxed">
+                    {item.description}
+                  </p>
+                  <div className="flex items-center justify-between pt-2 text-[11px] text-neutral-400 font-medium border-t border-neutral-100">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {item.date}
+                    </span>
+                    <span className="flex items-center gap-1 truncate max-w-[150px]">
+                      <MapPin className="h-3 w-3 shrink-0" />
+                      {item.location}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
 
-      {/* ── Pop-Up Detail Lightbox Modal (Fully Mobile Responsive) ── */}
-      {mounted && createPortal(
-        <AnimatePresence>
-          {selectedItem && (
+      {/* Lightbox Pop-up Detail Modal */}
+      <AnimatePresence>
+        {selectedItem && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/90 backdrop-blur-xl"
+            onClick={handleCloseModal}
+          >
+            {/* Modal Box */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[200] flex flex-col bg-black/95 backdrop-blur-2xl select-none"
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 28, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative flex flex-col md:flex-row w-full max-w-5xl max-h-[92vh] rounded-3xl bg-neutral-950 border border-neutral-800 shadow-2xl overflow-hidden text-white"
             >
-              {/* Top Bar Controls */}
-              <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-neutral-800/80 bg-black/80 z-30 shrink-0">
-                <div className="flex items-center gap-2 sm:gap-3 min-w-0 pr-2">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-white text-[11px] font-semibold shrink-0">
-                    <Sparkles className="h-3 w-3 text-emerald-400" />
-                    {selectedItem.category}
-                  </span>
-                  <span className="text-neutral-400 text-xs shrink-0">
-                    {currentIndex + 1}/{validItems.length}
-                  </span>
-                  <span className="text-neutral-300 text-xs sm:text-sm font-medium truncate hidden xs:inline-block">
-                    {selectedItem.alt}
-                  </span>
+              {/* Close Button */}
+              <button
+                onClick={handleCloseModal}
+                className="absolute top-3.5 right-3.5 z-30 flex items-center justify-center h-10 w-10 rounded-full bg-black/70 hover:bg-white hover:text-black text-white border border-white/20 shadow-lg transition-all duration-200"
+                aria-label="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              {/* Left/Main: Photo Stage with Prev/Next Chevrons */}
+              <div className="relative flex-1 flex items-center justify-center bg-black/60 p-2 sm:p-4 min-h-[280px] sm:min-h-[420px] md:min-h-[520px]">
+                <div className="relative w-full h-[38vh] sm:h-[48vh] md:h-[75vh] max-w-full">
+                  <Image
+                    src={selectedItem.src}
+                    alt={selectedItem.alt}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 65vw"
+                    priority
+                  />
                 </div>
 
-                {/* Controls (Desktop: Full Zoom, Mobile: Compact & Close) */}
-                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                  <div className="hidden sm:flex items-center gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => setZoomScale((prev) => Math.max(0.5, prev - 0.25))}
-                      className="h-8 w-8 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
-                      title="Zoom Out"
-                    >
-                      <ZoomOut className="h-3.5 w-3.5" />
-                    </button>
-
-                    <span className="text-xs text-neutral-300 font-mono px-1.5">
-                      {Math.round(zoomScale * 100)}%
-                    </span>
-
-                    <button
-                      type="button"
-                      onClick={() => setZoomScale((prev) => Math.min(3, prev + 0.25))}
-                      className="h-8 w-8 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
-                      title="Zoom In"
-                    >
-                      <ZoomIn className="h-3.5 w-3.5" />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setZoomScale(1)}
-                      className="h-8 w-8 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
-                      title="Reset Zoom"
-                    >
-                      <RotateCcw className="h-3.5 w-3.5" />
-                    </button>
-
-                    <div className="h-4 w-[1px] bg-neutral-800 mx-1" />
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleCloseModal}
-                    className="h-8 w-8 sm:h-9 sm:w-9 rounded-lg bg-neutral-800 hover:bg-red-950/80 hover:text-red-400 hover:border-red-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
-                    title="Close (Esc)"
-                  >
-                    <X className="h-4 w-4 sm:h-5 sm:w-5" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Main Content Area: Responsive flex-col (mobile) / flex-row (desktop) */}
-              <div className="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
-                
-                {/* Image Stage */}
-                <div 
-                  className="relative h-[42vh] sm:h-[48vh] lg:h-full lg:flex-1 shrink-0 overflow-hidden flex items-center justify-center p-2 sm:p-4 bg-black/60 cursor-grab active:cursor-grabbing"
-                  onClick={(e) => {
-                    if (e.target === e.currentTarget) handleCloseModal();
-                  }}
+                {/* Navigation Chevrons */}
+                <button
+                  onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center h-11 w-11 rounded-full bg-black/60 hover:bg-white hover:text-black text-white border border-white/20 transition-all duration-200 z-20 shadow-lg"
+                  aria-label="Previous"
                 >
-                  {/* Left Arrow Button */}
-                  {validItems.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={handlePrev}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center backdrop-blur-md transition-all duration-200 hover:scale-110 z-30 border border-white/20 shadow-xl"
-                      title="Previous"
-                    >
-                      <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
-                    </button>
-                  )}
+                  <ChevronLeft className="h-6 w-6" />
+                </button>
 
-                  {/* Zoomable Image Container */}
-                  <motion.div
-                    animate={{ scale: zoomScale }}
-                    transition={{ type: "spring", damping: 30, stiffness: 350 }}
-                    className="relative w-full h-full max-w-full max-h-full flex items-center justify-center"
-                  >
-                    {selectedItem.src ? (
-                      <Image
-                        src={selectedItem.src}
-                        alt={selectedItem.alt}
-                        fill
-                        className="object-contain select-none pointer-events-none drop-shadow-2xl"
-                        priority
-                      />
-                    ) : null}
-                  </motion.div>
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleNext(); }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center h-11 w-11 rounded-full bg-black/60 hover:bg-white hover:text-black text-white border border-white/20 transition-all duration-200 z-20 shadow-lg"
+                  aria-label="Next"
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </button>
+              </div>
 
-                  {/* Right Arrow Button */}
-                  {validItems.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={handleNext}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center backdrop-blur-md transition-all duration-200 hover:scale-110 z-30 border border-white/20 shadow-xl"
-                      title="Next"
-                    >
-                      <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
-                    </button>
-                  )}
-                </div>
-
-                {/* Info Panel: Scrollable on mobile & desktop */}
-                <div className="flex-1 lg:flex-initial lg:w-96 p-4 sm:p-6 border-t lg:border-t-0 lg:border-l border-neutral-800 bg-neutral-950 flex flex-col justify-between overflow-y-auto space-y-4 sm:space-y-6">
-                  <div className="space-y-3 sm:space-y-4">
-                    <div className="hidden lg:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold backdrop-blur-md border border-white/10">
-                      <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
+              {/* Right: Detailed Metadata & Information Panel */}
+              <div className="w-full md:w-[360px] lg:w-[400px] flex flex-col justify-between p-5 sm:p-6 md:p-8 bg-neutral-900/90 border-t md:border-t-0 md:border-l border-neutral-800 overflow-y-auto max-h-[45vh] md:max-h-full">
+                <div className="space-y-4">
+                  {/* Category Pill & Counter */}
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">
+                      <Sparkles className="h-3 w-3" />
                       {selectedItem.category}
-                    </div>
-
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white leading-tight">
-                      {selectedItem.alt}
-                    </h3>
-
-                    {selectedItem.description && (
-                      <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
-                        {selectedItem.description}
-                      </p>
-                    )}
-
-                    <div className="pt-3 border-t border-neutral-800 space-y-2 text-xs text-neutral-400">
-                      {selectedItem.date && (
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-3.5 w-3.5 text-neutral-500 shrink-0" />
-                          <span>Timeline: <strong className="text-white">{selectedItem.date}</strong></span>
-                        </div>
-                      )}
-                      {selectedItem.location && (
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-3.5 w-3.5 text-neutral-500 shrink-0" />
-                          <span>Location: <strong className="text-white">{selectedItem.location}</strong></span>
-                        </div>
-                      )}
-                    </div>
+                    </span>
+                    <span className="text-xs text-neutral-400 font-semibold">
+                      {currentIndex + 1} / {galleryItems.length}
+                    </span>
                   </div>
 
-                  <div className="text-xs text-neutral-500 pt-3 border-t border-neutral-800 flex justify-between items-center shrink-0">
-                    <span>{currentIndex + 1} of {validItems.length} items</span>
-                    <button
-                      type="button"
-                      onClick={handleCloseModal}
-                      className="text-white hover:underline text-xs font-semibold"
-                    >
-                      Close Viewer
-                    </button>
+                  {/* Title & Description */}
+                  <div className="space-y-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">
+                      {selectedItem.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+                      {selectedItem.description}
+                    </p>
+                  </div>
+
+                  {/* Metadata Specs */}
+                  <div className="space-y-2 pt-2 border-t border-neutral-800 text-xs text-neutral-400">
+                    <div className="flex items-center gap-2.5">
+                      <Calendar className="h-4 w-4 text-neutral-400 shrink-0" />
+                      <span>Timeline: <strong className="text-white">{selectedItem.date}</strong></span>
+                    </div>
+                    <div className="flex items-start gap-2.5">
+                      <MapPin className="h-4 w-4 text-neutral-400 shrink-0 mt-0.5" />
+                      <span>Location: <strong className="text-white">{selectedItem.location}</strong></span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Thumbnail Strip */}
+                <div className="pt-4 mt-4 border-t border-neutral-800">
+                  <p className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-2">
+                    All Highlights
+                  </p>
+                  <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                    {galleryItems.map((gItem, idx) => (
+                      <button
+                        key={gItem.id}
+                        onClick={() => {
+                          setSelectedItem(gItem);
+                          setCurrentIndex(idx);
+                        }}
+                        className={cn(
+                          "relative h-12 w-16 shrink-0 rounded-lg overflow-hidden border transition-all duration-200",
+                          currentIndex === idx
+                            ? "border-white ring-2 ring-emerald-400 scale-105"
+                            : "border-neutral-700 opacity-50 hover:opacity-100"
+                        )}
+                      >
+                        <Image
+                          src={gItem.src}
+                          alt={gItem.alt}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
-
-              {/* Bottom Thumbnail Strip */}
-              {validItems.length > 1 && (
-                <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-2.5 py-2.5 px-4 bg-black/90 border-t border-neutral-900 overflow-x-auto z-30 shrink-0 scrollbar-hide">
-                  {validItems.map((item, idx) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => {
-                        setCurrentIndex(idx);
-                        setSelectedItem(item);
-                        setZoomScale(1);
-                      }}
-                      className={`relative h-10 w-14 sm:h-12 sm:w-20 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${
-                        idx === currentIndex
-                          ? "border-white scale-105 shadow-lg ring-2 ring-white/30"
-                          : "border-neutral-800 opacity-40 hover:opacity-100"
-                      }`}
-                    >
-                      <Image
-                        src={item.src}
-                        alt={`Thumbnail ${idx + 1}`}
-                        fill
-                        className="object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
             </motion.div>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
