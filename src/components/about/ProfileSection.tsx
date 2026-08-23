@@ -81,38 +81,37 @@ export function ProfileSection() {
             <div className="h-[2px] w-12 bg-black" />
           </div>
 
-          {/* Body text — humanistic, professional, clear work history */}
+          {/* Body text — clear, professional, concise */}
           <div className="space-y-3.5 text-sm leading-relaxed text-neutral-600 md:text-[15px]">
             <p className="text-neutral-800 font-medium leading-relaxed">
               I am an <strong className="text-black">Informatics Engineering graduate</strong> from{" "}
               <strong className="text-black">Universitas Buana Perjuangan Karawang</strong> (GPA 3.80).
-              My background uniquely bridges hands-on industrial precision metrology with modern software engineering—giving
-              me a disciplined eye for accuracy, edge cases, and dependable architecture.
+              My experience in industrial precision metrology and software engineering helps me build reliable, well-structured, and efficient applications.
             </p>
 
             <p>
-              In production and manufacturing environments, I worked directly with <strong className="text-black">SAP ERP</strong> databases,
-              built <strong className="text-black">RPA</strong> automation workflows, and handled high-precision
-              coordinate measuring machines (<strong className="text-black">CMM</strong>). That field experience taught me how real systems operate and where operational bottlenecks happen.
+              In manufacturing and production environments, I have worked with <strong className="text-black">SAP ERP</strong> systems,
+              built <strong className="text-black">RPA</strong> automation workflows, and operated precision
+              measuring instruments like <strong className="text-black">CMM</strong>. This hands-on background gives me practical insight into how industrial processes work and how software can solve real operational problems.
             </p>
 
             {/* Bachelor Thesis Spotlight */}
             <div className="rounded-xl border border-neutral-200 bg-neutral-50/80 p-4 space-y-1.5 shadow-sm">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-800">
                 <BookOpen className="h-3.5 w-3.5" />
-                <span>Undergraduate Thesis Research</span>
+                <span>Undergraduate Thesis</span>
               </div>
               <p className="text-xs md:text-sm text-neutral-700 italic font-medium leading-snug">
                 &ldquo;Penerapan Random Forest untuk Prediksi Pemesanan Spare Part dalam Pencegahan Overstock dan Understock&rdquo;
               </p>
               <p className="text-xs text-neutral-500 leading-normal">
-                Engineered a predictive machine learning pipeline using Random Forest algorithms to accurately forecast inventory demand, reducing costly surplus storage while eliminating critical production downtime.
+                Built a machine learning model using Random Forest to forecast spare part demand, helping prevent excess inventory and reduce production downtime.
               </p>
             </div>
 
             <p>
-              Today, I develop clean, resilient web applications using <strong className="text-black">Laravel 11/12</strong>,{" "}
-              <strong className="text-black">Node.js</strong>, and <strong className="text-black">Flask / Next.js</strong>, while turning complex datasets into interactive executive dashboards with <strong className="text-black">Tableau</strong> and <strong className="text-black">Power BI</strong>.
+              Today, I build web applications with <strong className="text-black">Laravel</strong>,{" "}
+              <strong className="text-black">Next.js</strong>, and <strong className="text-black">Node.js</strong>, and create clear data visualizations using <strong className="text-black">Python</strong>, <strong className="text-black">Tableau</strong>, and <strong className="text-black">Power BI</strong>.
             </p>
           </div>
 

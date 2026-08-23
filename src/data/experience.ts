@@ -9,23 +9,23 @@ export const experiences: Experience[] = [
     startDate: "2025-01",
     current: true,
     description: [
-      "Operate SAP ERP systems for spare part inventory control and develop automated logistical workflows using RPA (Robotic Process Automation).",
-      "Built a web-based Maintenance Notification System using Laravel 12 to streamline and expedite technical utility servicing.",
-      "Engineered a machine learning system utilizing MTBUR (Mean Time Between Unscheduled Removal) and Random Forest algorithm to automate min-max stock predictions and order recommendations."
+      "Manage spare part inventory using SAP ERP and build automation workflows with RPA (Robotic Process Automation).",
+      "Developed a web-based Maintenance Notification System with Laravel 12 to speed up technical servicing for factory utilities.",
+      "Built a machine learning model using Random Forest and MTBUR metrics to forecast inventory demand and optimize order recommendations."
     ]
   },
   {
     id: "2",
-    title: "General Internship Batch 2 (Money Production & Electrical Section)",
+    title: "Intern (Money Production & Electrical Section)",
     company: "Perum Percetakan Uang Republik Indonesia (Peruri)",
     location: "Karawang, Indonesia",
     startDate: "2024-07",
     endDate: "2025-01",
     current: false,
     description: [
-      "Created a data mining analytical project using the Naive Bayes Classifier to predict spare part lifespan and optimize lifecycle management.",
-      "Designed and developed a digital web-based Preventive Maintenance Logbook system utilizing Laravel 11 framework.",
-      "Developed a custom Python application to sort and detect banknote numbering indicator failures, significantly reducing printing error sheets."
+      "Built a data analysis model using Naive Bayes to predict spare part lifespan and optimize replacement schedules.",
+      "Developed a digital Preventive Maintenance Logbook web application using Laravel 11.",
+      "Created a Python tool to detect banknote numbering errors, helping reduce printing defects."
     ]
   },
   {
@@ -37,9 +37,9 @@ export const experiences: Experience[] = [
     endDate: "2024-06",
     current: false,
     description: [
-      "Conducted comprehensive quality control, disassemblies, hardness testing, and microstructural analysis of CVT drivetrain components.",
-      "Performed high-precision dimensional measurements on mechanical gears using CMM (Coordinate Measuring Machine), Gear Tester, Roughness Tester, Dial Indicators, and various technical metrology instruments.",
-      "Analyzed market claims of transmission failures, measured gear elements, and compiled detailed Quality Problem Reports (LMK) to coordinate corrective engineering actions."
+      "Performed quality control inspections, component disassembly, hardness testing, and microstructural analysis on CVT drivetrains.",
+      "Conducted high-precision measurements on gears using CMM (Coordinate Measuring Machine), roughness testers, and dial indicators.",
+      "Analyzed customer quality claims, inspected defective parts, and prepared Quality Problem Reports (LMK) for corrective actions."
     ]
   },
   {
@@ -51,9 +51,9 @@ export const experiences: Experience[] = [
     endDate: "2022-06",
     current: false,
     description: [
-      "Operated precision assembly lines for power steering systems, focusing on power steering jackets, motors, and balancing pin systems.",
-      "Conducted high-precision balancing tests on steering pins to ensure strict tolerance levels and high-quality product assembly.",
-      "Adhered strictly to rigorous Japanese manufacturing standards, active safety protocols, and workplace methodologies (5S and Kaizen)."
+      "Operated precision assembly lines for automotive power steering systems, motors, and balancing pins.",
+      "Conducted balancing and tolerance tests on steering pins to ensure consistent product quality.",
+      "Applied Japanese manufacturing standards, workplace safety protocols, and 5S/Kaizen methodologies."
     ]
   },
   {
@@ -65,9 +65,9 @@ export const experiences: Experience[] = [
     endDate: "2021-11",
     current: false,
     description: [
-      "Set up and operated high-precision CNC (Computer Numerical Control) machines for automotive transmission gear production.",
-      "Performed advanced manufacturing processes, including rough cutting, hobbing, grinding, and deburring.",
-      "Conducted regular tools calibration and automated machinery maintenance to ensure optimal tolerance limits and zero defect rates."
+      "Set up and operated CNC (Computer Numerical Control) machines for automotive transmission gear production.",
+      "Executed precision machining processes including cutting, hobbing, grinding, and deburring.",
+      "Performed routine tool calibrations and machine maintenance to maintain tight tolerances and minimize defects."
     ]
   }
 ];

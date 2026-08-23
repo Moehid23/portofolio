@@ -59,7 +59,7 @@ export function SkillsShowcase() {
   ];
 
   return (
-    <section className="py-24 md:py-32 relative w-full overflow-hidden">
+    <section className="pt-16 pb-8 md:py-32 relative w-full overflow-hidden">
       {/* Outlined Circles (Top-Left & Bottom-Right) */}
       <div className="absolute -left-[100px] top-32 md:-left-[200px] md:top-20 h-[200px] w-[200px] md:h-[400px] md:w-[400px] rounded-full border border-black bg-transparent z-0" />
       <div className="absolute -right-[100px] bottom-10 md:-right-[200px] md:bottom-20 h-[200px] w-[200px] md:h-[400px] md:w-[400px] rounded-full border border-black bg-transparent z-0" />
@@ -72,8 +72,8 @@ export function SkillsShowcase() {
       >
         <h2 className="text-4xl font-bold tracking-tighter sm:text-6xl mb-6">Skills & Tools</h2>
         <div className="h-1 w-20 bg-black mx-auto mb-6" />
-        <p className="text-lg text-neutral-500 max-w-2xl mx-auto leading-relaxed">
-           The technologies, frameworks, and tools I specialize in.
+        <p className="text-base sm:text-lg text-neutral-500 max-w-2xl mx-auto leading-relaxed">
+           Technologies, frameworks, and tools I use to build applications and analyze data.
         </p>
       </motion.div>
 

@@ -82,7 +82,7 @@ export function GallerySection() {
   }, [selectedItem, handlePrev, handleNext]);
 
   return (
-    <section ref={containerRef} className="py-32 bg-white relative overflow-hidden" id="gallery">
+    <section ref={containerRef} className="pt-16 pb-8 md:py-32 bg-white relative overflow-hidden" id="gallery">
       {/* Background Pattern */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]" />
@@ -97,16 +97,16 @@ export function GallerySection() {
               viewport={{ once: true }}
               className="text-4xl md:text-6xl font-bold tracking-tighter text-neutral-900"
             >
-              Visual Chronicles
+              Gallery &amp; Highlights
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-lg text-neutral-500 leading-relaxed"
+              className="text-base sm:text-lg text-neutral-500 leading-relaxed"
             >
-              A curated collection of milestone moments, academic achievements, and leadership explorations that define my journey.
+              A collection of moments from my academic journey, competitions, and workplace experiences.
             </motion.p>
           </div>
           
@@ -118,7 +118,7 @@ export function GallerySection() {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-200 bg-white text-sm font-medium text-neutral-800 shadow-sm">
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              {validItems.length} Milestone Moments Captured
+              {validItems.length} Photos
             </span>
           </motion.div>
         </div>
@@ -218,7 +218,7 @@ export function GallerySection() {
         </div>
       </div>
 
-      {/* ── Pop-Up Detail Lightbox Modal ── */}
+      {/* ── Pop-Up Detail Lightbox Modal (Fully Mobile Responsive) ── */}
       {mounted && createPortal(
         <AnimatePresence>
           {selectedItem && (
@@ -226,86 +226,90 @@ export function GallerySection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[200] flex flex-col bg-black/95 backdrop-blur-xl select-none"
+              className="fixed inset-0 z-[200] flex flex-col bg-black/95 backdrop-blur-2xl select-none"
             >
               {/* Top Bar Controls */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-800/80 bg-black/60 z-30">
-                <div className="flex items-center gap-3">
-                  <span className="text-white font-bold text-sm md:text-base">{selectedItem.alt}</span>
-                  <span className="text-neutral-500">•</span>
-                  <span className="text-neutral-400 text-xs md:text-sm">
-                    {currentIndex + 1} of {validItems.length}
+              <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-neutral-800/80 bg-black/80 z-30 shrink-0">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0 pr-2">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-white text-[11px] font-semibold shrink-0">
+                    <Sparkles className="h-3 w-3 text-emerald-400" />
+                    {selectedItem.category}
                   </span>
-                  <span className="hidden sm:inline-block text-neutral-500 text-xs">
-                    (Use Arrow Keys to navigate, Esc to close)
+                  <span className="text-neutral-400 text-xs shrink-0">
+                    {currentIndex + 1}/{validItems.length}
+                  </span>
+                  <span className="text-neutral-300 text-xs sm:text-sm font-medium truncate hidden xs:inline-block">
+                    {selectedItem.alt}
                   </span>
                 </div>
 
-                {/* Controls */}
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setZoomScale((prev) => Math.max(0.5, prev - 0.25))}
-                    className="h-9 w-9 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
-                    title="Zoom Out"
-                  >
-                    <ZoomOut className="h-4 w-4" />
-                  </button>
+                {/* Controls (Desktop: Full Zoom, Mobile: Compact & Close) */}
+                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                  <div className="hidden sm:flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setZoomScale((prev) => Math.max(0.5, prev - 0.25))}
+                      className="h-8 w-8 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
+                      title="Zoom Out"
+                    >
+                      <ZoomOut className="h-3.5 w-3.5" />
+                    </button>
 
-                  <span className="text-xs text-neutral-300 font-mono px-2">
-                    {Math.round(zoomScale * 100)}%
-                  </span>
+                    <span className="text-xs text-neutral-300 font-mono px-1.5">
+                      {Math.round(zoomScale * 100)}%
+                    </span>
 
-                  <button
-                    type="button"
-                    onClick={() => setZoomScale((prev) => Math.min(3, prev + 0.25))}
-                    className="h-9 w-9 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
-                    title="Zoom In"
-                  >
-                    <ZoomIn className="h-4 w-4" />
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => setZoomScale((prev) => Math.min(3, prev + 0.25))}
+                      className="h-8 w-8 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
+                      title="Zoom In"
+                    >
+                      <ZoomIn className="h-3.5 w-3.5" />
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={() => setZoomScale(1)}
-                    className="h-9 w-9 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
-                    title="Reset Zoom (100%)"
-                  >
-                    <RotateCcw className="h-4 w-4" />
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => setZoomScale(1)}
+                      className="h-8 w-8 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
+                      title="Reset Zoom"
+                    >
+                      <RotateCcw className="h-3.5 w-3.5" />
+                    </button>
 
-                  <div className="h-5 w-[1px] bg-neutral-800 mx-1" />
+                    <div className="h-4 w-[1px] bg-neutral-800 mx-1" />
+                  </div>
 
                   <button
                     type="button"
                     onClick={handleCloseModal}
-                    className="h-9 w-9 rounded-lg bg-neutral-800 hover:bg-red-950/80 hover:text-red-400 hover:border-red-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
-                    title="Close"
+                    className="h-8 w-8 sm:h-9 sm:w-9 rounded-lg bg-neutral-800 hover:bg-red-950/80 hover:text-red-400 hover:border-red-800 text-white flex items-center justify-center border border-neutral-700 transition-colors"
+                    title="Close (Esc)"
                   >
-                    <X className="h-5 w-5" />
+                    <X className="h-4 w-4 sm:h-5 sm:w-5" />
                   </button>
                 </div>
               </div>
 
-              {/* Main Content Area */}
-              <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+              {/* Main Content Area: Responsive flex-col (mobile) / flex-row (desktop) */}
+              <div className="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
                 
-                {/* Left: Interactive Zoomable Image Stage */}
+                {/* Image Stage */}
                 <div 
-                  className="relative flex-1 overflow-auto flex items-center justify-center p-4 cursor-grab active:cursor-grabbing bg-black/40"
+                  className="relative h-[42vh] sm:h-[48vh] lg:h-full lg:flex-1 shrink-0 overflow-hidden flex items-center justify-center p-2 sm:p-4 bg-black/60 cursor-grab active:cursor-grabbing"
                   onClick={(e) => {
                     if (e.target === e.currentTarget) handleCloseModal();
                   }}
                 >
-                  {/* Left Arrow */}
+                  {/* Left Arrow Button */}
                   {validItems.length > 1 && (
                     <button
                       type="button"
                       onClick={handlePrev}
-                      className="fixed left-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center backdrop-blur-md transition-all duration-200 hover:scale-110 z-30 border border-white/20 shadow-2xl"
-                      title="Previous Image (Left Arrow)"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center backdrop-blur-md transition-all duration-200 hover:scale-110 z-30 border border-white/20 shadow-xl"
+                      title="Previous"
                     >
-                      <ChevronLeft className="h-7 w-7" />
+                      <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
                     </button>
                   )}
 
@@ -313,11 +317,7 @@ export function GallerySection() {
                   <motion.div
                     animate={{ scale: zoomScale }}
                     transition={{ type: "spring", damping: 30, stiffness: 350 }}
-                    className="relative max-w-full max-h-full flex items-center justify-center"
-                    style={{
-                      width: "80vw",
-                      height: "65vh",
-                    }}
+                    className="relative w-full h-full max-w-full max-h-full flex items-center justify-center"
                   >
                     {selectedItem.src ? (
                       <Image
@@ -325,65 +325,66 @@ export function GallerySection() {
                         alt={selectedItem.alt}
                         fill
                         className="object-contain select-none pointer-events-none drop-shadow-2xl"
+                        priority
                       />
                     ) : null}
                   </motion.div>
 
-                  {/* Right Arrow */}
+                  {/* Right Arrow Button */}
                   {validItems.length > 1 && (
                     <button
                       type="button"
                       onClick={handleNext}
-                      className="fixed right-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center backdrop-blur-md transition-all duration-200 hover:scale-110 z-30 border border-white/20 shadow-2xl"
-                      title="Next Image (Right Arrow)"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center backdrop-blur-md transition-all duration-200 hover:scale-110 z-30 border border-white/20 shadow-xl"
+                      title="Next"
                     >
-                      <ChevronRight className="h-7 w-7" />
+                      <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
                     </button>
                   )}
                 </div>
 
-                {/* Right / Bottom Info Panel */}
-                <div className="w-full lg:w-96 p-6 border-t lg:border-t-0 lg:border-l border-neutral-800 bg-neutral-950 flex flex-col justify-between overflow-y-auto space-y-6">
-                  <div className="space-y-4">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold backdrop-blur-md border border-white/10">
+                {/* Info Panel: Scrollable on mobile & desktop */}
+                <div className="flex-1 lg:flex-initial lg:w-96 p-4 sm:p-6 border-t lg:border-t-0 lg:border-l border-neutral-800 bg-neutral-950 flex flex-col justify-between overflow-y-auto space-y-4 sm:space-y-6">
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="hidden lg:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold backdrop-blur-md border border-white/10">
                       <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
                       {selectedItem.category}
                     </div>
 
-                    <h3 className="text-2xl font-bold text-white leading-tight">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white leading-tight">
                       {selectedItem.alt}
                     </h3>
 
                     {selectedItem.description && (
-                      <p className="text-sm text-neutral-300 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
                         {selectedItem.description}
                       </p>
                     )}
 
-                    <div className="pt-4 border-t border-neutral-800 space-y-2.5 text-xs text-neutral-400">
+                    <div className="pt-3 border-t border-neutral-800 space-y-2 text-xs text-neutral-400">
                       {selectedItem.date && (
                         <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4 text-neutral-500" />
-                          <span>Year / Timeline: <strong className="text-white">{selectedItem.date}</strong></span>
+                          <Calendar className="h-3.5 w-3.5 text-neutral-500 shrink-0" />
+                          <span>Timeline: <strong className="text-white">{selectedItem.date}</strong></span>
                         </div>
                       )}
                       {selectedItem.location && (
                         <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-neutral-500" />
+                          <MapPin className="h-3.5 w-3.5 text-neutral-500 shrink-0" />
                           <span>Location: <strong className="text-white">{selectedItem.location}</strong></span>
                         </div>
                       )}
                     </div>
                   </div>
 
-                  <div className="text-xs text-neutral-500 pt-4 border-t border-neutral-800 flex justify-between items-center">
-                    <span>Photo {currentIndex + 1} of {validItems.length}</span>
+                  <div className="text-xs text-neutral-500 pt-3 border-t border-neutral-800 flex justify-between items-center shrink-0">
+                    <span>{currentIndex + 1} of {validItems.length} items</span>
                     <button
                       type="button"
                       onClick={handleCloseModal}
                       className="text-white hover:underline text-xs font-semibold"
                     >
-                      Close Viewer (Esc)
+                      Close Viewer
                     </button>
                   </div>
                 </div>
@@ -391,7 +392,7 @@ export function GallerySection() {
 
               {/* Bottom Thumbnail Strip */}
               {validItems.length > 1 && (
-                <div className="flex items-center justify-center gap-2.5 py-3 px-6 bg-black/80 border-t border-neutral-900 overflow-x-auto z-30">
+                <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-2.5 py-2.5 px-4 bg-black/90 border-t border-neutral-900 overflow-x-auto z-30 shrink-0 scrollbar-hide">
                   {validItems.map((item, idx) => (
                     <button
                       key={item.id}
@@ -401,10 +402,10 @@ export function GallerySection() {
                         setSelectedItem(item);
                         setZoomScale(1);
                       }}
-                      className={`relative h-12 w-20 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${
+                      className={`relative h-10 w-14 sm:h-12 sm:w-20 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${
                         idx === currentIndex
-                          ? "border-white scale-110 shadow-lg ring-2 ring-white/30"
-                          : "border-neutral-800 opacity-50 hover:opacity-100"
+                          ? "border-white scale-105 shadow-lg ring-2 ring-white/30"
+                          : "border-neutral-800 opacity-40 hover:opacity-100"
                       }`}
                     >
                       <Image

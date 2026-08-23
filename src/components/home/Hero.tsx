@@ -29,27 +29,12 @@ const floatingIcons = [
   { icon: Sparkles, bottom: "15%", right: "10%", delay: 3 },
 ];
 
-// Staggered Text Animation
-const titleVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.05 * i,
-      duration: 1,
-      ease: [0.215, 0.61, 0.355, 1] as const,
-    },
-  }),
-};
-
-const text = "Building Digital Value.";
 
 export function Hero({ startAnimation = true }: { startAnimation?: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const [mounted, setMounted] = useState(false);
-  
+
   // Parallax for Scroll
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
@@ -82,8 +67,20 @@ export function Hero({ startAnimation = true }: { startAnimation?: boolean }) {
   const xMoveReverse = useTransform(springX, [-0.5, 0.5], [50, -50]);
   const yMoveReverse = useTransform(springY, [-0.5, 0.5], [50, -50]);
 
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    if (targetId === "#home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const element = document.querySelector(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <section 
+    <section
       ref={containerRef}
       className="relative flex min-h-screen flex-col overflow-hidden bg-neutral-950 text-white"
     >
@@ -136,73 +133,53 @@ export function Hero({ startAnimation = true }: { startAnimation?: boolean }) {
         </div>
       </div>
 
-      {/* Centered content area */}
-      <div className="flex-1 flex items-center pt-20">
+      {/* Bottom-aligned content area (close to marquee) */}
+      <div className="flex-1 flex flex-col justify-end pb-8 sm:pb-12 pt-28">
         <Container className="relative z-10 flex flex-col items-center text-center w-full">
-        {/* REMOVED AVAILABLE FOR FREELANCE BADGE */}
-        
-        <div className="relative max-w-5xl mt-12">
-          <h1 className="flex flex-wrap justify-center gap-x-[1.5rem] gap-y-2 text-6xl font-bold tracking-tighter sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9]">
-            {text.split(" ").map((word, wordIndex) => (
-              <span key={wordIndex} className="flex">
-                {word.split("").map((char, charIndex) => (
-                  <motion.span
-                    key={`${wordIndex}-${charIndex}`}
-                    custom={wordIndex * 5 + charIndex}
-                    variants={titleVariants}
-                    initial="hidden"
-                    animate={startAnimation ? "visible" : "hidden"}
-                    className={wordIndex === 1 ? "text-neutral-400" : "text-white"}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
-          </h1>
-        </div>
+          {/* REMOVED AVAILABLE FOR FREELANCE BADGE */}
 
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-12 max-w-3xl text-xl text-neutral-400 sm:text-2xl leading-relaxed font-medium"
-        >
-          A hybrid developer bridging Informatics and Precision Metrology to build clean, efficient, and
-          <span className="text-white font-bold relative inline-block mx-2">
-             empowering solutions.
-             <motion.span 
-               initial={{ scaleX: 0 }}
-               animate={{ scaleX: startAnimation ? 1 : 0 }}
-               transition={{ delay: 1.2, duration: 0.6 }}
-               className="absolute bottom-0 left-0 w-full h-3 bg-neutral-800 -z-10 origin-left mix-blend-screen"
-             />
-          </span>
-        </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="max-w-3xl text-lg text-neutral-300 sm:text-2xl leading-relaxed font-medium"
+          >
+            A software developer with a background in Informatics and Precision Metrology, building clean, efficient, and
+            <span className="text-white font-bold relative inline-block mx-2">
+              reliable solutions.
+              <motion.span
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: startAnimation ? 1 : 0 }}
+                transition={{ delay: 1.2, duration: 0.6 }}
+                className="absolute bottom-0 left-0 w-full h-3 bg-neutral-800 -z-10 origin-left mix-blend-screen"
+              />
+            </span>
+          </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="mt-12 flex flex-col gap-5 sm:flex-row items-center"
-        >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button size="lg" className="h-16 rounded-full px-10 text-lg shadow-xl shadow-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all bg-white text-black hover:bg-neutral-200" asChild>
-              <Link href="/projects" className="flex items-center gap-2">
-                View My Work <ArrowRight className="h-5 w-5" />
-              </Link>
-            </Button>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="mt-6 sm:mt-8 flex flex-row items-center justify-center gap-3 sm:gap-5 flex-wrap"
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button size="lg" className="h-12 sm:h-16 rounded-full px-5 sm:px-10 text-sm sm:text-lg shadow-xl shadow-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all bg-white text-black hover:bg-neutral-200" asChild>
+                <a href="#projects" onClick={(e) => handleScrollTo(e, "#projects")} className="flex items-center gap-2">
+                  View My Work <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                </a>
+              </Button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button size="lg" variant="ghost" className="h-12 sm:h-16 rounded-full px-5 sm:px-10 text-sm sm:text-lg text-white hover:bg-white/10 border-2 border-transparent hover:border-white/20" asChild>
+                <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="group flex items-center">
+                  Get in Touch
+                  <MoveRight className="ml-1 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
+                </a>
+              </Button>
+            </motion.div>
           </motion.div>
-          
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-             <Button size="lg" variant="ghost" className="h-16 rounded-full px-10 text-lg text-white hover:bg-white/10 border-2 border-transparent hover:border-white/20" asChild>
-               <Link href="/contact" className="group">
-                 Get in Touch 
-                 <MoveRight className="ml-2 h-5 w-5 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
-               </Link>
-             </Button>
-          </motion.div>
-        </motion.div>
         </Container>
       </div>
 
@@ -212,18 +189,18 @@ export function Hero({ startAnimation = true }: { startAnimation?: boolean }) {
           <motion.div
             key={i}
             className="absolute p-5 rounded-3xl bg-neutral-900/40 border border-white/10 shadow-2xl text-white backdrop-blur-sm"
-            style={{ 
-               top: item.top, 
-               left: item.left, 
-               right: item.right,
-               bottom: item.bottom,
-               x: i % 2 === 0 ? xMove : xMoveReverse,
-               y: i % 2 === 0 ? yMove : yMoveReverse,
+            style={{
+              top: item.top,
+              left: item.left,
+              right: item.right,
+              bottom: item.bottom,
+              x: i % 2 === 0 ? xMove : xMoveReverse,
+              y: i % 2 === 0 ? yMove : yMoveReverse,
             }}
             initial={{ opacity: 0, scale: 0 }}
             animate={startAnimation ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-            transition={{ 
-              duration: 0.8, 
+            transition={{
+              duration: 0.8,
               delay: 1.5 + (i * 0.1),
               type: "spring"
             }}
@@ -244,10 +221,10 @@ export function Hero({ startAnimation = true }: { startAnimation?: boolean }) {
             {[...Array(4)].map((_, i) => (
               <div key={i} className="flex items-center">
                 {["Web Development", "Mobile & UI", "Data Analysis", "Machine Learning", "Industrial Automation", "Quality Control"].map((text) => (
-                   <div key={text} className="flex items-center">
-                      <span className="mx-8 text-sm font-bold tracking-[0.2em] text-white uppercase">{text}</span>
-                      <span className="mx-4 h-1 w-1 rounded-full bg-neutral-600" />
-                   </div>
+                  <div key={text} className="flex items-center">
+                    <span className="mx-8 text-sm font-bold tracking-[0.2em] text-white uppercase">{text}</span>
+                    <span className="mx-4 h-1 w-1 rounded-full bg-neutral-600" />
+                  </div>
                 ))}
               </div>
             ))}

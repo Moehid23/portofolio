@@ -4,8 +4,8 @@ export const projects: Project[] = [
   {
     id: "maps",
     title: "MAPS",
-    description: "Industrial web application system designed for machinery and utility maintenance management, featuring end-to-end workflows for Preventive Maintenance (PM) scheduling and Unplanned Maintenance resolution to maximize equipment uptime.",
-    shortDescription: "Machinery & Utilities Maintenance Management (Preventive & Unplanned)",
+    description: "An industrial web application designed to manage machinery and utility maintenance, featuring workflows for scheduling preventive maintenance and logging unplanned repairs to keep equipment running smoothly.",
+    shortDescription: "Machinery and utility maintenance management system for industrial operations.",
     image: "/image-project/MAPS/1.webp",
     images: [
       "/image-project/MAPS/1.webp",
@@ -23,8 +23,8 @@ export const projects: Project[] = [
   {
     id: "sinotis",
     title: "Sinotis",
-    description: "Specialized real-time tracking platform for unplanned maintenance that accurately calculates each stage duration: notification creation time, technician response time, spare part waiting time, technician multi-tasking duration, through to final resolution.",
-    shortDescription: "Real-Time Unplanned Maintenance & Response Time Analytics",
+    description: "A real-time tracking application for unplanned maintenance. It tracks technician response times, parts waiting time, and task durations from issue report to final resolution.",
+    shortDescription: "Real-time maintenance tracking and response time analytics.",
     image: "/image-project/Sinotis/1.webp",
     images: [
       "/image-project/Sinotis/1.webp",
@@ -41,8 +41,8 @@ export const projects: Project[] = [
   {
     id: "sipena",
     title: "Sipena",
-    description: "Digital engineering and estimation system built to calculate and automate AHSP (Analisis Harga Satuan Pekerjaan) requirements, material cost breakdowns, labor rates, and unit price analysis digitally.",
-    shortDescription: "Digital AHSP (Analisis Harga Satuan Pekerjaan) Calculation System",
+    description: "A cost estimation web app that calculates unit price analysis (AHSP), material cost breakdowns, and labor rates for construction and engineering projects.",
+    shortDescription: "Digital unit price analysis (AHSP) and cost calculation system.",
     image: "/image-project/Sipena/1.webp",
     images: [
       "/image-project/Sipena/1.webp",
@@ -60,8 +60,8 @@ export const projects: Project[] = [
   {
     id: "survey",
     title: "Survey Renovation System",
-    description: "Comprehensive digital survey application for recording user renovation requirements, equipped with online product catalog recommendations and cryptographic security for legally verified digital signatures.",
-    shortDescription: "Renovation Assessment, Online Catalog & Cryptographic Signature",
+    description: "A digital survey platform for recording building renovation requirements, featuring an online product catalog and digital signature verification.",
+    shortDescription: "Renovation survey platform with online catalog and digital signatures.",
     image: "/image-project/Survey/1.webp",
     images: [
       "/image-project/Survey/1.webp",
@@ -76,7 +76,7 @@ export const projects: Project[] = [
       "/image-project/Survey/10.webp",
       "/image-project/Survey/11.webp"
     ],
-    technologies: ["React", "Node.js", "Cryptography / Digital Signature", "PostgreSQL", "Tailwind CSS"],
+    technologies: ["React", "Node.js", "Digital Signature", "PostgreSQL", "Tailwind CSS"],
     categories: ["Web"],
     featured: true,
     date: "2026"
@@ -84,8 +84,8 @@ export const projects: Project[] = [
   {
     id: "komodo",
     title: "Komodo App (Digital STO)",
-    description: "Android mobile application tailored for tablet devices and integrated hardware barcode scanners to conduct digital Stock Take Opname (STO), warehouse inventory scanning, and real-time stock reconciliation.",
-    shortDescription: "Android Mobile App for Digital STO (Stock Take Opname) & Barcode Scanning",
+    description: "An Android application designed for tablets and barcode scanners to manage warehouse stock taking (Stock Take Opname) and real-time inventory counts.",
+    shortDescription: "Android tablet app for warehouse stock taking and barcode scanning.",
     image: "/image-project/komodo/1.webp",
     images: [
       "/image-project/komodo/1.webp",
@@ -106,8 +106,8 @@ export const projects: Project[] = [
   {
     id: "skripsi",
     title: "Sistem Prediksi Spare Part (Skripsi)",
-    description: "Penerapan Machine Learning algoritma Random Forest untuk prediksi kebutuhan pemesanan spare part dalam pencegahan overstock dan understock pada sistem inventaris industri.",
-    shortDescription: "Random Forest Machine Learning for Spare Part Inventory Prediction",
+    description: "A machine learning application using the Random Forest algorithm to forecast spare part ordering demand and prevent inventory overstock and understock.",
+    shortDescription: "Random Forest machine learning model for spare part inventory prediction.",
     image: "/image-project/skripsi/1.webp",
     images: [
       "/image-project/skripsi/1.webp",

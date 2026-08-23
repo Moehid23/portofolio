@@ -56,17 +56,20 @@ export function Navigation() {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
+    if (href === "#home") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setIsOpen(false);
+      return;
+    }
     const element = document.querySelector(href);
     if (element) {
-      // Offset navbar height so content is not hidden behind the fixed header
-      const navbarHeight = href === "#home" ? 0 : 80;
-      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: "smooth"
-      });
+      e.preventDefault();
+      element.scrollIntoView({ behavior: "smooth" });
       setIsOpen(false);
+    } else {
+      // If on sub-page, navigate back to homepage with hash
+      window.location.href = `/${href}`;
     }
   };
 

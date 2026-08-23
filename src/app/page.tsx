@@ -46,7 +46,7 @@ export default function Home() {
           </section>
 
         {/* About Section */}
-        <section id="about" className="scroll-mt-32">
+        <section id="about" className="scroll-mt-14">
           <Container>
             <ProfileSection />
             <ExperienceTimeline />
@@ -55,15 +55,15 @@ export default function Home() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-20 bg-neutral-50/50 scroll-mt-32">
+        <section id="projects" className="scroll-mt-14 pt-2 pb-16 md:pt-14 md:pb-24 bg-neutral-50/50">
           <Container>
-            <div className="mb-16 text-center">
+            <div className="mb-8 text-center">
               <span className="text-sm font-bold uppercase tracking-widest text-neutral-400">Portfolio</span>
-              <h2 className="mt-2 text-4xl font-bold tracking-tighter md:text-5xl">
+              <h2 className="mt-2 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Featured Projects
               </h2>
-              <p className="mt-4 mx-auto max-w-[700px] text-lg text-neutral-500">
-                A collection of my recent work, side projects, and experiments.
+              <p className="mt-2.5 mx-auto max-w-[700px] text-base md:text-lg text-neutral-500">
+                A collection of web applications, industrial systems, and machine learning projects.
               </p>
             </div>
             <ProjectGrid />
@@ -73,15 +73,15 @@ export default function Home() {
         <GallerySection />
 
         {/* Contact Section */}
-        <section id="contact" className="py-20 scroll-mt-32">
+        <section id="contact" className="scroll-mt-14 pt-2 pb-16 md:pt-14 md:pb-24">
           <Container>
-            <div className="mb-16 text-center">
+            <div className="mb-8 text-center">
               <span className="text-sm font-bold uppercase tracking-widest text-neutral-400">Get in Touch</span>
-              <h2 className="mt-2 text-4xl font-bold tracking-tighter md:text-5xl">
+              <h2 className="mt-2 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Contact Me
               </h2>
-              <p className="mt-4 mx-auto max-w-[700px] text-lg text-neutral-500">
-                Have a project in mind or want to collaborate? Send me a message.
+              <p className="mt-2.5 mx-auto max-w-[700px] text-base md:text-lg text-neutral-500">
+                Feel free to reach out for collaborations, job opportunities, or inquiries.
               </p>
             </div>
             
