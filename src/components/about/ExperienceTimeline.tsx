@@ -283,16 +283,13 @@ export function ExperienceTimeline() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b border-neutral-200">
           <div>
-            <div className="flex items-center gap-1.5 text-[11px] font-mono tracking-widest text-[#007AFF] uppercase font-bold">
-              <Navigation className="h-3.5 w-3.5 fill-[#007AFF]" />
-              <span>// Real GPS Coordinates • Karawang Industrial Corridor</span>
-            </div>
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-neutral-400">Work Experience</span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-950 mt-1">
-              Career Journey Map
+              Where I've Worked
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-neutral-500 max-w-md leading-relaxed">
-            Interactive GPS map with zoom &amp; drag. Tap any location pin to inspect company milestones.
+            Five years across Karawang's industrial corridor — from machining floors to production planning. Click a pin to see the details.
           </p>
         </div>
 
