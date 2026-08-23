@@ -100,8 +100,8 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
-      lat: -6.367928153785479,
-      lng: 107.30080857325028,
+      lat: -6.362805556,
+      lng: 107.306388889,
       description: experiences[1].description,
     },
     {
@@ -116,8 +116,8 @@ export function ExperienceTimeline() {
       current: true,
       themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
-      lat: -6.367928153785479,
-      lng: 107.30080857325028,
+      lat: -6.362805556,
+      lng: 107.306388889,
       description: experiences[0].description,
     },
   ], []);
