@@ -38,7 +38,7 @@ interface RealStation {
 }
 
 export function ExperienceTimeline() {
-  // Verified real coordinates and real company facility images
+  // Verified exact coordinates placed inside the real green industrial park complex
   const stations: RealStation[] = useMemo(() => [
     {
       id: "5",
@@ -94,14 +94,14 @@ export function ExperienceTimeline() {
       fullPeriod: "2024 — 2025",
       role: "Intern (Money Production & Electrical)",
       company: "Perum Percetakan Uang Republik Indonesia",
-      estateZone: "Kawasan Industri Peruri",
-      address: "Desa Parungmulya, Kec. Ciampel / Telukjambe, Karawang",
+      estateZone: "Kawasan Hijau Kompleks Peruri",
+      address: "Gedung Percetakan Uang RI, Kawasan Hijau Peruri, Karawang",
       image: "/companies/peruri.webp",
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
-      lat: -6.362750,
-      lng: 107.293248,
+      lat: -6.3635,
+      lng: 107.2945,
       description: experiences[1].description,
     },
     {
@@ -110,14 +110,14 @@ export function ExperienceTimeline() {
       fullPeriod: "2025 — Present",
       role: "Warehouse Staff (Planning & Utilities)",
       company: "Perum Percetakan Uang Republik Indonesia",
-      estateZone: "Kawasan Sentral Peruri",
-      address: "Desa Parungmulya, Kec. Ciampel / Telukjambe, Karawang",
+      estateZone: "Kawasan Hijau Kompleks Peruri",
+      address: "Gedung Sentral & Utility, Kawasan Hijau Peruri, Karawang",
       image: "/companies/peruri.webp",
       current: true,
       themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
-      lat: -6.361950,
-      lng: 107.294100,
+      lat: -6.3608,
+      lng: 107.2965,
       description: experiences[0].description,
     },
   ], []);
@@ -137,7 +137,7 @@ export function ExperienceTimeline() {
 
       if (!isMounted || !mapContainerRef.current) return;
 
-      // Center across all exact points
+      // Center across the full corridor
       const map = L.map(mapContainerRef.current, {
         center: [-6.395, 107.355],
         zoom: 12,
@@ -205,7 +205,7 @@ export function ExperienceTimeline() {
         const marker = L.marker([stg.lat, stg.lng], { icon: customIcon }).addTo(map);
 
         marker.on("click", () => {
-          map.flyTo([stg.lat, stg.lng], 15, { duration: 1.2 });
+          map.flyTo([stg.lat, stg.lng], 16, { duration: 1.2 });
           setActiveStation(stg);
         });
       });
@@ -238,7 +238,7 @@ export function ExperienceTimeline() {
   };
 
   const handleSelectStation = (stg: RealStation) => {
-    mapInstanceRef.current?.flyTo([stg.lat, stg.lng], 15, { duration: 1.2 });
+    mapInstanceRef.current?.flyTo([stg.lat, stg.lng], 16, { duration: 1.2 });
     setActiveStation(stg);
   };
 
