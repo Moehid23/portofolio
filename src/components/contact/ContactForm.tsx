@@ -95,11 +95,6 @@ export function ContactForm() {
         {/* Left Col: Direct Channels (5 Cols) */}
         <div className="lg:col-span-5 flex flex-col justify-between space-y-4 border-b lg:border-b-0 lg:border-r border-neutral-200/80 pb-6 lg:pb-0 lg:pr-8">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-mono font-bold uppercase tracking-wider">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Direct Communication
-            </div>
-
             <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-950">
               Let&apos;s Connect
             </h3>
@@ -121,7 +116,7 @@ export function ContactForm() {
                   onClick={handleCopyEmail}
                   className="text-[10px] font-semibold text-neutral-600 hover:text-black transition-colors flex items-center gap-1"
                 >
-                  {emailCopied ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
+                  {emailCopied ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3 text-neutral-400" />}
                   <span>{emailCopied ? "Copied" : "Copy"}</span>
                 </button>
               </div>
@@ -130,26 +125,44 @@ export function ContactForm() {
               </p>
             </div>
 
-            {/* LinkedIn & Instagram Compact Grid */}
+            {/* LinkedIn & Instagram with Local SVGs */}
             <div className="grid grid-cols-2 gap-2">
               <a
                 href="https://www.linkedin.com/in/abdul-muhid-muhthado-964b951a3/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/70 hover:bg-neutral-100 hover:border-neutral-300 transition-all text-xs font-semibold text-neutral-800"
+                className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/70 hover:bg-white hover:border-neutral-300 hover:shadow-xs transition-all text-xs font-semibold text-neutral-800 group"
               >
-                <span>LinkedIn</span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-neutral-400" />
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/icons/linkedin.svg"
+                    alt="LinkedIn"
+                    width={16}
+                    height={16}
+                    className="h-4 w-4 object-contain shrink-0"
+                  />
+                  <span>LinkedIn</span>
+                </div>
+                <ArrowUpRight className="h-3.5 w-3.5 text-neutral-400 group-hover:text-black group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
 
               <a
                 href="https://www.instagram.com/abdullmoehid_/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/70 hover:bg-neutral-100 hover:border-neutral-300 transition-all text-xs font-semibold text-neutral-800"
+                className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/70 hover:bg-white hover:border-neutral-300 hover:shadow-xs transition-all text-xs font-semibold text-neutral-800 group"
               >
-                <span>Instagram</span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-neutral-400" />
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/icons/instagram.svg"
+                    alt="Instagram"
+                    width={16}
+                    height={16}
+                    className="h-4 w-4 object-contain shrink-0"
+                  />
+                  <span>Instagram</span>
+                </div>
+                <ArrowUpRight className="h-3.5 w-3.5 text-neutral-400 group-hover:text-black group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             </div>
 

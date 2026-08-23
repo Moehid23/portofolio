@@ -76,9 +76,6 @@ export default function Home() {
         <section id="contact" className="scroll-mt-14 py-8 sm:py-10 md:py-14 bg-neutral-50/40 border-t border-neutral-100">
           <Container>
             <div className="mb-6 text-center max-w-2xl mx-auto space-y-1.5">
-              <span className="text-[11px] font-mono tracking-widest text-neutral-400 uppercase font-semibold">
-                // Direct Communication
-              </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-950">
                 Contact Me
               </h2>
