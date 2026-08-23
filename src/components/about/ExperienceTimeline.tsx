@@ -4,266 +4,408 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { experiences } from "@/data/experience";
 import { 
-  Gamepad2, 
   MapPin, 
   Calendar, 
   ChevronRight, 
   ChevronLeft, 
-  Sparkles, 
   CheckCircle2, 
-  Target,
-  Trophy,
-  Zap,
-  Flag
+  X,
+  Sparkles,
+  ExternalLink
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function ExperienceTimeline() {
-  // Chronological order from Stage 1 (2020) to Stage 5 (2025 - Present)
-  const stages = [...experiences].reverse();
-  const [selectedIdx, setSelectedIdx] = useState<number>(stages.length - 1); // Default to current stage
-  const currentStage = stages[selectedIdx];
+interface MilestonePin {
+  id: string;
+  year: string;
+  role: string;
+  company: string;
+  location: string;
+  isCurrent: boolean;
+  color: string;
+  glowColor: string;
+  position: "top" | "bottom";
+  xPercent: number; // percentage along the road (0 to 100)
+  yPercent: number; // vertical curve percentage
+  description: string[];
+}
 
-  const handlePrev = () => {
-    setSelectedIdx((prev) => (prev > 0 ? prev - 1 : stages.length - 1));
+export function ExperienceTimeline() {
+  // Chronological order: Honda (2020), JTEKT (2021), Daihatsu (2023), Peruri Intern (2024), Peruri Planning (2025)
+  const roadmapData: MilestonePin[] = [
+    {
+      id: "5",
+      year: "2020",
+      role: "Machining Operator",
+      company: "PT. Honda Precision Parts Manufacturing",
+      location: "Karawang, Indonesia",
+      isCurrent: false,
+      color: "#EC4899", // Rose / Pink
+      glowColor: "rgba(236, 72, 153, 0.4)",
+      position: "bottom",
+      xPercent: 12,
+      yPercent: 70,
+      description: experiences[4].description,
+    },
+    {
+      id: "4",
+      year: "2021",
+      role: "Assembly Operator",
+      company: "PT. JTEKT Indonesia",
+      location: "Karawang, Indonesia",
+      isCurrent: false,
+      color: "#10B981", // Teal / Emerald
+      glowColor: "rgba(16, 185, 129, 0.4)",
+      position: "top",
+      xPercent: 31,
+      yPercent: 30,
+      description: experiences[3].description,
+    },
+    {
+      id: "3",
+      year: "2023",
+      role: "Quality Inspector",
+      company: "PT. Daihatsu Drivetrain",
+      location: "Karawang, Indonesia",
+      isCurrent: false,
+      color: "#8B5CF6", // Purple / Indigo
+      glowColor: "rgba(139, 92, 246, 0.4)",
+      position: "bottom",
+      xPercent: 50,
+      yPercent: 70,
+      description: experiences[2].description,
+    },
+    {
+      id: "2",
+      year: "2024",
+      role: "Intern (Money Production)",
+      company: "Perum Peruri",
+      location: "Karawang, Indonesia",
+      isCurrent: false,
+      color: "#F97316", // Orange
+      glowColor: "rgba(249, 115, 22, 0.4)",
+      position: "top",
+      xPercent: 69,
+      yPercent: 30,
+      description: experiences[1].description,
+    },
+    {
+      id: "1",
+      year: "2025",
+      role: "Warehouse Staff",
+      company: "Perum Peruri",
+      location: "Karawang, Indonesia",
+      isCurrent: true,
+      color: "#0EA5E9", // Sky Blue
+      glowColor: "rgba(14, 165, 233, 0.4)",
+      position: "bottom",
+      xPercent: 88,
+      yPercent: 70,
+      description: experiences[0].description,
+    },
+  ];
+
+  const [activeItem, setActiveItem] = useState<MilestonePin | null>(null);
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!activeItem) return;
+    const currentIdx = roadmapData.findIndex((m) => m.id === activeItem.id);
+    const prevIdx = currentIdx > 0 ? currentIdx - 1 : roadmapData.length - 1;
+    setActiveItem(roadmapData[prevIdx]);
   };
 
-  const handleNext = () => {
-    setSelectedIdx((prev) => (prev < stages.length - 1 ? prev + 1 : 0));
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!activeItem) return;
+    const currentIdx = roadmapData.findIndex((m) => m.id === activeItem.id);
+    const nextIdx = currentIdx < roadmapData.length - 1 ? currentIdx + 1 : 0;
+    setActiveItem(roadmapData[nextIdx]);
   };
 
   return (
-    <section className="py-6 sm:py-8 md:py-10 relative w-full overflow-hidden" id="experience">
-      <div className="max-w-5xl mx-auto space-y-4">
+    <section className="py-8 sm:py-12 md:py-14 relative w-full overflow-hidden" id="experience">
+      <div className="max-w-5xl mx-auto space-y-6">
         
-        {/* Editorial Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-3 border-b border-neutral-200">
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-mono font-bold tracking-widest uppercase text-emerald-600">
-              <Gamepad2 className="h-3.5 w-3.5 text-emerald-500 animate-pulse" />
-              <span>// Career Level Map • Select Stage</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950 mt-0.5">
-              Career Journey &amp; Quest Map
-            </h2>
-          </div>
-
-          <p className="text-xs sm:text-sm text-neutral-500 max-w-sm sm:text-right">
-            Click each game checkpoint on the world map to inspect quest logs and technical milestones.
+        {/* Header matching user illustration */}
+        <div className="text-center space-y-1.5">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-neutral-950 font-sans">
+            Career Path Timeline
+          </h2>
+          <p className="text-xs sm:text-sm text-neutral-500 max-w-md mx-auto">
+            Click any checkpoint pin on the road map to view role details &amp; achievements.
           </p>
         </div>
 
-        {/* ── Arcade World Map Board Container ── */}
-        <div className="relative rounded-2xl sm:rounded-3xl bg-neutral-950 text-white border border-neutral-800 shadow-2xl p-4 sm:p-6 overflow-hidden">
+        {/* ── Main Road Map Canvas Card (Clean Light Mode) ── */}
+        <div className="relative rounded-3xl bg-white border border-neutral-200/90 shadow-xl shadow-neutral-100/80 p-4 sm:p-8 overflow-hidden min-h-[380px] sm:min-h-[460px] flex items-center justify-center">
           
-          {/* Subtle Cyber Grid Background */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f293715_1px,transparent_1px),linear-gradient(to_bottom,#1f293715_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-          <div className="absolute -top-24 -right-24 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Soft Pastel Ambient Background Glows */}
+          <div className="absolute top-10 left-10 w-64 h-64 bg-pink-100/60 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-100/50 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-10 right-10 w-64 h-64 bg-sky-100/60 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Arcade HUD Top Bar */}
-          <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 pb-4 mb-4 border-b border-neutral-800/80 text-xs font-mono">
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-neutral-900 border border-neutral-700 text-emerald-400 font-bold text-[11px]">
-                <Target className="h-3 w-3 text-emerald-400 animate-spin" />
-                STAGE 0{selectedIdx + 1} / 0{stages.length}
-              </span>
-              <span className="text-neutral-400 hidden sm:inline">
-                WORLD: <strong className="text-neutral-200">KARAWANG INDUSTRIAL ZONE</strong>
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-800 text-emerald-400 text-[10px] font-bold">
-                {currentStage.current ? "BOSS / CURRENT LEVEL" : "CLEARED STAGE"}
-              </span>
-              <span className="text-neutral-500 text-[11px]">5 MILIESTONES RECORDED</span>
-            </div>
-          </div>
-
-          {/* ── Interactive Arcade Route Map ── */}
-          <div className="relative z-10 mb-6 py-2">
-            {/* Connecting Neon Line */}
-            <div className="absolute top-1/2 left-6 right-6 h-1 -translate-y-1/2 bg-neutral-800 rounded-full hidden md:block" />
+          {/* Desktop & Tablet Curved Road Track View (Hidden on very small mobile) */}
+          <div className="relative w-full h-[320px] sm:h-[360px] hidden sm:block">
             
-            {/* Animated Active Route Glow */}
-            <motion.div 
-              className="absolute top-1/2 left-6 h-1 -translate-y-1/2 bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 rounded-full shadow-[0_0_12px_rgba(52,211,153,0.8)] hidden md:block"
-              initial={false}
-              animate={{
-                width: `${(selectedIdx / (stages.length - 1)) * 90}%`
-              }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            />
+            {/* SVG Winding Road Track */}
+            <svg 
+              viewBox="0 0 1000 360" 
+              className="w-full h-full absolute inset-0 pointer-events-none"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <filter id="roadShadow" x="-5%" y="-5%" width="110%" height="120%">
+                  <feDropShadow dx="0" dy="6" stdDeviation="6" floodOpacity="0.15" />
+                </filter>
+              </defs>
 
-            {/* 5 Stage Checkpoint Pins */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-3">
-              {stages.map((stg, idx) => {
-                const isSelected = selectedIdx === idx;
-                const isCurrent = stg.current;
-                const year = isCurrent ? "2025" : stg.startDate.split("-")[0];
-                const cleanCompany = stg.company.replace("PT. ", "").replace("Perum ", "");
+              {/* Asphalt Road Outer Path with Soft Shadow */}
+              <path
+                d="M 0,180 C 60,180 80,260 140,260 C 200,260 260,100 325,100 C 390,100 440,260 500,260 C 560,260 625,100 690,100 C 755,100 810,260 870,260 C 930,260 950,180 1000,180"
+                fill="none"
+                stroke="#18181B"
+                strokeWidth="24"
+                strokeLinecap="round"
+                filter="url(#roadShadow)"
+              />
 
-                return (
-                  <motion.button
-                    key={stg.id}
-                    onClick={() => setSelectedIdx(idx)}
-                    whileHover={{ scale: 1.05, y: -3 }}
-                    whileTap={{ scale: 0.96 }}
-                    className={cn(
-                      "relative p-3 rounded-2xl border text-left transition-all duration-200 flex flex-col justify-between min-h-[90px] cursor-pointer group select-none",
-                      isSelected
-                        ? "bg-neutral-900 border-emerald-400 shadow-xl shadow-emerald-500/25 ring-1 ring-emerald-400"
-                        : "bg-neutral-900/60 border-neutral-800 hover:border-neutral-600 hover:bg-neutral-900"
-                    )}
-                  >
-                    {/* Header Row: Stage Tag & Glowing Pin */}
-                    <div className="flex items-center justify-between w-full">
-                      <span className={cn(
-                        "text-[9px] font-mono font-bold px-1.5 py-0.5 rounded",
-                        isSelected 
-                          ? "bg-emerald-400 text-black font-extrabold" 
-                          : "bg-neutral-800 text-neutral-400"
-                      )}>
-                        LVL 0{idx + 1}
-                      </span>
+              {/* White Dashed Lane Centerline */}
+              <path
+                d="M 0,180 C 60,180 80,260 140,260 C 200,260 260,100 325,100 C 390,100 440,260 500,260 C 560,260 625,100 690,100 C 755,100 810,260 870,260 C 930,260 950,180 1000,180"
+                fill="none"
+                stroke="#FFFFFF"
+                strokeWidth="2.5"
+                strokeDasharray="8 8"
+                strokeLinecap="round"
+              />
+            </svg>
 
-                      {/* Radar Beacon Pin */}
-                      <span className="relative flex h-3 w-3">
-                        {isSelected && (
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80" />
-                        )}
-                        <span className={cn(
-                          "relative inline-flex rounded-full h-3 w-3 transition-all",
-                          isSelected 
-                            ? "bg-emerald-400 shadow-[0_0_8px_#34d399]" 
-                            : isCurrent ? "bg-emerald-600" : "bg-neutral-600"
-                        )} />
-                      </span>
-                    </div>
+            {/* 5 Milestone Teardrop Pins & Labels Positioned Along the Curves */}
+            {roadmapData.map((item) => {
+              const isTop = item.position === "top";
 
-                    {/* Company & Year */}
-                    <div className="mt-2">
-                      <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-neutral-400">
-                        <span>{year}</span>
-                        {isCurrent && <span className="text-emerald-400 text-[9px]">(NOW)</span>}
-                      </div>
-
-                      <h4 className={cn(
-                        "text-[11px] font-bold leading-snug line-clamp-1 mt-0.5 transition-colors",
-                        isSelected ? "text-white" : "text-neutral-300 group-hover:text-white"
-                      )}>
-                        {cleanCompany}
+              return (
+                <div
+                  key={item.id}
+                  style={{
+                    left: `${item.xPercent}%`,
+                    top: isTop ? "26%" : "74%",
+                  }}
+                  className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-10"
+                >
+                  {/* Top Label (for Peak Milestones) */}
+                  {isTop && (
+                    <motion.div 
+                      whileHover={{ scale: 1.05 }}
+                      onClick={() => setActiveItem(item)}
+                      className="mb-2 text-center cursor-pointer select-none group"
+                    >
+                      <h4 className="text-xs sm:text-sm font-extrabold text-neutral-900 leading-tight group-hover:text-black transition-colors max-w-[130px]">
+                        {item.role}
                       </h4>
-                    </div>
+                      <span className="text-xs sm:text-sm font-black text-neutral-900 block mt-0.5">
+                        {item.year}
+                      </span>
+                    </motion.div>
+                  )}
 
-                    {/* Active Selected Player Marker Badge */}
-                    {isSelected && (
-                      <motion.div
-                        layoutId="activeMapIndicator"
-                        className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-emerald-400 text-black text-[8px] font-mono font-extrabold shadow-md flex items-center gap-0.5"
-                      >
-                        <Zap className="h-2 w-2 fill-current" />
-                        ACTIVE
-                      </motion.div>
+                  {/* Teardrop Pin Marker Button */}
+                  <motion.button
+                    onClick={() => setActiveItem(item)}
+                    whileHover={{ scale: 1.2, y: isTop ? -3 : 3 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                      backgroundColor: item.color,
+                      boxShadow: `0 8px 20px -2px ${item.glowColor}`,
+                    }}
+                    className={cn(
+                      "relative flex items-center justify-center h-11 w-11 sm:h-12 sm:w-12 rounded-full cursor-pointer transition-transform duration-200 border-2 border-white shadow-lg",
+                      isTop ? "rounded-b-none rounded-t-full" : "rounded-t-none rounded-b-full"
                     )}
-                  </motion.button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* ── Quest Log & Stage Dossier Card ── */}
-          <div className="relative rounded-2xl bg-neutral-900/95 border border-neutral-800/90 p-4 sm:p-5 overflow-hidden backdrop-blur-md">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentStage.id}
-                initial={{ opacity: 0, scale: 0.98, y: 8 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98, y: -8 }}
-                transition={{ duration: 0.22, ease: "easeOut" }}
-                className="space-y-4"
-              >
-                {/* Stage Header Info */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-800">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800/60 text-emerald-400">
-                        QUEST CHECKPOINT #0{selectedIdx + 1}
-                      </span>
-                      {currentStage.current && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-800/50">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          Current Active Quest
-                        </span>
-                      )}
-                    </div>
-
-                    <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                      {currentStage.title}
-                    </h3>
-
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-400 font-medium">
-                      <span className="text-neutral-200 font-semibold">{currentStage.company}</span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1 text-neutral-400">
-                        <MapPin className="h-3 w-3 text-neutral-500" />
-                        {currentStage.location}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Stage Stepper Navigator */}
-                  <div className="flex items-center gap-2 self-start sm:self-auto">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-neutral-800 text-neutral-300 text-xs font-mono border border-neutral-700">
-                      <Calendar className="h-3.5 w-3.5 text-neutral-400" />
-                      {currentStage.startDate.split("-")[0]} - {currentStage.current ? "Present" : currentStage.endDate?.split("-")[0]}
+                    title={`Click to inspect ${item.company} (${item.year})`}
+                  >
+                    {/* Inner White Circle */}
+                    <span className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-white shadow-inner flex items-center justify-center">
+                      <span 
+                        className="h-2.5 w-2.5 rounded-full"
+                        style={{ backgroundColor: item.color }}
+                      />
                     </span>
 
-                    <button
-                      onClick={handlePrev}
-                      className="h-8 w-8 rounded-lg bg-neutral-800 hover:bg-white hover:text-black text-neutral-300 border border-neutral-700 flex items-center justify-center transition-colors"
-                      title="Previous Stage"
-                    >
-                      <ChevronLeft className="h-4 w-4" />
-                    </button>
+                    {/* Pulsing indicator for current active role */}
+                    {item.isCurrent && (
+                      <span 
+                        className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-emerald-400 border-2 border-white animate-ping"
+                      />
+                    )}
+                  </motion.button>
 
-                    <button
-                      onClick={handleNext}
-                      className="h-8 w-8 rounded-lg bg-neutral-800 hover:bg-white hover:text-black text-neutral-300 border border-neutral-700 flex items-center justify-center transition-colors"
-                      title="Next Stage"
+                  {/* Bottom Label (for Valley Milestones) */}
+                  {!isTop && (
+                    <motion.div 
+                      whileHover={{ scale: 1.05 }}
+                      onClick={() => setActiveItem(item)}
+                      className="mt-2 text-center cursor-pointer select-none group"
                     >
-                      <ChevronRight className="h-4 w-4" />
-                    </button>
-                  </div>
+                      <span className="text-xs sm:text-sm font-black text-neutral-900 block">
+                        {item.year}
+                      </span>
+                      <h4 className="text-xs sm:text-sm font-extrabold text-neutral-900 leading-tight group-hover:text-black transition-colors max-w-[130px] mt-0.5">
+                        {item.role}
+                      </h4>
+                    </motion.div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Mobile Vertical Road Path View (Under 640px) */}
+          <div className="relative w-full space-y-3 sm:hidden z-10 py-2">
+            {roadmapData.map((item, idx) => (
+              <motion.div
+                key={item.id}
+                onClick={() => setActiveItem(item)}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-neutral-200 shadow-sm cursor-pointer hover:border-neutral-400 transition-all"
+              >
+                {/* Colored Pin */}
+                <div 
+                  style={{ backgroundColor: item.color }}
+                  className="h-10 w-10 rounded-full flex items-center justify-center shrink-0 border-2 border-white shadow-md"
+                >
+                  <div className="h-4 w-4 rounded-full bg-white" />
                 </div>
 
-                {/* Quest Clear Achievements List — 100% Content Preserved */}
-                <div className="space-y-2">
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 font-semibold flex items-center gap-1.5">
-                    <Trophy className="h-3 w-3 text-amber-400" />
-                    <span>Unlocked Achievements &amp; Industrial Execution:</span>
-                  </span>
-                  
-                  <div className="grid grid-cols-1 gap-2">
-                    {currentStage.description.map((item, i) => (
-                      <div
-                        key={i}
-                        className="flex items-start gap-2.5 p-2.5 rounded-xl bg-neutral-950/80 border border-neutral-800/80 text-xs text-neutral-300 leading-relaxed hover:border-neutral-700 transition-colors"
-                      >
-                        <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
+                {/* Role Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black text-neutral-900">{item.year}</span>
+                    {item.isCurrent && (
+                      <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
+                        Current
+                      </span>
+                    )}
                   </div>
+                  <h4 className="text-xs font-bold text-neutral-900 truncate mt-0.5">{item.role}</h4>
+                  <p className="text-[11px] text-neutral-500 truncate">{item.company}</p>
                 </div>
+
+                <ChevronRight className="h-4 w-4 text-neutral-400 shrink-0" />
               </motion.div>
-            </AnimatePresence>
+            ))}
           </div>
 
         </div>
 
       </div>
+
+      {/* ── Interactive Pop-Up / Modal Detail Inspector ── */}
+      <AnimatePresence>
+        {activeItem && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActiveItem(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-lg rounded-3xl bg-white border border-neutral-200/90 shadow-2xl p-6 sm:p-7 space-y-4 overflow-hidden text-neutral-900"
+            >
+              {/* Colored Top Accent Bar */}
+              <div 
+                style={{ backgroundColor: activeItem.color }}
+                className="absolute top-0 left-0 right-0 h-2"
+              />
+
+              {/* Close Button */}
+              <button
+                onClick={() => setActiveItem(null)}
+                className="absolute top-4 right-4 h-8 w-8 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 flex items-center justify-center transition-colors"
+                aria-label="Close"
+              >
+                <X className="h-4 w-4" />
+              </button>
+
+              {/* Header */}
+              <div className="space-y-1.5 pt-1 pr-8">
+                <div className="flex items-center gap-2">
+                  <span 
+                    style={{ backgroundColor: `${activeItem.color}18`, color: activeItem.color }}
+                    className="text-xs font-black px-2.5 py-0.5 rounded-full font-mono"
+                  >
+                    {activeItem.year} {activeItem.isCurrent && "• CURRENT"}
+                  </span>
+                  <span className="text-xs font-semibold text-neutral-400">
+                    Career Checkpoint
+                  </span>
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight text-neutral-950">
+                  {activeItem.role}
+                </h3>
+
+                <div className="flex flex-wrap items-center gap-x-2.5 text-xs text-neutral-600 font-medium">
+                  <span className="font-bold text-neutral-900">{activeItem.company}</span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1 text-neutral-500">
+                    <MapPin className="h-3 w-3" />
+                    {activeItem.location}
+                  </span>
+                </div>
+              </div>
+
+              {/* Description & Technical Achievements */}
+              <div className="space-y-2 pt-2 border-t border-neutral-100">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 font-bold block">
+                  Responsibilities &amp; Achievements:
+                </span>
+
+                <div className="space-y-2">
+                  {activeItem.description.map((item, idx) => (
+                    <div 
+                      key={idx}
+                      className="flex items-start gap-2.5 p-3 rounded-xl bg-neutral-50 border border-neutral-100 text-xs sm:text-[13px] text-neutral-700 leading-relaxed"
+                    >
+                      <CheckCircle2 
+                        style={{ color: activeItem.color }}
+                        className="h-4 w-4 shrink-0 mt-0.5" 
+                      />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom Navigators */}
+              <div className="pt-3 flex items-center justify-between border-t border-neutral-100">
+                <button
+                  onClick={handlePrev}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-semibold text-neutral-700 transition-colors"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" /> Previous
+                </button>
+
+                <button
+                  onClick={handleNext}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-semibold text-neutral-700 transition-colors"
+                >
+                  Next <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 }
