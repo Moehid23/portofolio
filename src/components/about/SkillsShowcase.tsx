@@ -132,23 +132,23 @@ export function SkillsShowcase() {
         <div className="max-w-5xl mx-auto rounded-2xl sm:rounded-3xl bg-white border border-neutral-300/80 shadow-2xl shadow-neutral-200/60 overflow-hidden">
           
           {/* macOS Titlebar with 3 Traffic Light Circles */}
-          <div className="bg-neutral-100/90 border-b border-neutral-200/90 px-4 sm:px-5 py-3 flex items-center justify-between select-none">
+          <div className="bg-neutral-100/90 border-b border-neutral-200/90 px-3 sm:px-5 py-2.5 sm:py-3 flex items-center justify-between select-none">
             {/* 3 MacBook Traffic Light Buttons */}
-            <div className="flex items-center gap-2">
-              <span className="h-3 w-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/60 inline-block shadow-2xs hover:opacity-80 transition-opacity cursor-pointer" title="Close" />
-              <span className="h-3 w-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/60 inline-block shadow-2xs hover:opacity-80 transition-opacity cursor-pointer" title="Minimize" />
-              <span className="h-3 w-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/60 inline-block shadow-2xs hover:opacity-80 transition-opacity cursor-pointer" title="Expand" />
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/60 inline-block shadow-2xs hover:opacity-80 transition-opacity cursor-pointer" title="Close" />
+              <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/60 inline-block shadow-2xs hover:opacity-80 transition-opacity cursor-pointer" title="Minimize" />
+              <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/60 inline-block shadow-2xs hover:opacity-80 transition-opacity cursor-pointer" title="Expand" />
             </div>
 
             {/* macOS Window Title */}
-            <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-white border border-neutral-200 text-[11px] font-mono text-neutral-600 shadow-2xs">
-              <span className="text-neutral-400">workspace:</span>
-              <span className="font-semibold text-neutral-900">~/muhid/engineering-process</span>
+            <div className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md bg-white border border-neutral-200 text-[10px] sm:text-[11px] font-mono text-neutral-600 shadow-2xs truncate max-w-[160px] sm:max-w-none">
+              <span className="text-neutral-400 hidden xs:inline">workspace:</span>
+              <span className="font-semibold text-neutral-900 truncate">~/muhid/process</span>
             </div>
 
             {/* Status Indicator */}
             <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 font-medium">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500 animate-pulse" />
               <span className="hidden sm:inline">Active Terminal</span>
             </div>
           </div>

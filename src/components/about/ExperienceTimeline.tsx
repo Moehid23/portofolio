@@ -6,7 +6,7 @@ import { Briefcase, MapPin, Calendar, ScrollText, Sparkles } from "lucide-react"
 
 export function ExperienceTimeline() {
   return (
-    <section className="relative py-20 bg-gradient-to-br from-neutral-100 via-stone-50 to-neutral-200/70 text-neutral-900 -mx-6 px-6 md:px-0 rounded-3xl overflow-hidden my-12 border border-neutral-200 shadow-sm">
+    <section className="relative py-10 sm:py-16 md:py-20 bg-gradient-to-br from-neutral-100 via-stone-50 to-neutral-200/70 text-neutral-900 px-4 sm:px-6 md:px-8 rounded-2xl sm:rounded-3xl overflow-hidden my-8 sm:my-12 border border-neutral-200 shadow-sm">
       
       {/* ── Subtle Ambient Gradient Accents ── */}
       <div className="absolute -top-24 -right-24 w-96 h-96 bg-neutral-300/40 rounded-full blur-3xl pointer-events-none" />
