@@ -9,11 +9,8 @@ const greetings = [
   "Wilujeng Sumping",  // Sundanese (local Karawang touch!)
   "ようこそ",           // Japanese (Yōkoso)
   "Bienvenue",         // French
-  "مرحباً",            // Arabic (Marhaban)
-  "환영합니다",         // Korean
   "Willkommen",        // German
   "Bienvenido",        // Spanish
-  "欢迎",              // Chinese (Huānyíng)
   "Muhid."             // Brand finish!
 ];
 
@@ -24,18 +21,23 @@ interface PreloaderProps {
 export function Preloader({ onComplete }: PreloaderProps) {
   const [index, setIndex] = useState(0);
 
+  // Calculate current progress percentage (0 - 100%)
+  const progress = Math.min(100, Math.round(((index + 1) / greetings.length) * 100));
+
   useEffect(() => {
     if (index === greetings.length - 1) {
-      // Hold the final "Muhid." brand greeting a bit longer before sliding out
+      // Hold the final "Muhid." brand greeting at 100% before sliding out
       const timeout = setTimeout(() => {
         onComplete();
-      }, 1000);
+      }, 900);
       return () => clearTimeout(timeout);
     }
 
+    // Comfortable reading tempo (~550ms - 650ms per greeting)
+    const delay = index === 0 ? 600 : 520;
     const interval = setTimeout(() => {
       setIndex((prev) => prev + 1);
-    }, index === 0 ? 350 : 220); // First word displays slightly longer, then cycles fast
+    }, delay);
 
     return () => clearTimeout(interval);
   }, [index, onComplete]);
@@ -55,17 +57,17 @@ export function Preloader({ onComplete }: PreloaderProps) {
   const textOpacity = {
     initial: {
       opacity: 0,
-      y: 40,
+      y: 30,
     },
     animate: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.25, ease: "easeOut" as const }
+      transition: { duration: 0.35, ease: "easeOut" as const }
     },
     exit: {
       opacity: 0,
-      y: -40,
-      transition: { duration: 0.22, ease: "easeIn" as const }
+      y: -30,
+      transition: { duration: 0.28, ease: "easeIn" as const }
     }
   };
 
@@ -95,22 +97,36 @@ export function Preloader({ onComplete }: PreloaderProps) {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight"
+            className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white flex items-center gap-3"
           >
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
             {greetings[index]}
           </motion.h1>
         </div>
 
         {/* Dynamic growing line underneath the greetings */}
-        <div className="mt-8 h-[2px] w-[120px] bg-neutral-800 rounded-full overflow-hidden relative">
+        <div className="mt-8 h-[3px] w-[180px] sm:w-[220px] bg-neutral-800 rounded-full overflow-hidden relative shadow-inner">
           <motion.div 
-            className="absolute left-0 top-0 h-full bg-white"
+            className="absolute left-0 top-0 h-full bg-gradient-to-r from-emerald-400 via-white to-emerald-300 rounded-full"
             initial={{ width: "0%" }}
             animate={{ 
-              width: `${((index + 1) / greetings.length) * 100}%` 
+              width: `${progress}%` 
             }}
-            transition={{ duration: 0.2, ease: "easeInOut" as const }}
+            transition={{ duration: 0.35, ease: "easeInOut" as const }}
           />
+        </div>
+
+        {/* Percentage Counter Below Loading Bar */}
+        <div className="mt-3 flex items-center gap-1.5 font-mono text-xs sm:text-sm font-semibold tracking-widest text-neutral-400">
+          <motion.span
+            key={progress}
+            initial={{ opacity: 0.4, y: 3 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="text-neutral-200"
+          >
+            {progress}%
+          </motion.span>
         </div>
       </div>
     </motion.div>
