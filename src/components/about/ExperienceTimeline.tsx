@@ -116,8 +116,8 @@ export function ExperienceTimeline() {
       current: true,
       themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
-      lat: -6.362805556,
-      lng: 107.306388889,
+      lat: -6.372667,
+      lng: 107.302889,
       description: experiences[0].description,
     },
   ], []);
