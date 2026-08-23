@@ -4,6 +4,33 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+// 100% Local SVG Icon Map (Offline, Zero CDN)
+const localIconMap: Record<string, string> = {
+  "Next.js": "/icons/nextjs.svg",
+  "React.js": "/icons/react.svg",
+  "Flutter": "/icons/flutter.svg",
+  "Tailwind CSS": "/icons/tailwind.svg",
+  "Vue.js": "/icons/vue.svg",
+  "TypeScript": "/icons/typescript.svg",
+  "JavaScript": "/icons/javascript.svg",
+  "Node.js": "/icons/nodejs.svg",
+  "Laravel": "/icons/laravel.svg",
+  "Python": "/icons/python.svg",
+  "PostgreSQL": "/icons/postgresql.svg",
+  "Git": "/icons/git.svg",
+  "Docker": "/icons/docker.svg",
+  "Kotlin": "/icons/kotlin.svg",
+  "Figma": "/icons/figma.svg",
+  "Stitch": "/icons/stitch.svg",
+  "Tableau": "/icons/tableau.svg",
+  "Power BI": "/icons/powerbi.svg",
+  "Excel": "/icons/excel.svg",
+  "Vercel": "/icons/vercel.svg",
+  "Linux": "/icons/linux.svg",
+  "Scikit-Learn": "/icons/scikitlearn.svg",
+  "Pandas": "/icons/pandas.svg"
+};
+
 interface PhaseData {
   number: string;
   name: string;
@@ -28,7 +55,7 @@ const phases: PhaseData[] = [
       "Interactive UI wireframing & prototyping in Figma & Stitch",
       "Industrial calibration & dimensional tolerance constraints"
     ],
-    tools: ["Figma", "Stitch", "PostgreSQL", "TypeScript"],
+    tools: ["Figma", "Stitch", "PostgreSQL", "TypeScript", "Git"],
     deliverable: "System Schema & Interactive Prototype"
   },
   {
@@ -101,7 +128,7 @@ export function SkillsShowcase() {
           </p>
         </div>
 
-        {/* Phase Timeline Navigation Bar (Clean & Icon-Free) */}
+        {/* Phase Timeline Navigation Bar */}
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 mb-4">
           {phases.map((p, idx) => {
             const isSelected = activeIdx === idx;
@@ -159,7 +186,7 @@ export function SkillsShowcase() {
           })}
         </div>
 
-        {/* Phase Inspector Workspace (Clean Typography & Icon-Free) */}
+        {/* Phase Inspector Workspace */}
         <div className="max-w-5xl mx-auto rounded-2xl bg-white border border-neutral-200/90 shadow-sm p-4 sm:p-6 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
@@ -215,10 +242,10 @@ export function SkillsShowcase() {
                 </div>
               </div>
 
-              {/* Right Column: Clean Text Toolchain & Final Deliverable (5 Cols) */}
+              {/* Right Column: Local Tool Logos & Final Deliverable (5 Cols) */}
               <div className="md:col-span-5 flex flex-col justify-between h-full bg-neutral-50 rounded-xl p-3.5 sm:p-4 border border-neutral-200/80 space-y-3">
                 <div>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-2.5">
                     <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-semibold">
                       Applied Toolchain
                     </span>
@@ -227,16 +254,28 @@ export function SkillsShowcase() {
                     </span>
                   </div>
 
-                  {/* Clean Typography Badge Grid (Zero Icons) */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {current.tools.map((tool) => (
-                      <div
-                        key={tool}
-                        className="px-2.5 py-1.5 rounded-lg bg-white border border-neutral-200/90 text-xs font-semibold text-neutral-800 hover:border-neutral-400 transition-colors shadow-2xs"
-                      >
-                        {tool}
-                      </div>
-                    ))}
+                  {/* Local Tool Badges with Local SVGs */}
+                  <div className="flex flex-wrap gap-2">
+                    {current.tools.map((tool) => {
+                      const iconSrc = localIconMap[tool];
+                      return (
+                        <div
+                          key={tool}
+                          className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-white border border-neutral-200/90 text-xs font-semibold text-neutral-800 hover:border-neutral-400 transition-colors shadow-2xs"
+                        >
+                          {iconSrc && (
+                            <img
+                              src={iconSrc}
+                              alt={tool}
+                              width={16}
+                              height={16}
+                              className="h-4 w-4 object-contain shrink-0"
+                            />
+                          )}
+                          <span>{tool}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
