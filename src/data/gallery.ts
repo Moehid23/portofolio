@@ -14,7 +14,7 @@ export interface GalleryItem {
 export const galleryItems: GalleryItem[] = [
   {
     id: "1",
-    src: "/AbdulMuhidMuthado.jpeg",
+    src: "/AbdulMuhidMuthado.webp",
     alt: "Wisuda Sarjana Komputer - Abdul Muhid Muthado",
     title: "Graduation Ceremony (Wisuda S.Kom)",
     category: "Graduation",
@@ -26,7 +26,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "2",
-    src: "/BersamaDekan.jpeg",
+    src: "/BersamaDekan.webp",
     alt: "Wisuda Bersama Dekan Fakultas Ilmu Komputer - Dr. Hanny Hikmayanti Handayani, M.Kom.",
     title: "Bersama Dekan FASILKOM",
     category: "Graduation",
@@ -38,7 +38,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "3",
-    src: "/BersamaKaprodi.jpeg",
+    src: "/BersamaKaprodi.webp",
     alt: "Wisuda Bersama Kaprodi Teknik Informatika - Jamaludin Indra, M.Kom.",
     title: "Bersama Koordinator Prodi TI",
     category: "Graduation",
