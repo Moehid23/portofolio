@@ -48,7 +48,7 @@ export function ExperienceTimeline() {
       company: "PT. Honda Precision Parts Manufacturing",
       estateZone: "Kawasan Industri Indotaisei",
       address: "Kalihurip, Cikampek, Karawang, Jawa Barat 41373",
-      image: "/companies/hppm.webp",
+      image: "/companies/hppm.jpg",
       current: false,
       themeColor: "#FF2D55", // Apple Rose
       badgeBg: "rgba(255, 45, 85, 0.12)",
@@ -64,7 +64,7 @@ export function ExperienceTimeline() {
       company: "PT. JTEKT Indonesia",
       estateZone: "Kawasan Industri Suryacipta",
       address: "Jl. Surya Madya Plot I-27B, Kutanegara, Ciampel, Karawang 41363",
-      image: "/companies/jtekt.webp",
+      image: "/companies/jtekt.jpg",
       current: false,
       themeColor: "#FF9500", // Apple Orange
       badgeBg: "rgba(255, 149, 0, 0.12)",
@@ -96,12 +96,12 @@ export function ExperienceTimeline() {
       company: "Perum Percetakan Uang Republik Indonesia",
       estateZone: "Kawasan Hijau Kompleks Peruri",
       address: "Gedung Percetakan Uang RI, Kawasan Hijau Peruri, Karawang",
-      image: "/companies/peruri.webp",
+      image: "/companies/peruri.jpg",
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
-      lat: -6.362749954013704,
-      lng: 107.293248309243,
+      lat: -6.367928153785479,
+      lng: 107.30080857325028,
       description: experiences[1].description,
     },
     {
@@ -112,12 +112,12 @@ export function ExperienceTimeline() {
       company: "Perum Percetakan Uang Republik Indonesia",
       estateZone: "Kawasan Hijau Kompleks Peruri",
       address: "Gedung Sentral & Utility, Kawasan Hijau Peruri, Karawang",
-      image: "/companies/peruri.webp",
+      image: "/companies/peruri.jpg",
       current: true,
       themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
-      lat: -6.362749954013704,
-      lng: 107.293248309243,
+      lat: -6.367928153785479,
+      lng: 107.30080857325028,
       description: experiences[0].description,
     },
   ], []);
