@@ -294,7 +294,7 @@ export function ExperienceTimeline() {
         </div>
 
         {/* ── Real Interactive Map Container (Supports Zoom In / Zoom Out / Drag Pan) ── */}
-        <div className="relative rounded-3xl bg-neutral-100 border border-neutral-200/90 shadow-xl overflow-hidden h-[480px] sm:h-[540px]">
+        <div className="relative rounded-3xl bg-neutral-100 border border-neutral-200/90 shadow-xl overflow-hidden h-[440px] sm:h-[540px]">
           
           {/* Leaflet Map Canvas Div */}
           <div ref={mapContainerRef} className="w-full h-full z-0" />
@@ -339,23 +339,45 @@ export function ExperienceTimeline() {
           </div>
 
           {/* Bottom Floating Station Fast Selector Bar */}
-          <div className="absolute bottom-3.5 left-3.5 right-3.5 sm:bottom-5 sm:left-5 sm:right-auto z-[500]">
-            <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200 shadow-lg overflow-x-auto max-w-full">
-              {stations.map((stg) => (
-                <button
-                  key={stg.id}
-                  onClick={() => handleSelectStation(stg)}
-                  className={cn(
-                    "px-2.5 py-1 rounded-xl text-xs font-mono font-bold transition-all whitespace-nowrap flex items-center gap-1.5",
-                    activeStation?.id === stg.id
-                      ? "bg-neutral-900 text-white shadow-sm"
-                      : "text-neutral-600 hover:bg-neutral-100"
-                  )}
-                >
-                  <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: stg.themeColor }} />
-                  <span>{stg.year}</span>
-                </button>
-              ))}
+          <div className="absolute bottom-0 left-0 right-0 sm:bottom-5 sm:left-5 sm:right-auto z-[500]">
+            <div className="flex items-center sm:gap-1.5 sm:p-1.5 sm:rounded-2xl sm:bg-white/95 sm:backdrop-blur-md sm:border sm:border-neutral-200 sm:shadow-lg">
+              {/* Mobile: full-width row inside the map bottom */}
+              <div className="flex w-full sm:hidden bg-white/95 backdrop-blur-md border-t border-neutral-200 shadow-lg">
+                {stations.map((stg) => (
+                  <button
+                    key={stg.id}
+                    onClick={() => handleSelectStation(stg)}
+                    className={cn(
+                      "flex-1 py-3 flex flex-col items-center gap-1 transition-all border-r border-neutral-100 last:border-r-0",
+                      activeStation?.id === stg.id
+                        ? "bg-neutral-900 text-white"
+                        : "text-neutral-600 bg-white"
+                    )}
+                  >
+                    <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: activeStation?.id === stg.id ? 'white' : stg.themeColor }} />
+                    <span className="text-[10px] font-bold font-mono">{stg.year}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Desktop: compact pill */}
+              <div className="hidden sm:flex items-center gap-1.5">
+                {stations.map((stg) => (
+                  <button
+                    key={stg.id}
+                    onClick={() => handleSelectStation(stg)}
+                    className={cn(
+                      "px-2.5 py-1 rounded-xl text-xs font-mono font-bold transition-all whitespace-nowrap flex items-center gap-1.5",
+                      activeStation?.id === stg.id
+                        ? "bg-neutral-900 text-white shadow-sm"
+                        : "text-neutral-600 hover:bg-neutral-100"
+                    )}
+                  >
+                    <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: stg.themeColor }} />
+                    <span>{stg.year}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
