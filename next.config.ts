@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    unoptimized: true,
     // Enable WebP and AVIF auto-conversion (Vercel handles this for free)
     formats: ["image/webp", "image/avif"],
     // Remove unoptimized: true so Next.js optimizes images automatically

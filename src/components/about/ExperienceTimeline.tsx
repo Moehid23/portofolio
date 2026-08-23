@@ -151,11 +151,29 @@ export function ExperienceTimeline() {
         subdomains: "abcd",
       }).addTo(map);
 
-      // Real GPS Polyline Route
-      const routeLatLngs = stations.map((s) => [s.lat, s.lng]);
+      // Fetch real road route from OSRM public routing engine
+      async function fetchRealRoute(coords: number[][]): Promise<number[][]> {
+        try {
+          const coordStr = coords.map(([lat, lng]) => `${lng},${lat}`).join(";");
+          const url = `https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (data.routes?.[0]?.geometry?.coordinates) {
+            // OSRM returns [lng, lat] — flip to [lat, lng] for Leaflet
+            return data.routes[0].geometry.coordinates.map((c: number[]) => [c[1], c[0]]);
+          }
+        } catch (e) {
+          console.warn("OSRM route fetch failed, falling back to straight line", e);
+        }
+        // Fallback to straight lines
+        return coords;
+      }
+
+      const stationCoords = stations.map((s) => [s.lat, s.lng]);
+      const realRouteCoords = await fetchRealRoute(stationCoords);
 
       // Route Outer Solid White Border
-      L.polyline(routeLatLngs as any, {
+      L.polyline(realRouteCoords as any, {
         color: "#FFFFFF",
         weight: 9,
         opacity: 0.95,
@@ -164,7 +182,7 @@ export function ExperienceTimeline() {
       }).addTo(map);
 
       // Route Base Solid Highway Line (Apple Blue)
-      L.polyline(routeLatLngs as any, {
+      L.polyline(realRouteCoords as any, {
         color: "#007AFF",
         weight: 6,
         opacity: 0.85,
@@ -173,7 +191,7 @@ export function ExperienceTimeline() {
       }).addTo(map);
 
       // Route Live Flowing Animated Dash Line
-      L.polyline(routeLatLngs as any, {
+      L.polyline(realRouteCoords as any, {
         color: "#60A5FA",
         weight: 3.5,
         opacity: 0.95,
@@ -389,12 +407,10 @@ export function ExperienceTimeline() {
 
                 {/* Real Company Factory Photograph Banner */}
                 <div className="relative w-full h-40 sm:h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs shrink-0">
-                  <Image
+                  <img
                     src={activeStation.image}
                     alt={activeStation.company}
-                    fill
-                    className="object-cover object-center"
-                    sizes="(max-width: 768px) 100vw, 500px"
+                    className="object-cover object-center w-full h-full"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white">
