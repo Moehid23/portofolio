@@ -48,12 +48,12 @@ export function ExperienceTimeline() {
       company: "PT. Honda Precision Parts Manufacturing",
       estateZone: "Kawasan Industri Indotaisei",
       address: "Kalihurip, Cikampek, Karawang, Jawa Barat 41373",
-      image: "/companies/hppm.jpg",
+      image: "/companies/hppm.webp",
       current: false,
       themeColor: "#FF2D55", // Apple Rose
       badgeBg: "rgba(255, 45, 85, 0.12)",
-      lat: -6.416866,
-      lng: 107.413530,
+      lat: -6.419833,
+      lng: 107.414306,
       description: experiences[4].description,
     },
     {
@@ -64,12 +64,12 @@ export function ExperienceTimeline() {
       company: "PT. JTEKT Indonesia",
       estateZone: "Kawasan Industri Suryacipta",
       address: "Jl. Surya Madya Plot I-27B, Kutanegara, Ciampel, Karawang 41363",
-      image: "/companies/jtekt.jpg",
+      image: "/companies/jtekt.webp",
       current: false,
       themeColor: "#FF9500", // Apple Orange
       badgeBg: "rgba(255, 149, 0, 0.12)",
-      lat: -6.404384,
-      lng: 107.334047,
+      lat: -6.404667,
+      lng: 107.333833,
       description: experiences[3].description,
     },
     {
@@ -84,8 +84,8 @@ export function ExperienceTimeline() {
       current: false,
       themeColor: "#5856D6", // Apple Purple
       badgeBg: "rgba(88, 86, 214, 0.12)",
-      lat: -6.421512,
-      lng: 107.337724,
+      lat: -6.421722,
+      lng: 107.341139,
       description: experiences[2].description,
     },
     {
@@ -96,7 +96,7 @@ export function ExperienceTimeline() {
       company: "Perum Percetakan Uang Republik Indonesia",
       estateZone: "Kawasan Hijau Kompleks Peruri",
       address: "Gedung Percetakan Uang RI, Kawasan Hijau Peruri, Karawang",
-      image: "/companies/peruri.jpg",
+      image: "/companies/peruri.webp",
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
@@ -112,7 +112,7 @@ export function ExperienceTimeline() {
       company: "Perum Percetakan Uang Republik Indonesia",
       estateZone: "Kawasan Hijau Kompleks Peruri",
       address: "Gedung Sentral & Utility, Kawasan Hijau Peruri, Karawang",
-      image: "/companies/peruri.jpg",
+      image: "/companies/peruri.webp",
       current: true,
       themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
