@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { experiences } from "@/data/experience";
 import { 
   Navigation, 
@@ -14,7 +15,8 @@ import {
   Briefcase,
   ZoomIn,
   ZoomOut,
-  LocateFixed
+  LocateFixed,
+  Building2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -26,6 +28,7 @@ interface RealStation {
   company: string;
   estateZone: string;
   address: string;
+  image: string;
   current: boolean;
   themeColor: string;
   badgeBg: string;
@@ -35,7 +38,7 @@ interface RealStation {
 }
 
 export function ExperienceTimeline() {
-  // Exact Google Maps verified factory coordinates
+  // Verified real coordinates and real company facility images
   const stations: RealStation[] = useMemo(() => [
     {
       id: "5",
@@ -45,6 +48,7 @@ export function ExperienceTimeline() {
       company: "PT. Honda Precision Parts Manufacturing",
       estateZone: "Kawasan Industri Indotaisei",
       address: "Kalihurip, Cikampek, Karawang, Jawa Barat 41373",
+      image: "/companies/hppm.webp",
       current: false,
       themeColor: "#FF2D55", // Apple Rose
       badgeBg: "rgba(255, 45, 85, 0.12)",
@@ -60,6 +64,7 @@ export function ExperienceTimeline() {
       company: "PT. JTEKT Indonesia",
       estateZone: "Kawasan Industri Suryacipta",
       address: "Jl. Surya Madya Plot I-27B, Kutanegara, Ciampel, Karawang 41363",
+      image: "/companies/jtekt.webp",
       current: false,
       themeColor: "#FF9500", // Apple Orange
       badgeBg: "rgba(255, 149, 0, 0.12)",
@@ -75,6 +80,7 @@ export function ExperienceTimeline() {
       company: "PT. Daihatsu Drivetrain Manufacturing",
       estateZone: "Kawasan Industri Suryacipta",
       address: "Jl. Surya Madya VI Kav. I-58C, Kutanegara, Ciampel, Karawang 41363",
+      image: "/companies/ddmi.webp",
       current: false,
       themeColor: "#5856D6", // Apple Purple
       badgeBg: "rgba(88, 86, 214, 0.12)",
@@ -90,6 +96,7 @@ export function ExperienceTimeline() {
       company: "Perum Percetakan Uang Republik Indonesia",
       estateZone: "Kawasan Industri Peruri",
       address: "Desa Parungmulya, Kec. Ciampel / Telukjambe, Karawang",
+      image: "/companies/peruri.webp",
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
@@ -105,6 +112,7 @@ export function ExperienceTimeline() {
       company: "Perum Percetakan Uang Republik Indonesia",
       estateZone: "Kawasan Sentral Peruri",
       address: "Desa Parungmulya, Kec. Ciampel / Telukjambe, Karawang",
+      image: "/companies/peruri.webp",
       current: true,
       themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
@@ -340,7 +348,7 @@ export function ExperienceTimeline() {
 
       </div>
 
-      {/* ── Real Place Details Card (iOS Half-Sheet Modal) ── */}
+      {/* ── Real Place Details Card (iOS Half-Sheet Modal with Real Company Photo) ── */}
       <AnimatePresence>
         {activeStation && (
           <motion.div
@@ -356,7 +364,7 @@ export function ExperienceTimeline() {
               exit={{ y: "100%", opacity: 0 }}
               transition={{ type: "spring", damping: 28, stiffness: 320 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-lg rounded-t-3xl sm:rounded-3xl bg-white/95 backdrop-blur-2xl border border-neutral-200 shadow-2xl overflow-hidden text-neutral-900 max-h-[85vh] flex flex-col"
+              className="relative w-full max-w-lg rounded-t-3xl sm:rounded-3xl bg-white/95 backdrop-blur-2xl border border-neutral-200 shadow-2xl overflow-hidden text-neutral-900 max-h-[88vh] flex flex-col"
             >
               {/* iOS Mobile Drag Handle */}
               <div className="sm:hidden flex justify-center pt-3 pb-1">
@@ -369,18 +377,38 @@ export function ExperienceTimeline() {
                 className="h-2 w-full hidden sm:block"
               />
 
-              <div className="p-4 sm:p-7 space-y-3.5 sm:space-y-4 overflow-y-auto flex-1">
+              <div className="p-4 sm:p-6 space-y-3.5 sm:space-y-4 overflow-y-auto flex-1">
                 {/* Close Button */}
                 <button
                   onClick={() => setActiveStation(null)}
-                  className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 h-8 w-8 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 flex items-center justify-center transition-colors"
+                  className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 z-20 h-8 w-8 rounded-full bg-white/90 backdrop-blur-md hover:bg-white text-neutral-700 shadow-sm flex items-center justify-center transition-colors border border-neutral-200/80"
                   aria-label="Close"
                 >
                   <X className="h-4 w-4" />
                 </button>
 
+                {/* Real Company Factory Photograph Banner */}
+                <div className="relative w-full h-40 sm:h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs shrink-0">
+                  <Image
+                    src={activeStation.image}
+                    alt={activeStation.company}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, 500px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white">
+                    <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/20">
+                      {activeStation.estateZone}
+                    </span>
+                    <span className="text-[10px] font-mono text-white/90 flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                      <Building2 className="h-3 w-3" /> Facility View
+                    </span>
+                  </div>
+                </div>
+
                 {/* Location Place Header */}
-                <div className="space-y-1.5 pr-8">
+                <div className="space-y-1.5">
                   <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                     <span 
                       style={{ color: activeStation.themeColor, backgroundColor: activeStation.badgeBg }}
@@ -388,9 +416,11 @@ export function ExperienceTimeline() {
                     >
                       {activeStation.fullPeriod}
                     </span>
-                    <span className="text-[11px] sm:text-xs font-semibold text-neutral-400">
-                      {activeStation.estateZone}
-                    </span>
+                    {activeStation.current && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#007AFF] border border-blue-200">
+                        Active Role
+                      </span>
+                    )}
                   </div>
 
                   <h3 className="text-lg sm:text-2xl font-bold tracking-tight text-neutral-950 leading-snug">
