@@ -35,7 +35,7 @@ interface RealStation {
 }
 
 export function ExperienceTimeline() {
-  // Verified exact GPS factory coordinates in Karawang & Cikampek
+  // Exact Google Maps verified factory coordinates
   const stations: RealStation[] = useMemo(() => [
     {
       id: "5",
@@ -44,12 +44,12 @@ export function ExperienceTimeline() {
       role: "Machining Operator",
       company: "PT. Honda Precision Parts Manufacturing",
       estateZone: "Kawasan Industri Indotaisei",
-      address: "Sektor 1A Blok S, Kalihurip, Cikampek, Karawang",
+      address: "Kalihurip, Cikampek, Karawang, Jawa Barat 41373",
       current: false,
       themeColor: "#FF2D55", // Apple Rose
       badgeBg: "rgba(255, 45, 85, 0.12)",
-      lat: -6.4255,
-      lng: 107.4475,
+      lat: -6.416866,
+      lng: 107.413530,
       description: experiences[4].description,
     },
     {
@@ -59,7 +59,7 @@ export function ExperienceTimeline() {
       role: "Assembly Operator",
       company: "PT. JTEKT Indonesia",
       estateZone: "Kawasan Industri Suryacipta",
-      address: "Jl. Surya Madya Plot I-27B, Kutanegara, Ciampel, Karawang",
+      address: "Jl. Surya Madya Plot I-27B, Kutanegara, Ciampel, Karawang 41363",
       current: false,
       themeColor: "#FF9500", // Apple Orange
       badgeBg: "rgba(255, 149, 0, 0.12)",
@@ -74,12 +74,12 @@ export function ExperienceTimeline() {
       role: "Quality Inspector",
       company: "PT. Daihatsu Drivetrain Manufacturing",
       estateZone: "Kawasan Industri Suryacipta",
-      address: "Jl. Surya Madya VI Kav. I-58C, Kutanegara, Ciampel, Karawang",
+      address: "Jl. Surya Madya VI Kav. I-58C, Kutanegara, Ciampel, Karawang 41363",
       current: false,
       themeColor: "#5856D6", // Apple Purple
       badgeBg: "rgba(88, 86, 214, 0.12)",
-      lat: -6.4110,
-      lng: 107.3385,
+      lat: -6.421512,
+      lng: 107.337724,
       description: experiences[2].description,
     },
     {
@@ -88,13 +88,13 @@ export function ExperienceTimeline() {
       fullPeriod: "2024 — 2025",
       role: "Intern (Money Production & Electrical)",
       company: "Perum Percetakan Uang Republik Indonesia",
-      estateZone: "Kawasan Produksi Peruri",
-      address: "Jl. Raya Peruri, Desa Parungmulya, Kec. Ciampel, Karawang",
+      estateZone: "Kawasan Industri Peruri",
+      address: "Desa Parungmulya, Kec. Ciampel / Telukjambe, Karawang",
       current: false,
       themeColor: "#34C759", // Apple Green
       badgeBg: "rgba(52, 199, 89, 0.12)",
-      lat: -6.3872,
-      lng: 107.3505,
+      lat: -6.362750,
+      lng: 107.293248,
       description: experiences[1].description,
     },
     {
@@ -103,13 +103,13 @@ export function ExperienceTimeline() {
       fullPeriod: "2025 — Present",
       role: "Warehouse Staff (Planning & Utilities)",
       company: "Perum Percetakan Uang Republik Indonesia",
-      estateZone: "Kawasan Sentral & Utility Peruri",
-      address: "Jl. Raya Peruri, Desa Parungmulya, Kec. Ciampel, Karawang",
+      estateZone: "Kawasan Sentral Peruri",
+      address: "Desa Parungmulya, Kec. Ciampel / Telukjambe, Karawang",
       current: true,
       themeColor: "#007AFF", // Apple Blue
       badgeBg: "rgba(0, 122, 255, 0.12)",
-      lat: -6.3858,
-      lng: 107.3520,
+      lat: -6.361950,
+      lng: 107.294100,
       description: experiences[0].description,
     },
   ], []);
@@ -129,9 +129,9 @@ export function ExperienceTimeline() {
 
       if (!isMounted || !mapContainerRef.current) return;
 
-      // Center around Karawang-Cikampek industrial corridor
+      // Center across all exact points
       const map = L.map(mapContainerRef.current, {
-        center: [-6.398, 107.360],
+        center: [-6.395, 107.355],
         zoom: 12,
         zoomControl: false,
         attributionControl: false,
@@ -146,23 +146,32 @@ export function ExperienceTimeline() {
       // Real GPS Polyline Route
       const routeLatLngs = stations.map((s) => [s.lat, s.lng]);
 
-      // Route Outer Border
+      // Route Outer Solid White Border
       L.polyline(routeLatLngs as any, {
         color: "#FFFFFF",
-        weight: 8,
+        weight: 9,
         opacity: 0.95,
         lineCap: "round",
         lineJoin: "round",
       }).addTo(map);
 
-      // Route Main Blue Line
+      // Route Base Solid Highway Line (Apple Blue)
       L.polyline(routeLatLngs as any, {
         color: "#007AFF",
-        weight: 5,
+        weight: 6,
         opacity: 0.85,
-        dashArray: "8, 8",
         lineCap: "round",
         lineJoin: "round",
+      }).addTo(map);
+
+      // Route Live Flowing Animated Dash Line
+      L.polyline(routeLatLngs as any, {
+        color: "#60A5FA",
+        weight: 3.5,
+        opacity: 0.95,
+        lineCap: "round",
+        lineJoin: "round",
+        className: "animated-gps-flow",
       }).addTo(map);
 
       // Create Custom Apple Maps HTML Markers exactly on coordinates
@@ -217,7 +226,7 @@ export function ExperienceTimeline() {
   };
 
   const handleResetView = () => {
-    mapInstanceRef.current?.flyTo([-6.398, 107.360], 12, { duration: 1.2 });
+    mapInstanceRef.current?.flyTo([-6.395, 107.355], 12, { duration: 1.2 });
   };
 
   const handleSelectStation = (stg: RealStation) => {
