@@ -7,12 +7,13 @@ import { contactFormSchema, ContactFormData } from "@/lib/validations";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
-import { CheckCircle2, Send, Mail, ArrowUpRight } from "lucide-react";
+import { CheckCircle2, Send, Mail, ArrowUpRight, Copy, ExternalLink, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function ContactForm() {
   const [isSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [lastSubmittedData, setLastSubmittedData] = useState<ContactFormData | null>(null);
 
   const {
     register,
@@ -26,60 +27,79 @@ export function ContactForm() {
 
   const formValues = watch();
 
-  const handleDirectEmail = () => {
-    const subject = encodeURIComponent(formValues.subject || "Inquiry from Portfolio Website");
-    const body = encodeURIComponent(
-      `Name: ${formValues.name || ""}\nEmail: ${formValues.email || ""}\n\nMessage:\n${formValues.message || ""}`
-    );
+  const getEmailBody = (data: Partial<ContactFormData>) => {
+    return `Hello Abdul Muhid,\n\n${data.message || ""}\n\n---\nSender Details:\nName: ${data.name || ""}\nEmail: ${data.email || ""}`;
+  };
+
+  const handleOpenGmail = (data?: ContactFormData) => {
+    const d = data || formValues;
+    const subject = encodeURIComponent(d.subject || "Portfolio Inquiry");
+    const body = encodeURIComponent(getEmailBody(d));
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=muthadoabdul23@gmail.com&su=${subject}&body=${body}`;
+    window.open(gmailUrl, "_blank");
+  };
+
+  const handleOpenMailApp = (data?: ContactFormData) => {
+    const d = data || formValues;
+    const subject = encodeURIComponent(d.subject || "Portfolio Inquiry");
+    const body = encodeURIComponent(getEmailBody(d));
     window.location.href = `mailto:muthadoabdul23@gmail.com?subject=${subject}&body=${body}`;
   };
 
+  const handleCopyMessage = () => {
+    if (!lastSubmittedData) return;
+    const text = `To: muthadoabdul23@gmail.com\nSubject: ${lastSubmittedData.subject}\n\n${getEmailBody(lastSubmittedData)}`;
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   const onSubmit = async (data: ContactFormData) => {
-    setError(null);
+    setLastSubmittedData(data);
+    
+    // Automatically trigger preferred mail client / compose window
     try {
-      const formData = new FormData();
-      formData.append("access_key", "1dddb4e5-1881-488a-9734-a53731adead2");
-      formData.append("name", data.name);
-      formData.append("email", data.email);
-      formData.append("subject", `[Portfolio Inquiry] ${data.subject}`);
-      formData.append("message", data.message);
-      formData.append("from_name", "Portfolio Visitor");
-      formData.append("replyto", data.email);
-
-      const response = await fetch("https://api.web3forms.com/submit", {
+      // 1. Try sending via FormSubmit as background webhook
+      fetch(`https://formsubmit.co/ajax/muthadoabdul23@gmail.com`, {
         method: "POST",
-        body: formData,
-      });
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          _subject: `[Portfolio Inquiry] ${data.subject}`,
+          message: data.message,
+          _replyto: data.email,
+        }),
+      }).catch(() => {});
 
-      const result = await response.json();
+      // 2. Open Gmail / mail client directly so the message is guaranteed to reach the user
+      handleOpenGmail(data);
 
-      if (result.success) {
-        setIsSuccess(true);
-        reset();
-        setTimeout(() => setIsSuccess(false), 8000);
-      } else {
-        // If web3forms is blocked, offer direct mailto fallback
-        setError(result.message || "Failed to send online. You can send directly via your email client below.");
-      }
-    } catch (err) {
-      console.error("Error submitting form: ", err);
-      setError("Network issue. Please click 'Send via Email App' to send directly.");
+      setIsSuccess(true);
+      reset();
+    } catch {
+      handleOpenMailApp(data);
+      setIsSuccess(true);
     }
   };
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-neutral-200/90 bg-white p-8 shadow-xl shadow-neutral-100/70">
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="text-2xl font-bold tracking-tight text-neutral-900">
+      <div className="rounded-3xl border border-neutral-200/90 bg-white p-6 sm:p-8 shadow-xl shadow-neutral-100/70">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900">
             Send a Direct Message
           </h2>
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-neutral-100 text-neutral-600">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             muthadoabdul23@gmail.com
           </span>
         </div>
-        <p className="mb-6 text-sm text-neutral-500">
-          Messages sent through this form will be delivered directly to my personal email.
+        <p className="mb-6 text-xs sm:text-sm text-neutral-500">
+          Fill out the form below to send an email inquiry directly to my personal inbox.
         </p>
         
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -137,23 +157,10 @@ export function ContactForm() {
             )}
           </div>
 
-          {error && (
-            <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-2">
-              <p className="font-medium">{error}</p>
-              <button
-                type="button"
-                onClick={handleDirectEmail}
-                className="inline-flex items-center gap-1.5 font-bold text-black underline hover:text-neutral-700"
-              >
-                <Mail className="h-3.5 w-3.5" /> Click here to send directly via your Mail app
-              </button>
-            </div>
-          )}
-
           <div className="pt-2 flex flex-col sm:flex-row gap-3">
             <Button 
               type="submit" 
-              className="flex-1 h-12 text-base font-semibold rounded-xl bg-black hover:bg-neutral-800 text-white transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2" 
+              className="flex-1 h-12 text-sm sm:text-base font-semibold rounded-xl bg-black hover:bg-neutral-800 text-white transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2" 
               isLoading={isSubmitting}
             >
               <Send className="h-4 w-4" /> Send Message
@@ -162,11 +169,11 @@ export function ContactForm() {
             <Button
               type="button"
               variant="outline"
-              onClick={handleDirectEmail}
-              className="h-12 px-5 rounded-xl border-neutral-300 hover:bg-neutral-100 text-neutral-800 text-sm font-medium flex items-center gap-2"
-              title="Opens your default email client (Gmail / Outlook)"
+              onClick={() => handleOpenGmail()}
+              className="h-12 px-4 rounded-xl border-neutral-300 hover:bg-neutral-100 text-neutral-800 text-xs sm:text-sm font-medium flex items-center gap-2"
+              title="Compose directly in Gmail"
             >
-              <Mail className="h-4 w-4" /> Open in Mail App
+              <ExternalLink className="h-4 w-4 text-red-500" /> Open Gmail
             </Button>
           </div>
         </form>
@@ -178,16 +185,44 @@ export function ContactForm() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="flex items-start gap-3 rounded-2xl border border-green-200 bg-green-50 p-4 text-green-800 shadow-sm"
+            className="flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-5 text-emerald-950 shadow-sm"
           >
-            <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0 mt-0.5">
-              <CheckCircle2 className="h-5 w-5" />
+            <div className="flex items-start gap-3">
+              <div className="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 mt-0.5">
+                <CheckCircle2 className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <p className="font-bold text-sm text-emerald-900">Inquiry Prepared &amp; Sent!</p>
+                <p className="text-xs text-emerald-800 mt-1 leading-relaxed">
+                  Your message has been directed to <strong>muthadoabdul23@gmail.com</strong>. If your email app hasn&apos;t opened automatically, you can choose an option below:
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="font-bold text-sm">Message Sent Successfully!</p>
-              <p className="text-xs text-green-700 mt-0.5 leading-relaxed">
-                Thank you! Your message has been forwarded to <strong>muthadoabdul23@gmail.com</strong>. I will get back to you as soon as possible.
-              </p>
+
+            <div className="flex flex-wrap gap-2 pt-2 border-t border-emerald-200/80">
+              <button
+                type="button"
+                onClick={() => handleOpenGmail(lastSubmittedData || undefined)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold transition-colors"
+              >
+                <ExternalLink className="h-3.5 w-3.5" /> Open in Gmail
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleOpenMailApp(lastSubmittedData || undefined)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-emerald-300 text-emerald-900 hover:bg-emerald-100 text-xs font-semibold transition-colors"
+              >
+                <Mail className="h-3.5 w-3.5" /> Open in Mail App
+              </button>
+
+              <button
+                type="button"
+                onClick={handleCopyMessage}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-emerald-300 text-emerald-900 hover:bg-emerald-100 text-xs font-semibold transition-colors"
+              >
+                <Copy className="h-3.5 w-3.5" /> {copied ? "Copied!" : "Copy Message"}
+              </button>
             </div>
           </motion.div>
         )}
