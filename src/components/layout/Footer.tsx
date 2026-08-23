@@ -22,12 +22,20 @@ export function Footer() {
   const x = useTransform(scrollYProgress, [0, 1], [0, 60]);
 
   useEffect(() => {
-    // Initial time set (WIB / Asia Jakarta)
-    setTime(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta' }));
+    // Initial time set in 24-hour format (WIB / Asia Jakarta, e.g. 18:42)
+    const updateTime = () => {
+      setTime(
+        new Date().toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+          timeZone: "Asia/Jakarta",
+        })
+      );
+    };
 
-    const interval = setInterval(() => {
-      setTime(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta' }));
-    }, 1000);
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
 
     return () => clearInterval(interval);
   }, []);
