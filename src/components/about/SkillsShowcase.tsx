@@ -110,7 +110,7 @@ export function SkillsShowcase() {
   const current = phases[activeIdx];
 
   return (
-    <section className="py-8 sm:py-10 md:py-12 relative w-full overflow-hidden bg-neutral-50/50" id="skills">
+    <section className="pt-8 pb-2 relative w-full overflow-hidden" id="skills">
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Editorial Section Header */}

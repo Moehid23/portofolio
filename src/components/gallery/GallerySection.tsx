@@ -95,7 +95,7 @@ export function GallerySection() {
   }, [selectedItem, handlePrev, handleNext]);
 
   return (
-    <section ref={containerRef} className="pt-16 pb-16 md:py-32 bg-neutral-50/50 relative overflow-hidden" id="gallery">
+    <section ref={containerRef} className="py-12 sm:py-16 md:py-20 bg-neutral-50/50 relative overflow-hidden border-t border-neutral-100" id="gallery">
       {/* Background Subtle Dot Pattern */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(#d4d4d8_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
@@ -103,7 +103,7 @@ export function GallerySection() {
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 space-y-3">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
