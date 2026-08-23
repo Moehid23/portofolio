@@ -92,8 +92,8 @@ export function ProfileSection() {
   };
 
   return (
-    <section className="py-6 sm:py-8 md:py-10 flex items-center">
-      <div className="w-full grid gap-6 lg:grid-cols-12 lg:gap-8 items-center">
+    <section className="py-4 sm:py-6 md:py-8 flex items-center justify-center">
+      <div className="w-full max-w-5xl mx-auto grid gap-6 lg:grid-cols-12 lg:gap-8 items-center">
 
         {/* ── Left: Text Content (7 Cols) ── */}
         <motion.div
@@ -218,7 +218,7 @@ export function ProfileSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="relative flex justify-center lg:justify-end order-1 lg:order-2 lg:col-span-5"
+          className="relative flex justify-center lg:justify-center order-1 lg:order-2 lg:col-span-5"
         >
           <div className="relative p-2 sm:p-2.5">
             {/* Corner accents */}
