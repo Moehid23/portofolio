@@ -31,6 +31,7 @@ const localIconMap: Record<string, string> = {
   "Docker": "/icons/docker.svg",
   "Kotlin": "/icons/kotlin.svg",
   "Figma": "/icons/figma.svg",
+  "Stitch": "/icons/stitch.svg",
   "Tableau": "/icons/tableau.svg",
   "Power BI": "/icons/powerbi.svg",
   "Vercel": "/icons/vercel.svg",
@@ -61,10 +62,10 @@ const phases: PhaseData[] = [
     milestones: [
       "User flows & relational schema design (PostgreSQL)",
       "API contracts & error handling specifications",
-      "Interactive UI wireframing in Figma",
+      "Interactive UI wireframing & prototyping in Figma & Stitch",
       "Industrial calibration & dimensional tolerance constraints"
     ],
-    tools: ["Figma", "PostgreSQL", "TypeScript", "Git"],
+    tools: ["Figma", "Stitch", "PostgreSQL", "TypeScript"],
     deliverable: "System Schema & Interactive Prototype",
     icon: Compass
   },
