@@ -63,7 +63,19 @@ export function Hero({ startAnimation = true }: { startAnimation?: boolean }) {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // Video controller: play up to 5s then pause; replay when scrolled back to top
+  // Video controller: only play when loading completes (100%), play up to 5s then pause; replay when scrolled back to top
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (startAnimation) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [startAnimation]);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -87,14 +99,14 @@ export function Hero({ startAnimation = true }: { startAnimation?: boolean }) {
         wasScrolledDown = true;
       } else if (latest <= 10 && wasScrolledDown) {
         wasScrolledDown = false;
-        if (videoRef.current) {
+        if (videoRef.current && startAnimation) {
           videoRef.current.currentTime = 0;
           videoRef.current.play().catch(() => {});
         }
       }
     });
     return () => unsubscribe();
-  }, [scrollY]);
+  }, [scrollY, startAnimation]);
 
   const xMove = useTransform(springX, [-0.5, 0.5], [-50, 50]);
   const yMove = useTransform(springY, [-0.5, 0.5], [-50, 50]);
@@ -130,7 +142,6 @@ export function Hero({ startAnimation = true }: { startAnimation?: boolean }) {
         >
           <video
             ref={videoRef}
-            autoPlay
             muted
             playsInline
             preload="auto"
